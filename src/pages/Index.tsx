@@ -1,14 +1,32 @@
-// Update this page (the content is just a fallback if you fail to update the page)
+import Header from '@/components/Header';
+import HeroSection from '@/components/HeroSection';
+import CategoryTiles from '@/components/CategoryTiles';
+import NewListings from '@/components/NewListings';
+import CatalogZhk from '@/components/CatalogZhk';
+import QuizSection from '@/components/QuizSection';
+import PropertyGridSection from '@/components/PropertyGridSection';
+import AboutPlatform from '@/components/AboutPlatform';
+import AdditionalFeatures from '@/components/AdditionalFeatures';
+import LatestNews from '@/components/LatestNews';
+import ContactsSection from '@/components/ContactsSection';
+import FooterSection from '@/components/FooterSection';
 
-const Index = () => {
-  return (
-    <div className="flex min-h-screen items-center justify-center bg-background">
-      <div className="text-center">
-        <h1 className="mb-4 text-4xl font-bold">Welcome to Your Blank App</h1>
-        <p className="text-xl text-muted-foreground">Start building your amazing project here!</p>
-      </div>
-    </div>
-  );
-};
+const Index = () => (
+  <div className="min-h-screen bg-background">
+    <Header />
+    <HeroSection />
+    <CategoryTiles />
+    <NewListings />
+    <CatalogZhk />
+    <QuizSection />
+    <PropertyGridSection title="Горячие предложения" type="hot" />
+    <PropertyGridSection title="Старт продаж" type="start" />
+    <AboutPlatform />
+    <AdditionalFeatures />
+    <LatestNews />
+    <ContactsSection />
+    <FooterSection />
+  </div>
+);
 
 export default Index;
