@@ -14,6 +14,7 @@ import building4 from '@/assets/building4.jpg';
 
 const allNews = Array.from({ length: 32 }, (_, i) => ({
   id: i + 1,
+  slug: `news-${i + 1}`,
   image: [building1, building2, building3, building4][i % 4],
   title: [
     'Старт продаж нового корпуса в ЖК Смородина — квартиры от 3.4 млн рублей',
@@ -59,9 +60,9 @@ const News = () => {
       <div className="max-w-[1400px] mx-auto px-4 pb-8">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
           {paged.map((n) => (
-            <a
+            <Link
               key={n.id}
-              href="#"
+              to={`/news/${n.slug}`}
               className="rounded-2xl overflow-hidden bg-card border border-border hover:shadow-lg transition-shadow group flex flex-col"
             >
               <div className="aspect-[4/3] overflow-hidden relative">
@@ -90,7 +91,7 @@ const News = () => {
                   </span>
                 </div>
               </div>
-            </a>
+            </Link>
           ))}
         </div>
       </div>

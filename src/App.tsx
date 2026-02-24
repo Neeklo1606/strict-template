@@ -10,6 +10,7 @@ import CatalogZhk from "./pages/CatalogZhk";
 import ZhkDetail from "./pages/ZhkDetail";
 import ObjectDetail from "./pages/ObjectDetail";
 import News from "./pages/News";
+import NewsDetail from "./pages/NewsDetail";
 import NotFound from "./pages/NotFound";
 
 // Admin pages
@@ -44,6 +45,7 @@ const App = () => (
             <Route path="/zhk/:slug" element={<ZhkDetail />} />
             <Route path="/object/:slug" element={<ObjectDetail />} />
             <Route path="/news" element={<News />} />
+            <Route path="/news/:slug" element={<NewsDetail />} />
 
             {/* Admin routes */}
             <Route path="/admin" element={<AdminLayout />}>
