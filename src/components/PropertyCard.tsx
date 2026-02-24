@@ -1,5 +1,6 @@
 import { Heart } from 'lucide-react';
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { cn } from '@/lib/utils';
 
 export interface PropertyData {
@@ -10,12 +11,14 @@ export interface PropertyData {
   area?: string;
   rooms?: string;
   badges?: string[];
+  slug?: string;
 }
 
 const PropertyCard = ({ data }: { data: PropertyData }) => {
   const [liked, setLiked] = useState(false);
+  const slug = data.slug || data.title.toLowerCase().replace(/\s+/g, '-').replace(/[^a-zа-яё0-9-]/gi, '');
   return (
-    <div className="rounded-2xl overflow-hidden bg-card border border-border hover:shadow-lg transition-shadow group">
+    <Link to={`/object/${slug}`} className="rounded-2xl overflow-hidden bg-card border border-border hover:shadow-lg transition-shadow group block">
       <div className="relative aspect-[4/3] overflow-hidden">
         <img src={data.image} alt={data.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
         {data.badges && data.badges.length > 0 && (
@@ -43,7 +46,7 @@ const PropertyCard = ({ data }: { data: PropertyData }) => {
           {data.rooms && <span>{data.rooms}</span>}
         </div>
       </div>
-    </div>
+    </Link>
   );
 };
 
