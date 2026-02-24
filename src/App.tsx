@@ -8,6 +8,7 @@ import Index from "./pages/Index";
 import Catalog from "./pages/Catalog";
 import CatalogZhk from "./pages/CatalogZhk";
 import ZhkDetail from "./pages/ZhkDetail";
+import ObjectDetail from "./pages/ObjectDetail";
 import NotFound from "./pages/NotFound";
 
 // Admin pages
@@ -40,6 +41,7 @@ const App = () => (
             <Route path="/catalog" element={<Catalog />} />
             <Route path="/catalog-zhk" element={<CatalogZhk />} />
             <Route path="/zhk/:slug" element={<ZhkDetail />} />
+            <Route path="/object/:slug" element={<ObjectDetail />} />
 
             {/* Admin routes */}
             <Route path="/admin" element={<AdminLayout />}>
