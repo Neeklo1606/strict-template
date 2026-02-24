@@ -1,6 +1,7 @@
 import { useState, useRef } from 'react';
 import { Heart } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { Link } from 'react-router-dom';
 
 export interface ZhkApartment { type: string; area: string; price: string; }
 export interface ZhkData {
@@ -92,7 +93,9 @@ const ZhkCard = ({ data }: { data: ZhkData }) => {
       <div className="p-4 flex flex-col justify-between flex-1">
         <div className="flex justify-between items-start gap-2">
           <div>
-            <h3 className="font-semibold text-sm">{data.name}</h3>
+            <Link to="/zhk/smorodina">
+              <h3 className="font-semibold text-sm hover:text-primary transition-colors">{data.name}</h3>
+            </Link>
             <p className="text-xs text-muted-foreground mt-0.5">{data.unitsCount}</p>
           </div>
           <div className="text-right shrink-0">

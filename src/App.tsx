@@ -7,6 +7,7 @@ import { lazy, Suspense } from "react";
 import Index from "./pages/Index";
 import Catalog from "./pages/Catalog";
 import CatalogZhk from "./pages/CatalogZhk";
+import ZhkDetail from "./pages/ZhkDetail";
 import NotFound from "./pages/NotFound";
 
 // Admin pages
@@ -38,6 +39,7 @@ const App = () => (
             <Route path="/" element={<Index />} />
             <Route path="/catalog" element={<Catalog />} />
             <Route path="/catalog-zhk" element={<CatalogZhk />} />
+            <Route path="/zhk/:slug" element={<ZhkDetail />} />
 
             {/* Admin routes */}
             <Route path="/admin" element={<AdminLayout />}>
