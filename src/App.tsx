@@ -6,6 +6,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { lazy, Suspense } from "react";
 import Index from "./pages/Index";
 import Catalog from "./pages/Catalog";
+import CatalogZhk from "./pages/CatalogZhk";
 import NotFound from "./pages/NotFound";
 
 // Admin pages
@@ -36,6 +37,7 @@ const App = () => (
           <Routes>
             <Route path="/" element={<Index />} />
             <Route path="/catalog" element={<Catalog />} />
+            <Route path="/catalog-zhk" element={<CatalogZhk />} />
 
             {/* Admin routes */}
             <Route path="/admin" element={<AdminLayout />}>
