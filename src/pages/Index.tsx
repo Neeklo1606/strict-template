@@ -11,6 +11,7 @@ import LatestNews from '@/components/LatestNews';
 import ContactsSection from '@/components/ContactsSection';
 import FooterSection from '@/components/FooterSection';
 import { useContentStore } from '@/admin/store/content-store';
+import { useMemo } from 'react';
 
 const sectionComponents: Record<string, React.ComponentType<any>> = {
   hero: HeroSection,
@@ -26,7 +27,12 @@ const sectionComponents: Record<string, React.ComponentType<any>> = {
 };
 
 const Index = () => {
-  const activeSections = useContentStore(s => s.getActiveSections('/'));
+  const pages = useContentStore(s => s.pages);
+  const activeSections = useMemo(() => {
+    const page = pages.find(p => p.slug === '/');
+    if (!page) return [];
+    return page.sections.filter(s => s.is_active).sort((a, b) => a.position - b.position);
+  }, [pages]);
 
   // Special handling for property_grid which needs props
   const renderSection = (section: any) => {
