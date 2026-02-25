@@ -11,6 +11,10 @@ import ZhkDetail from "./pages/ZhkDetail";
 import ObjectDetail from "./pages/ObjectDetail";
 import News from "./pages/News";
 import NewsDetail from "./pages/NewsDetail";
+import Login from "./pages/Login";
+import Register from "./pages/Register";
+import ForgotPassword from "./pages/ForgotPassword";
+import ResetPassword from "./pages/ResetPassword";
 import NotFound from "./pages/NotFound";
 
 // Admin pages
@@ -46,6 +50,10 @@ const App = () => (
             <Route path="/object/:slug" element={<ObjectDetail />} />
             <Route path="/news" element={<News />} />
             <Route path="/news/:slug" element={<NewsDetail />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
+            <Route path="/forgot-password" element={<ForgotPassword />} />
+            <Route path="/reset-password" element={<ResetPassword />} />
 
             {/* Admin routes */}
             <Route path="/admin" element={<AdminLayout />}>
