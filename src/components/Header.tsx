@@ -1,5 +1,6 @@
 import { useState } from 'react';
-import { Phone, Menu } from 'lucide-react';
+import { Link } from 'react-router-dom';
+import { Phone, Menu, LogIn } from 'lucide-react';
 import BurgerMenu from './BurgerMenu';
 
 const navItems = [
@@ -31,6 +32,10 @@ const Header = () => {
               <Phone className="w-4 h-4 text-muted-foreground" />
               <span>+7 (495) 000-00-00</span>
             </a>
+            <Link to="/login" className="bg-primary text-primary-foreground px-5 py-1.5 rounded-full text-sm font-medium hover:bg-primary/90 transition-colors flex items-center gap-1.5">
+              <LogIn className="w-4 h-4" />
+              Войти
+            </Link>
           </div>
           <button className="lg:hidden" onClick={() => setMenuOpen(true)}><Menu className="w-6 h-6" /></button>
         </div>
