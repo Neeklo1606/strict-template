@@ -1,3 +1,6 @@
+import React from 'react';
+import { Link } from 'react-router-dom';
+
 const footerColumns = [
   { title: 'Покупка', items: ['Новостройки', 'Вторичка', 'Коттеджи', 'Участки', 'Коммерция'] },
   { title: 'Аренда', items: ['Квартиры', 'Дома', 'Офисы', 'Склады', 'Помещения'] },
@@ -5,15 +8,15 @@ const footerColumns = [
   { title: 'Компания', items: ['О нас', 'Контакты', 'Карьера', 'Блог', 'Партнерам'] },
 ];
 
-const FooterSection = () => (
-  <footer className="bg-foreground text-background py-12">
+const FooterSection = React.forwardRef<HTMLElement>((_, ref) => (
+  <footer ref={ref} className="bg-foreground text-background py-12">
     <div className="max-w-[1400px] mx-auto px-4">
-      <div className="flex items-center gap-2 mb-8">
+      <Link to="/" className="flex items-center gap-2 mb-8">
         <div className="w-9 h-9 bg-primary rounded-lg flex items-center justify-center">
           <span className="text-primary-foreground font-bold text-xs">LG</span>
         </div>
         <span className="font-bold">Live Grid</span>
-      </div>
+      </Link>
       <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-8">
         {footerColumns.map((col, i) => (
           <div key={i}>
@@ -31,6 +34,8 @@ const FooterSection = () => (
       </div>
     </div>
   </footer>
-);
+));
+
+FooterSection.displayName = 'FooterSection';
 
 export default FooterSection;

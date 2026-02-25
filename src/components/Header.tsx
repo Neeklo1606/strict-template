@@ -17,11 +17,11 @@ const Header = () => {
     <>
       <header className="sticky top-0 z-50 bg-background/95 backdrop-blur border-b border-border">
         <div className="max-w-[1400px] mx-auto px-4 h-14 flex items-center justify-between">
-          <div className="flex items-center gap-2">
+          <Link to="/" className="flex items-center gap-2 cursor-pointer">
             <div className="w-9 h-9 bg-primary rounded-lg flex items-center justify-center">
               <span className="text-primary-foreground font-bold text-xs">LG</span>
             </div>
-          </div>
+          </Link>
           <nav className="hidden lg:flex items-center gap-1">
             {navItems.map((item, i) => (
               <a key={i} href={item.href} className="px-3 py-1.5 text-sm hover:text-primary transition-colors">{item.label}</a>
