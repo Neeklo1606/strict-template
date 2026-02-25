@@ -22,6 +22,7 @@ import NotFound from "./pages/NotFound";
 const AdminLayout = lazy(() => import("./admin/layout/AdminLayout"));
 const AdminDashboard = lazy(() => import("./admin/pages/AdminDashboard"));
 const AdminPages = lazy(() => import("./admin/pages/AdminPages"));
+const AdminPageEditor = lazy(() => import("./admin/pages/AdminPageEditor"));
 const AdminMedia = lazy(() => import("./admin/pages/AdminMedia"));
 const AdminUsers = lazy(() => import("./admin/pages/AdminUsers"));
 const AdminSettings = lazy(() => import("./admin/pages/AdminSettings"));
@@ -61,6 +62,7 @@ const App = () => (
             <Route path="/admin" element={<AdminLayout />}>
               <Route index element={<AdminDashboard />} />
               <Route path="pages" element={<AdminPages />} />
+              <Route path="page-editor/:slug" element={<AdminPageEditor />} />
               <Route path="media" element={<AdminMedia />} />
               <Route path="users" element={<AdminUsers />} />
               <Route path="settings" element={<AdminSettings />} />

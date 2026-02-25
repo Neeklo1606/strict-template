@@ -10,23 +10,47 @@ import AdditionalFeatures from '@/components/AdditionalFeatures';
 import LatestNews from '@/components/LatestNews';
 import ContactsSection from '@/components/ContactsSection';
 import FooterSection from '@/components/FooterSection';
+import { useContentStore } from '@/admin/store/content-store';
 
-const Index = () => (
-  <div className="min-h-screen bg-background">
-    <Header />
-    <HeroSection />
-    <CategoryTiles />
-    <NewListings />
-    <CatalogZhk />
-    <QuizSection />
-    <PropertyGridSection title="Горячие предложения" type="hot" />
-    <PropertyGridSection title="Старт продаж" type="start" />
-    <AboutPlatform />
-    <AdditionalFeatures />
-    <LatestNews />
-    <ContactsSection />
-    <FooterSection />
-  </div>
-);
+const sectionComponents: Record<string, React.ComponentType<any>> = {
+  hero: HeroSection,
+  category_tiles: CategoryTiles,
+  new_listings: NewListings,
+  catalog_zhk: CatalogZhk,
+  quiz: QuizSection,
+  about_platform: AboutPlatform,
+  additional_features: AdditionalFeatures,
+  latest_news: LatestNews,
+  contacts: ContactsSection,
+  footer: FooterSection,
+};
+
+const Index = () => {
+  const activeSections = useContentStore(s => s.getActiveSections('/'));
+
+  // Special handling for property_grid which needs props
+  const renderSection = (section: any) => {
+    if (section.type === 'property_grid') {
+      return (
+        <PropertyGridSection
+          key={section.id}
+          title={section.settings?.title || section.label}
+          type={section.settings?.gridType || 'hot'}
+        />
+      );
+    }
+
+    const Component = sectionComponents[section.type];
+    if (!Component) return null;
+    return <Component key={section.id} />;
+  };
+
+  return (
+    <div className="min-h-screen bg-background">
+      <Header />
+      {activeSections.map(renderSection)}
+    </div>
+  );
+};
 
 export default Index;
