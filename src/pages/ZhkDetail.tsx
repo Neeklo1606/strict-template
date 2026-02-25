@@ -1,5 +1,5 @@
 import { useParams, Link } from 'react-router-dom';
-import { ArrowLeft, Heart, ChevronRight, Building, Layers, Maximize, Play } from 'lucide-react';
+import { ArrowLeft, Heart, ChevronRight, ChevronDown, Building, Layers, Maximize, Play } from 'lucide-react';
 import Header from '@/components/Header';
 import PropertyGridSection from '@/components/PropertyGridSection';
 import AdditionalFeatures from '@/components/AdditionalFeatures';
@@ -13,6 +13,39 @@ import building3 from '@/assets/building3.jpg';
 import building4 from '@/assets/building4.jpg';
 import { useState } from 'react';
 import { cn } from '@/lib/utils';
+
+/* ---- mock flats data ---- */
+interface FlatData {
+  slug: string;
+  planImage: string;
+  building: string;
+  section: string;
+  floor: string;
+  number: string;
+  area: string;
+  kitchenArea: string;
+  finishing: string;
+  basePrice: string;
+  fullPrice: string;
+  pricePerM2: string;
+  status: string;
+}
+
+const mockFlats: Record<string, FlatData[]> = {
+  'Студии': [
+    { slug: 'studio-1', planImage: building1, building: '1', section: '1', floor: '3', number: '5', area: '29,5 м²', kitchenArea: '8,2 м²', finishing: 'Без отделки', basePrice: '4 420 000', fullPrice: '4 420 000', pricePerM2: '149 830', status: 'Свободна' },
+    { slug: 'studio-2', planImage: building1, building: '1', section: '2', floor: '5', number: '12', area: '31,2 м²', kitchenArea: '9,1 м²', finishing: 'Чистовая', basePrice: '4 680 000', fullPrice: '4 680 000', pricePerM2: '150 000', status: 'Свободна' },
+    { slug: 'studio-3', planImage: building1, building: '2', section: '1', floor: '8', number: '24', area: '34,8 м²', kitchenArea: '10,3 м²', finishing: 'Без отделки', basePrice: '5 220 000', fullPrice: '5 220 000', pricePerM2: '150 000', status: 'Бронь' },
+  ],
+  '1-спальные': [
+    { slug: 'one-bed-1', planImage: building2, building: '1', section: '1', floor: '4', number: '8', area: '42,5 м²', kitchenArea: '12,4 м²', finishing: 'Чистовая', basePrice: '8 200 000', fullPrice: '8 200 000', pricePerM2: '192 941', status: 'Свободна' },
+    { slug: 'one-bed-2', planImage: building2, building: '1', section: '3', floor: '7', number: '19', area: '38,9 м²', kitchenArea: '11,0 м²', finishing: 'Без отделки', basePrice: '8 560 000', fullPrice: '8 560 000', pricePerM2: '220 051', status: 'Свободна' },
+  ],
+  '2-спальные': [
+    { slug: 'two-bed-1', planImage: building3, building: '1', section: '2', floor: '6', number: '15', area: '62,3 м²', kitchenArea: '14,5 м²', finishing: 'Без отделки', basePrice: '12 200 000', fullPrice: '12 200 000', pricePerM2: '195 826', status: 'Свободна' },
+    { slug: 'two-bed-2', planImage: building3, building: '2', section: '1', floor: '10', number: '31', area: '58,7 м²', kitchenArea: '13,2 м²', finishing: 'Чистовая', basePrice: '12 800 000', fullPrice: '12 800 000', pricePerM2: '218 057', status: 'Бронь' },
+  ],
+};
 
 /* ---- mock data ---- */
 const zhkDatabase: Record<string, {
@@ -69,6 +102,7 @@ const ZhkDetail = () => {
   const { slug } = useParams<{ slug: string }>();
   const data = zhkDatabase[slug || 'smorodina'] || zhkDatabase.smorodina;
   const [liked, setLiked] = useState(false);
+  const [expandedType, setExpandedType] = useState<string | null>(null);
 
   return (
     <div className="min-h-screen bg-background">
@@ -147,18 +181,85 @@ const ZhkDetail = () => {
               </div>
 
               <div className="space-y-0 border border-border rounded-2xl overflow-hidden">
-                {data.apartments.map((apt, i) => (
-                  <div key={i} className={cn(
-                    "flex items-center justify-between gap-3 px-5 py-4 hover:bg-secondary/50 transition-colors cursor-pointer",
-                    i < data.apartments.length - 1 && "border-b border-border"
-                  )}>
-                    <span className="font-medium text-sm w-28 shrink-0">{apt.type}</span>
-                    <span className="text-primary text-sm font-medium">{apt.count} квартир</span>
-                    <span className="text-sm text-muted-foreground hidden sm:block">{apt.area}</span>
-                    <span className="text-sm font-semibold">{apt.price}</span>
-                    <ChevronRight className="w-4 h-4 text-muted-foreground shrink-0" />
-                  </div>
-                ))}
+                {data.apartments.map((apt, i) => {
+                  const isExpanded = expandedType === apt.type;
+                  const flats = mockFlats[apt.type] || [];
+                  return (
+                    <div key={i} className={cn(i < data.apartments.length - 1 && !isExpanded && "border-b border-border")}>
+                      <div
+                        className="flex items-center justify-between gap-3 px-5 py-4 hover:bg-secondary/50 transition-colors cursor-pointer"
+                        onClick={() => setExpandedType(isExpanded ? null : apt.type)}
+                      >
+                        <span className="font-medium text-sm w-28 shrink-0">{apt.type}</span>
+                        <span className="text-primary text-sm font-medium">{apt.count} квартир</span>
+                        <span className="text-sm text-muted-foreground hidden sm:block">{apt.area}</span>
+                        <span className="text-sm font-semibold">{apt.price}</span>
+                        <ChevronDown className={cn("w-4 h-4 text-muted-foreground shrink-0 transition-transform", isExpanded && "rotate-180")} />
+                      </div>
+
+                      {isExpanded && flats.length > 0 && (
+                        <div className="border-t border-border">
+                          {/* Scrollable table */}
+                          <div className="overflow-x-auto">
+                            <table className="w-full text-sm min-w-[900px]">
+                              <thead>
+                                <tr className="border-b border-border bg-secondary/30">
+                                  <th className="px-3 py-2.5 text-left font-medium text-muted-foreground w-[60px]"></th>
+                                  <th className="px-3 py-2.5 text-left font-medium text-muted-foreground">Корп.</th>
+                                  <th className="px-3 py-2.5 text-left font-medium text-muted-foreground">Секц.</th>
+                                  <th className="px-3 py-2.5 text-left font-medium text-muted-foreground">Эт.</th>
+                                  <th className="px-3 py-2.5 text-left font-medium text-muted-foreground">№ кв.</th>
+                                  <th className="px-3 py-2.5 text-left font-medium text-muted-foreground">S прив.</th>
+                                  <th className="px-3 py-2.5 text-left font-medium text-muted-foreground">S кухни</th>
+                                  <th className="px-3 py-2.5 text-left font-medium text-muted-foreground">Отделка</th>
+                                  <th className="px-3 py-2.5 text-left font-medium text-muted-foreground">При 100%</th>
+                                  <th className="px-3 py-2.5 text-left font-medium text-muted-foreground">За м²</th>
+                                  <th className="px-3 py-2.5 text-left font-medium text-muted-foreground">Статус</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                {flats.map((flat, fi) => (
+                                  <tr key={fi} className="border-b border-border last:border-0 hover:bg-secondary/30 transition-colors">
+                                    <td className="px-3 py-2">
+                                      <Link to={`/object/${flat.slug}`}>
+                                        <img src={flat.planImage} alt="План" className="w-10 h-10 rounded object-cover" />
+                                      </Link>
+                                    </td>
+                                    <td className="px-3 py-2"><Link to={`/object/${flat.slug}`} className="hover:text-primary">{flat.building}</Link></td>
+                                    <td className="px-3 py-2"><Link to={`/object/${flat.slug}`} className="hover:text-primary">{flat.section}</Link></td>
+                                    <td className="px-3 py-2"><Link to={`/object/${flat.slug}`} className="hover:text-primary">{flat.floor}</Link></td>
+                                    <td className="px-3 py-2"><Link to={`/object/${flat.slug}`} className="hover:text-primary">{flat.number}</Link></td>
+                                    <td className="px-3 py-2"><Link to={`/object/${flat.slug}`} className="hover:text-primary">{flat.area}</Link></td>
+                                    <td className="px-3 py-2"><Link to={`/object/${flat.slug}`} className="hover:text-primary">{flat.kitchenArea}</Link></td>
+                                    <td className="px-3 py-2"><Link to={`/object/${flat.slug}`} className="hover:text-primary">{flat.finishing}</Link></td>
+                                    <td className="px-3 py-2 font-medium"><Link to={`/object/${flat.slug}`} className="hover:text-primary">{flat.fullPrice} ₽</Link></td>
+                                    <td className="px-3 py-2"><Link to={`/object/${flat.slug}`} className="hover:text-primary">{flat.pricePerM2} ₽</Link></td>
+                                    <td className="px-3 py-2">
+                                      <Link to={`/object/${flat.slug}`}>
+                                        <span className={cn(
+                                          "px-2.5 py-1 rounded-full text-xs font-medium",
+                                          flat.status === 'Свободна' ? "bg-primary/10 text-primary" : "bg-accent text-accent-foreground"
+                                        )}>{flat.status}</span>
+                                      </Link>
+                                    </td>
+                                  </tr>
+                                ))}
+                              </tbody>
+                            </table>
+                          </div>
+                          <div className="flex justify-center py-3 border-t border-border">
+                            <button
+                              onClick={() => setExpandedType(null)}
+                              className="px-6 py-2 rounded-xl bg-secondary text-sm font-medium hover:bg-secondary/80 transition-colors"
+                            >
+                              Свернуть
+                            </button>
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  );
+                })}
               </div>
             </div>
 
