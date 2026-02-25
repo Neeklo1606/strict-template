@@ -1,7 +1,8 @@
+import React from 'react';
 import { Phone, Mail, MapPin } from 'lucide-react';
 
-const ContactsSection = () => (
-  <section className="py-12">
+const ContactsSection = React.forwardRef<HTMLElement>((_, ref) => (
+  <section ref={ref} className="py-12">
     <div className="max-w-[1400px] mx-auto px-4">
       <h2 className="text-2xl font-bold mb-8">Свяжитесь с <span className="text-primary">LiveGrid</span></h2>
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
@@ -35,6 +36,8 @@ const ContactsSection = () => (
       </div>
     </div>
   </section>
-);
+));
+
+ContactsSection.displayName = 'ContactsSection';
 
 export default ContactsSection;
