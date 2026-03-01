@@ -13,6 +13,12 @@ export interface PropertyData {
   badges?: string[];
   slug?: string;
   description?: string;
+  metro?: string;
+  district?: string;
+  buildingClass?: string;
+  deadline?: string;
+  mortgage?: string;
+  coords?: [number, number];
 }
 
 const PropertyCard = ({ data }: { data: PropertyData }) => {
