@@ -6,6 +6,14 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import ScrollToTop from "./components/ScrollToTop";
 import { lazy, Suspense } from "react";
 import Index from "./pages/Index";
+
+// Redesign pages
+const RedesignIndex = lazy(() => import("./redesign/pages/RedesignIndex"));
+const RedesignCatalog = lazy(() => import("./redesign/pages/RedesignCatalog"));
+const RedesignComplex = lazy(() => import("./redesign/pages/RedesignComplex"));
+const RedesignApartment = lazy(() => import("./redesign/pages/RedesignApartment"));
+const RedesignMap = lazy(() => import("./redesign/pages/RedesignMap"));
+const RedesignLayouts = lazy(() => import("./redesign/pages/RedesignLayouts"));
 import Catalog from "./pages/Catalog";
 import CatalogZhk from "./pages/CatalogZhk";
 import ZhkDetail from "./pages/ZhkDetail";
