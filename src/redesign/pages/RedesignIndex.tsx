@@ -10,6 +10,7 @@ import PropertyGridSection from '@/components/PropertyGridSection';
 import AdditionalFeatures from '@/components/AdditionalFeatures';
 import LatestNews from '@/components/LatestNews';
 import ContactsSection from '@/components/ContactsSection';
+import FooterSection from '@/components/FooterSection';
 import { complexes, formatPrice } from '@/redesign/data/mock-data';
 import { useState, useRef, useEffect } from 'react';
 import { cn } from '@/lib/utils';
@@ -226,15 +227,7 @@ const RedesignIndex = () => {
       <ContactsSection />
 
       {/* Footer */}
-      <footer className="border-t border-border py-8">
-        <div className="max-w-[1400px] mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-muted-foreground">
-          <span>© 2026 Недвижимость · Все права защищены</span>
-          <div className="flex gap-4">
-            <Link to="/redesign/catalog" className="hover:text-foreground transition-colors">Каталог</Link>
-            <Link to="/redesign/map" className="hover:text-foreground transition-colors">Карта</Link>
-          </div>
-        </div>
-      </footer>
+      <FooterSection />
     </div>
   );
 };
