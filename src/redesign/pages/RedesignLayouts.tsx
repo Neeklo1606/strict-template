@@ -23,12 +23,16 @@ const RedesignLayouts = () => {
   }
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background pb-16 lg:pb-0">
       <RedesignHeader />
       <div className="max-w-[1400px] mx-auto px-4 py-6">
-        <Link to={`/redesign/complex/${complex.slug}`} className="flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground mb-4">
-          <ArrowLeft className="w-4 h-4" /> {complex.name}
-        </Link>
+        <div className="flex items-center gap-2 text-sm text-muted-foreground mb-5">
+          <Link to="/redesign/catalog" className="hover:text-foreground transition-colors">Каталог</Link>
+          <span>/</span>
+          <Link to={`/redesign/complex/${complex.slug}`} className="hover:text-foreground transition-colors">{complex.name}</Link>
+          <span>/</span>
+          <span className="text-foreground font-medium">Планировки</span>
+        </div>
         <h1 className="text-xl font-bold mb-6">Планировки — {complex.name}</h1>
         <LayoutGrid layouts={layouts} complexSlug={complex.slug} />
       </div>

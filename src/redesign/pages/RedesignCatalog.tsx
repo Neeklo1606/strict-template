@@ -1,4 +1,4 @@
-import { useState, useMemo, useCallback } from 'react';
+import { useState, useMemo } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { LayoutGrid, List, Map, SlidersHorizontal, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -36,7 +36,7 @@ const RedesignCatalog = () => {
   }, [filters]);
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background pb-16 lg:pb-0">
       <RedesignHeader />
 
       <div className="max-w-[1400px] mx-auto px-4 py-6">
@@ -44,18 +44,24 @@ const RedesignCatalog = () => {
         <div className="flex items-center justify-between mb-6">
           <div>
             <h1 className="text-xl font-bold">Жилые комплексы</h1>
-            <p className="text-sm text-muted-foreground">{filtered.length} объектов</p>
+            <p className="text-sm text-muted-foreground mt-0.5">Найдено {filtered.length} объектов</p>
           </div>
           <div className="flex items-center gap-2">
-            <Button variant="outline" size="sm" className="lg:hidden" onClick={() => setShowMobileFilters(true)}>
-              <SlidersHorizontal className="w-4 h-4 mr-1" /> Фильтры
+            <Button variant="outline" size="sm" className="lg:hidden h-9" onClick={() => setShowMobileFilters(true)}>
+              <SlidersHorizontal className="w-4 h-4 mr-1.5" /> Фильтры
             </Button>
-            <div className="hidden sm:flex items-center gap-1 border border-border rounded-full p-1">
-              {([['grid', LayoutGrid], ['list', List], ['map', Map]] as const).map(([mode, Icon]) => (
+            <div className="hidden sm:flex items-center gap-0.5 border border-border rounded-xl p-1 bg-muted/50">
+              {([['grid', LayoutGrid, 'Плитка'], ['list', List, 'Список'], ['map', Map, 'Карта']] as const).map(([mode, Icon, title]) => (
                 <button
                   key={mode}
+                  title={title}
                   onClick={() => setView(mode)}
-                  className={cn('p-1.5 rounded-full transition-colors', view === mode ? 'bg-primary text-primary-foreground' : 'text-muted-foreground hover:text-foreground')}
+                  className={cn(
+                    'p-2 rounded-lg transition-all duration-200',
+                    view === mode
+                      ? 'bg-background text-foreground shadow-sm'
+                      : 'text-muted-foreground hover:text-foreground'
+                  )}
                 >
                   <Icon className="w-4 h-4" />
                 </button>
@@ -82,9 +88,9 @@ const RedesignCatalog = () => {
               </div>
             )}
             {view === 'list' && (
-              <div className="space-y-3">
+              <div className="space-y-4">
                 {filtered.map(c => (
-                  <ComplexCard key={c.id} complex={c} />
+                  <ComplexCard key={c.id} complex={c} variant="list" />
                 ))}
               </div>
             )}
@@ -92,8 +98,12 @@ const RedesignCatalog = () => {
               <MapSearch complexes={filtered} activeSlug={mapActive} onSelect={setMapActive} />
             )}
             {filtered.length === 0 && (
-              <div className="text-center py-16">
-                <p className="text-muted-foreground text-sm">Ничего не найдено. Попробуйте изменить фильтры.</p>
+              <div className="text-center py-20">
+                <div className="w-16 h-16 rounded-full bg-muted flex items-center justify-center mx-auto mb-4">
+                  <SlidersHorizontal className="w-6 h-6 text-muted-foreground" />
+                </div>
+                <p className="text-muted-foreground text-sm mb-2">Ничего не найдено</p>
+                <p className="text-muted-foreground text-xs">Попробуйте изменить параметры фильтров</p>
               </div>
             )}
           </div>
@@ -102,14 +112,18 @@ const RedesignCatalog = () => {
 
       {/* Mobile filters drawer */}
       {showMobileFilters && (
-        <div className="fixed inset-0 z-50 bg-background overflow-y-auto">
+        <div className="fixed inset-0 z-[60] bg-background overflow-y-auto animate-in slide-in-from-bottom">
           <div className="flex items-center justify-between h-14 px-4 border-b border-border sticky top-0 bg-background z-10">
             <span className="font-semibold">Фильтры</span>
-            <button onClick={() => setShowMobileFilters(false)}><X className="w-6 h-6" /></button>
+            <button onClick={() => setShowMobileFilters(false)} className="w-10 h-10 flex items-center justify-center">
+              <X className="w-5 h-5" />
+            </button>
           </div>
-          <div className="p-4">
+          <div className="p-4 pb-24">
             <FilterSidebar filters={filters} onChange={setFilters} totalCount={filtered.length} />
-            <Button className="w-full mt-4" onClick={() => setShowMobileFilters(false)}>
+          </div>
+          <div className="fixed bottom-0 left-0 right-0 p-4 bg-background border-t border-border">
+            <Button className="w-full h-12" onClick={() => setShowMobileFilters(false)}>
               Показать {filtered.length} объектов
             </Button>
           </div>
