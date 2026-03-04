@@ -9,6 +9,7 @@ import QuizSection from '@/components/QuizSection';
 import PropertyGridSection from '@/components/PropertyGridSection';
 import AboutPlatform from '@/components/AboutPlatform';
 import AdditionalFeatures from '@/components/AdditionalFeatures';
+import CategoryTiles from '@/components/CategoryTiles';
 import LatestNews from '@/components/LatestNews';
 import ContactsSection from '@/components/ContactsSection';
 import FooterSection from '@/components/FooterSection';
@@ -134,6 +135,9 @@ const RedesignIndex = () => {
           </div>
         </div>
       </section>
+
+      {/* Category Tiles */}
+      <CategoryTiles />
 
       {/* Stats */}
       <section className="max-w-[1400px] mx-auto px-4 -mt-6 relative z-10">

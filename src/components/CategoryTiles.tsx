@@ -1,3 +1,4 @@
+import { Link, useLocation } from 'react-router-dom';
 import catNovostroyki from '@/assets/cat-novostroyki.png';
 import catSecondary from '@/assets/cat-secondary.png';
 import catRent from '@/assets/cat-rent.png';
@@ -22,27 +23,33 @@ const categories = [
   { name: 'Подобрать\nобъект', image: catSearch },
 ];
 
-const CategoryTiles = () => (
-  <section className="py-4">
-    <div className="max-w-[1400px] mx-auto px-4">
-      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3">
-        {categories.map((cat, i) => (
-          <a
-            key={i}
-            href="#"
-            className="bg-secondary rounded-2xl p-4 flex flex-col items-start hover:shadow-md transition-shadow min-h-[130px] md:min-h-[150px] relative overflow-hidden group"
-          >
+const CategoryTiles = () => {
+  const location = useLocation();
+  const isRedesign = location.pathname.startsWith('/redesign');
+  const catalogPath = isRedesign ? '/redesign/catalog' : '/catalog';
+  
+  return (
+    <section className="py-4">
+      <div className="max-w-[1400px] mx-auto px-4">
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3">
+          {categories.map((cat, i) => (
+            <Link
+              key={i}
+              to={catalogPath}
+              className="bg-secondary rounded-2xl p-4 flex flex-col items-start hover:shadow-md transition-shadow min-h-[130px] md:min-h-[150px] relative overflow-hidden group"
+            >
             <span className="font-semibold text-sm whitespace-pre-line relative z-10">{cat.name}</span>
             <img
               src={cat.image}
               alt={cat.name}
               className="absolute bottom-0 right-0 w-20 h-20 md:w-28 md:h-28 object-contain group-hover:scale-105 transition-transform"
             />
-          </a>
+          </Link>
         ))}
       </div>
     </div>
   </section>
-);
+  );
+};
 
 export default CategoryTiles;
