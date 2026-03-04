@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { Search, ArrowRight, Building2, MapPin, TrendingUp, CalendarDays, Train, ChevronDown } from 'lucide-react';
+import { Search, ArrowRight, MapPin, CalendarDays, Train, ChevronDown } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import RedesignHeader from '@/redesign/components/RedesignHeader';
@@ -16,12 +16,6 @@ import FooterSection from '@/components/FooterSection';
 import { complexes, formatPrice } from '@/redesign/data/mock-data';
 import { useState, useRef, useEffect } from 'react';
 import { cn } from '@/lib/utils';
-
-const stats = [
-  { icon: Building2, label: 'Жилых комплексов', value: '120+' },
-  { icon: MapPin, label: 'Районов Москвы', value: '45' },
-  { icon: TrendingUp, label: 'Средний рост цен', value: '+12%' },
-];
 
 const quickFilters = [
   { label: 'Студии', search: '' },
@@ -138,23 +132,6 @@ const RedesignIndex = () => {
 
       {/* Category Tiles */}
       <CategoryTiles />
-
-      {/* Stats */}
-      <section className="max-w-[1400px] mx-auto px-4 -mt-6 relative z-10">
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-          {stats.map(s => (
-            <div key={s.label} className="bg-card rounded-xl border border-border p-4 flex items-center gap-3 shadow-sm">
-              <div className="w-11 h-11 rounded-xl bg-accent flex items-center justify-center shrink-0">
-                <s.icon className="w-5 h-5 text-accent-foreground" />
-              </div>
-              <div>
-                <p className="text-xl font-bold">{s.value}</p>
-                <p className="text-xs text-muted-foreground">{s.label}</p>
-              </div>
-            </div>
-          ))}
-        </div>
-      </section>
 
       {/* Featured */}
       <section className="max-w-[1400px] mx-auto px-4 py-12">
