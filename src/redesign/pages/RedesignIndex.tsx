@@ -7,6 +7,7 @@ import ComplexCard from '@/redesign/components/ComplexCard';
 import MapSearch from '@/redesign/components/MapSearch';
 import QuizSection from '@/components/QuizSection';
 import PropertyGridSection from '@/components/PropertyGridSection';
+import AboutPlatform from '@/components/AboutPlatform';
 import AdditionalFeatures from '@/components/AdditionalFeatures';
 import LatestNews from '@/components/LatestNews';
 import ContactsSection from '@/components/ContactsSection';
@@ -191,6 +192,9 @@ const RedesignIndex = () => {
 
       {/* Подберем объект под Ваш запрос */}
       <QuizSection />
+
+      {/* О платформе Live Grid */}
+      <AboutPlatform />
 
       {/* Map CTA */}
       <section className="max-w-[1400px] mx-auto px-4 pb-8">
