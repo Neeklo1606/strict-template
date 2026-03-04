@@ -21,12 +21,13 @@ export interface PropertyData {
   coords?: [number, number];
 }
 
-const PropertyCard = ({ data }: { data: PropertyData }) => {
+const PropertyCard = ({ data, basePath = '' }: { data: PropertyData; basePath?: string }) => {
   const [liked, setLiked] = useState(false);
   const slug = data.slug || data.title.toLowerCase().replace(/\s+/g, '-').replace(/[^a-zа-яё0-9-]/gi, '');
+  const linkPath = basePath ? `${basePath}/complex/${slug}` : `/object/${slug}`;
   return (
     <div className="group rounded-2xl overflow-hidden bg-card border border-border transition-all duration-300 ease-in-out hover:shadow-xl hover:-translate-y-1 will-change-transform">
-      <Link to={`/object/${slug}`} className="block">
+      <Link to={linkPath} className="block">
         <div className="relative overflow-hidden" style={{ height: '280px' }}>
           <img src={data.image} alt={data.title} className="w-full h-full object-cover transition-transform duration-300 ease-in-out group-hover:scale-[1.03]" />
           {data.badges && data.badges.length > 0 && (

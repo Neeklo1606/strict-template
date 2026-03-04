@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 
 const footerColumns = [
   { title: 'Покупка', items: ['Новостройки', 'Вторичка', 'Коттеджи', 'Участки', 'Коммерция'] },
@@ -8,10 +8,15 @@ const footerColumns = [
   { title: 'Компания', items: ['О нас', 'Контакты', 'Карьера', 'Блог', 'Партнерам'] },
 ];
 
-const FooterSection = React.forwardRef<HTMLElement>((_, ref) => (
-  <footer ref={ref} className="bg-foreground text-background py-12">
-    <div className="max-w-[1400px] mx-auto px-4">
-      <Link to="/" className="flex items-center gap-2 mb-8">
+const FooterSection = React.forwardRef<HTMLElement>((_, ref) => {
+  const location = useLocation();
+  const isRedesign = location.pathname.startsWith('/redesign');
+  const homePath = isRedesign ? '/redesign' : '/';
+  
+  return (
+    <footer ref={ref} className="bg-foreground text-background py-12">
+      <div className="max-w-[1400px] mx-auto px-4">
+        <Link to={homePath} className="flex items-center gap-2 mb-8">
         <div className="w-9 h-9 bg-primary rounded-lg flex items-center justify-center">
           <span className="text-primary-foreground font-bold text-xs">LG</span>
         </div>
@@ -34,7 +39,8 @@ const FooterSection = React.forwardRef<HTMLElement>((_, ref) => (
       </div>
     </div>
   </footer>
-));
+  );
+});
 
 FooterSection.displayName = 'FooterSection';
 

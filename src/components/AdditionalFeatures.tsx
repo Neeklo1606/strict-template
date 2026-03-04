@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { Calculator, UserSearch, Building2, UserCircle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import {
@@ -47,19 +47,21 @@ const features = [
 
 const AdditionalFeatures = () => {
   const navigate = useNavigate();
+  const location = useLocation();
+  const isRedesign = location.pathname.startsWith('/redesign');
   const [modalOpen, setModalOpen] = useState(false);
   const [formData, setFormData] = useState({ name: '', phone: '', comment: '' });
 
   const handleAction = (action: string) => {
     switch (action) {
       case 'calc':
-        navigate('/catalog');
+        navigate(isRedesign ? '/redesign/catalog' : '/catalog');
         break;
       case 'modal':
         setModalOpen(true);
         break;
       case 'catalog':
-        navigate('/catalog');
+        navigate(isRedesign ? '/redesign/catalog' : '/catalog');
         break;
       case 'auth':
         navigate('/login');
