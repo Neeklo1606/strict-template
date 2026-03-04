@@ -16,9 +16,10 @@ interface Props {
   complexes: ResidentialComplex[];
   activeSlug?: string | null;
   onSelect?: (slug: string) => void;
+  height?: string;
 }
 
-const MapSearch = ({ complexes, activeSlug, onSelect }: Props) => {
+const MapSearch = ({ complexes, activeSlug, onSelect, height = '70vh' }: Props) => {
   const mapRef = useRef<HTMLDivElement>(null);
   const mapInstance = useRef<any>(null);
   const markersRef = useRef<any[]>([]);
@@ -65,7 +66,7 @@ const MapSearch = ({ complexes, activeSlug, onSelect }: Props) => {
   }, [complexes, onSelect]);
 
   return (
-    <div className="flex flex-col lg:flex-row gap-4 h-[70vh]">
+    <div className="flex flex-col lg:flex-row gap-4" style={{ height }}>
       <div ref={mapRef} className="flex-1 rounded-2xl overflow-hidden border border-border bg-muted min-h-[300px]" />
       <div className="w-full lg:w-[360px] overflow-y-auto space-y-2 shrink-0">
         {complexes.map(c => (

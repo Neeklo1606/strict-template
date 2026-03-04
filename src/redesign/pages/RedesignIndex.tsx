@@ -1,11 +1,15 @@
 import { Link } from 'react-router-dom';
-import { Search, ArrowRight, Building2, MapPin, TrendingUp, CalendarDays, Train } from 'lucide-react';
+import { Search, ArrowRight, Building2, MapPin, TrendingUp, CalendarDays, Train, ChevronDown } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import RedesignHeader from '@/redesign/components/RedesignHeader';
 import ComplexCard from '@/redesign/components/ComplexCard';
+import MapSearch from '@/redesign/components/MapSearch';
+import QuizSection from '@/components/QuizSection';
+import PropertyGridSection from '@/components/PropertyGridSection';
 import { complexes, formatPrice } from '@/redesign/data/mock-data';
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
+import { cn } from '@/lib/utils';
 
 const stats = [
   { icon: Building2, label: 'Жилых комплексов', value: '120+' },
@@ -22,26 +26,85 @@ const quickFilters = [
   { label: 'Бизнес-класс', search: '' },
 ];
 
+const regions = [
+  'Москва и МО',
+  'Санкт-Петербург и ЛО',
+  'Краснодарский край',
+  'Московская область',
+  'Ленинградская область',
+  'Татарстан',
+  'Крым',
+  'Сочи',
+  'Другой регион',
+];
+
 const RedesignIndex = () => {
   const [q, setQ] = useState('');
+  const [selectedRegion, setSelectedRegion] = useState('Москва и МО');
+  const [regionOpen, setRegionOpen] = useState(false);
+  const [viewMode, setViewMode] = useState<'cards' | 'map'>('cards');
+  const [activeComplex, setActiveComplex] = useState<string | null>(null);
+  const regionRef = useRef<HTMLDivElement>(null);
   const featured = complexes.slice(0, 6);
+
+  useEffect(() => {
+    const handler = (e: MouseEvent) => {
+      if (regionRef.current && !regionRef.current.contains(e.target as Node)) {
+        setRegionOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', handler);
+    return () => document.removeEventListener('mousedown', handler);
+  }, []);
 
   return (
     <div className="min-h-screen bg-background pb-16 lg:pb-0">
       <RedesignHeader />
 
       {/* Hero */}
-      <section className="relative bg-muted overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-transparent" />
-        <div className="max-w-[1400px] mx-auto px-4 py-16 sm:py-24 relative">
-          <div className="max-w-2xl">
-            <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-4 leading-tight">
-              Найдите идеальную<br />квартиру в&nbsp;новостройке
+      <section className="relative bg-background overflow-hidden">
+        <div className="max-w-[1400px] mx-auto px-4 py-8 sm:py-12 relative">
+          <div className="mb-6">
+            <div className="relative inline-block" ref={regionRef}>
+              <button
+                onClick={() => setRegionOpen(!regionOpen)}
+                className="flex items-center gap-2 text-sm font-medium hover:text-primary transition-colors cursor-pointer min-h-[44px] py-2"
+                aria-expanded={regionOpen}
+                aria-haspopup="listbox"
+              >
+                <MapPin className="w-5 h-5 text-primary shrink-0" />
+                <span>{selectedRegion}</span>
+                <ChevronDown className={`w-4 h-4 shrink-0 transition-transform ${regionOpen ? 'rotate-180' : ''}`} />
+              </button>
+              {regionOpen && (
+                <ul
+                  role="listbox"
+                  className="absolute top-full left-0 mt-1 py-2 bg-background border border-border rounded-xl shadow-lg z-50 min-w-[220px] max-h-[300px] overflow-y-auto"
+                >
+                  {regions.map((region) => (
+                    <li key={region} role="option">
+                      <button
+                        onClick={() => {
+                          setSelectedRegion(region);
+                          setRegionOpen(false);
+                        }}
+                        className={`w-full text-left px-4 py-2.5 text-sm hover:bg-secondary transition-colors cursor-pointer min-h-[44px] flex items-center ${
+                          selectedRegion === region ? 'text-primary font-medium' : ''
+                        }`}
+                      >
+                        {region}
+                      </button>
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </div>
+          </div>
+          <div className="text-center">
+            <h1 className="text-2xl md:text-4xl font-bold mb-8 leading-tight">
+              <span className="text-primary italic">Live Grid.</span> 62 000+ квартир в 1284+ комплексах по России
             </h1>
-            <p className="text-muted-foreground text-sm sm:text-base mb-8 max-w-lg">
-              Актуальная база квартир от&nbsp;ведущих застройщиков Москвы и&nbsp;области. Честные цены, проверенные объекты, экспертная поддержка.
-            </p>
-            <div className="flex gap-2 max-w-xl">
+            <div className="flex gap-2 max-w-xl mx-auto">
               <div className="relative flex-1">
                 <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4.5 h-4.5 text-muted-foreground" />
                 <Input
@@ -56,7 +119,7 @@ const RedesignIndex = () => {
                 <Button className="h-12 px-8 shadow-sm">Найти</Button>
               </Link>
             </div>
-            <div className="flex flex-wrap gap-2 mt-5">
+            <div className="flex flex-wrap gap-2 mt-5 justify-center">
               {quickFilters.map(tag => (
                 <Link key={tag.label} to="/redesign/catalog" className="px-3.5 py-2 rounded-full bg-background border border-border text-xs font-medium hover:border-primary/50 hover:bg-accent transition-colors shadow-sm">
                   {tag.label}
@@ -91,14 +154,36 @@ const RedesignIndex = () => {
             <h2 className="text-xl font-bold">Популярные комплексы</h2>
             <p className="text-sm text-muted-foreground mt-0.5">Самые востребованные ЖК Москвы</p>
           </div>
-          <Link to="/redesign/catalog" className="text-sm text-primary font-medium flex items-center gap-1 hover:underline">
-            Все комплексы <ArrowRight className="w-4 h-4" />
-          </Link>
+          <div className="hidden md:flex items-center gap-3">
+            <button
+              onClick={() => setViewMode('map')}
+              className="flex items-center gap-2 px-4 py-2 rounded-full border text-sm transition-colors bg-background border-border hover:bg-secondary"
+            >
+              <MapPin className="w-4 h-4" />
+              На карте
+            </button>
+            <button
+              onClick={() => setViewMode('cards')}
+              className="px-4 py-2 rounded-full border text-sm transition-colors bg-background border-border hover:bg-secondary"
+            >
+              Все предложения
+            </button>
+          </div>
         </div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-          {featured.map(c => <ComplexCard key={c.id} complex={c} />)}
-        </div>
+        {viewMode === 'cards' ? (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            {featured.map(c => <ComplexCard key={c.id} complex={c} />)}
+          </div>
+        ) : (
+          <MapSearch complexes={featured} activeSlug={activeComplex} onSelect={setActiveComplex} height="450px" />
+        )}
       </section>
+
+      {/* Горячие предложения */}
+      <PropertyGridSection title="Горячие предложения" type="hot" />
+
+      {/* Подберем объект под Ваш запрос */}
+      <QuizSection />
 
       {/* Map CTA */}
       <section className="max-w-[1400px] mx-auto px-4 pb-8">

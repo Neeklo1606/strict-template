@@ -1,6 +1,6 @@
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useState, useRef, useEffect, useCallback } from 'react';
-import { Phone, Menu, X, Search, MapPin, Building2, Home, LayoutGrid, Map as MapIcon } from 'lucide-react';
+import { Phone, Menu, X, Search, MapPin, Building2, Home, LayoutGrid, Map as MapIcon, Heart, LogIn } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Input } from '@/components/ui/input';
 import { searchComplexes } from '@/redesign/data/mock-data';
@@ -44,10 +44,10 @@ const RedesignHeader = () => {
         <div className="max-w-[1400px] mx-auto px-4 h-16 flex items-center justify-between gap-4">
           {/* Logo */}
           <Link to="/redesign" className="flex items-center gap-2.5 shrink-0">
-            <div className="w-9 h-9 bg-primary rounded-lg flex items-center justify-center shadow-sm">
-              <Home className="w-4.5 h-4.5 text-primary-foreground" />
+            <div className="w-9 h-9 flex items-center justify-center shadow-sm">
+              <img src="/logo.svg" alt="Live Grid" className="w-full h-full object-contain" />
             </div>
-            <span className="hidden sm:block font-semibold text-sm tracking-tight">Недвижимость</span>
+            <span className="hidden sm:block font-semibold text-sm tracking-tight">Live Grid</span>
           </Link>
 
           {/* Desktop nav */}
@@ -100,11 +100,28 @@ const RedesignHeader = () => {
           </div>
 
           {/* Desktop right */}
-          <div className="hidden lg:flex items-center gap-3 text-sm shrink-0">
-            <a href="tel:+74950000000" className="flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors">
-              <Phone className="w-4 h-4" />
-              <span className="text-sm">+7 (495) 000-00-00</span>
+          <div className="hidden lg:flex items-center gap-4 text-sm shrink-0">
+            <Link
+              to="/favorites"
+              className="flex items-center justify-center w-10 h-10 rounded-full hover:bg-secondary transition-colors cursor-pointer"
+              title="Избранное"
+            >
+              <Heart className="w-5 h-5 text-muted-foreground" />
+            </Link>
+            <a
+              href="tel:+79045393434"
+              className="flex items-center gap-2 hover:text-primary transition-colors cursor-pointer min-h-[44px]"
+            >
+              <Phone className="w-4 h-4 text-muted-foreground shrink-0" />
+              <span>+7 (904) 539-34-34</span>
             </a>
+            <Link
+              to="/login"
+              className="bg-primary text-primary-foreground px-5 py-2 rounded-full text-sm font-medium hover:bg-primary/90 transition-opacity flex items-center gap-1.5 shrink-0 cursor-pointer"
+            >
+              <LogIn className="w-4 h-4" />
+              Войти
+            </Link>
           </div>
 
           {/* Mobile buttons */}
@@ -168,8 +185,8 @@ const RedesignHeader = () => {
             ))}
           </nav>
           <div className="mt-auto p-4 border-t border-border">
-            <a href="tel:+74950000000" className="flex items-center gap-2 text-sm text-muted-foreground">
-              <Phone className="w-4 h-4" /> +7 (495) 000-00-00
+            <a href="tel:+79045393434" className="flex items-center gap-2 text-sm text-muted-foreground">
+              <Phone className="w-4 h-4" /> +7 (904) 539-34-34
             </a>
           </div>
         </div>
