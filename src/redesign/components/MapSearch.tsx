@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { cn } from '@/lib/utils';
 import type { ResidentialComplex } from '@/redesign/data/types';
 import { formatPrice } from '@/redesign/data/mock-data';
+import { MapPin, Building2 } from 'lucide-react';
 
 declare global {
   interface Window { ymaps: any; }
@@ -49,7 +50,7 @@ const MapSearch = ({ complexes, activeSlug, onSelect }: Props) => {
     complexes.forEach(c => {
       const pm = new window.ymaps.Placemark(c.coords, {
         balloonContentHeader: `<strong>${c.name}</strong>`,
-        balloonContentBody: `<div style="max-width:220px"><div style="font-weight:700;margin-bottom:4px">от ${formatPrice(c.priceFrom)}</div><div style="font-size:12px;color:#666">${c.district} · м.${c.subway}</div><a href="/redesign/complex/${c.slug}" style="color:#2563eb;font-size:13px;margin-top:4px;display:block">Подробнее →</a></div>`,
+        balloonContentBody: `<div style="max-width:240px"><img src="${c.images[0]}" style="width:100%;height:100px;object-fit:cover;border-radius:8px;margin-bottom:8px" /><div style="font-weight:700;margin-bottom:4px">от ${formatPrice(c.priceFrom)}</div><div style="font-size:12px;color:#666">${c.district} · м.${c.subway}</div><a href="/redesign/complex/${c.slug}" style="color:hsl(206,89%,60%);font-size:13px;margin-top:8px;display:block;font-weight:500">Подробнее →</a></div>`,
       }, { preset: 'islands#blueCircleDotIcon' });
       pm.events.add('click', () => onSelect?.(c.slug));
       map.geoObjects.add(pm);
@@ -72,13 +73,23 @@ const MapSearch = ({ complexes, activeSlug, onSelect }: Props) => {
             key={c.slug}
             onClick={() => centerOn(c.slug)}
             className={cn(
-              'w-full text-left rounded-xl border p-3 transition-colors',
-              activeSlug === c.slug ? 'border-primary bg-accent' : 'border-border bg-card hover:border-primary/50'
+              'w-full text-left rounded-xl border p-3.5 transition-all duration-200',
+              activeSlug === c.slug ? 'border-primary bg-accent shadow-sm' : 'border-border bg-card hover:border-primary/50 hover:shadow-sm'
             )}
           >
-            <p className="font-semibold text-sm">{c.name}</p>
-            <p className="text-xs text-muted-foreground">{c.district} · м. {c.subway}</p>
-            <p className="text-sm font-bold mt-1">от {formatPrice(c.priceFrom)}</p>
+            <div className="flex gap-3">
+              <img src={c.images[0]} alt="" className="w-16 h-16 rounded-lg object-cover shrink-0" />
+              <div className="min-w-0">
+                <p className="font-semibold text-sm truncate">{c.name}</p>
+                <p className="text-xs text-muted-foreground flex items-center gap-1 mt-0.5">
+                  <MapPin className="w-3 h-3" /> {c.district} · м. {c.subway}
+                </p>
+                <p className="text-xs text-muted-foreground flex items-center gap-1 mt-0.5">
+                  <Building2 className="w-3 h-3" /> {c.builder}
+                </p>
+                <p className="text-sm font-bold mt-1">от {formatPrice(c.priceFrom)}</p>
+              </div>
+            </div>
           </button>
         ))}
       </div>
