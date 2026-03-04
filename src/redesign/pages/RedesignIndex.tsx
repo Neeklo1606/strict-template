@@ -7,6 +7,9 @@ import ComplexCard from '@/redesign/components/ComplexCard';
 import MapSearch from '@/redesign/components/MapSearch';
 import QuizSection from '@/components/QuizSection';
 import PropertyGridSection from '@/components/PropertyGridSection';
+import AdditionalFeatures from '@/components/AdditionalFeatures';
+import LatestNews from '@/components/LatestNews';
+import ContactsSection from '@/components/ContactsSection';
 import { complexes, formatPrice } from '@/redesign/data/mock-data';
 import { useState, useRef, useEffect } from 'react';
 import { cn } from '@/lib/utils';
@@ -182,6 +185,9 @@ const RedesignIndex = () => {
       {/* Горячие предложения */}
       <PropertyGridSection title="Горячие предложения" type="hot" />
 
+      {/* Старт продаж */}
+      <PropertyGridSection title="Старт продаж" type="start" />
+
       {/* Подберем объект под Ваш запрос */}
       <QuizSection />
 
@@ -209,6 +215,15 @@ const RedesignIndex = () => {
           <Button variant="secondary" size="lg" className="shadow-sm">Получить консультацию</Button>
         </div>
       </section>
+
+      {/* Дополнительные возможности */}
+      <AdditionalFeatures />
+
+      {/* Последние новости */}
+      <LatestNews />
+
+      {/* Свяжитесь с LiveGrid */}
+      <ContactsSection />
 
       {/* Footer */}
       <footer className="border-t border-border py-8">
