@@ -6,6 +6,14 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import ScrollToTop from "./components/ScrollToTop";
 import { lazy, Suspense } from "react";
 import Index from "./pages/Index";
+
+// Redesign pages
+const RedesignIndex = lazy(() => import("./redesign/pages/RedesignIndex"));
+const RedesignCatalog = lazy(() => import("./redesign/pages/RedesignCatalog"));
+const RedesignComplex = lazy(() => import("./redesign/pages/RedesignComplex"));
+const RedesignApartment = lazy(() => import("./redesign/pages/RedesignApartment"));
+const RedesignMap = lazy(() => import("./redesign/pages/RedesignMap"));
+const RedesignLayouts = lazy(() => import("./redesign/pages/RedesignLayouts"));
 import Catalog from "./pages/Catalog";
 import CatalogZhk from "./pages/CatalogZhk";
 import ZhkDetail from "./pages/ZhkDetail";
@@ -57,6 +65,14 @@ const App = () => (
             <Route path="/register" element={<Register />} />
             <Route path="/forgot-password" element={<ForgotPassword />} />
             <Route path="/reset-password" element={<ResetPassword />} />
+
+            {/* Redesign routes */}
+            <Route path="/redesign" element={<RedesignIndex />} />
+            <Route path="/redesign/catalog" element={<RedesignCatalog />} />
+            <Route path="/redesign/complex/:slug" element={<RedesignComplex />} />
+            <Route path="/redesign/apartment/:id" element={<RedesignApartment />} />
+            <Route path="/redesign/map" element={<RedesignMap />} />
+            <Route path="/redesign/layouts/:complex" element={<RedesignLayouts />} />
 
             {/* Admin routes */}
             <Route path="/admin" element={<AdminLayout />}>
