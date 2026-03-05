@@ -47,21 +47,19 @@ const features = [
 
 const AdditionalFeatures = () => {
   const navigate = useNavigate();
-  const location = useLocation();
-  const isRedesign = location.pathname.startsWith('/redesign');
   const [modalOpen, setModalOpen] = useState(false);
   const [formData, setFormData] = useState({ name: '', phone: '', comment: '' });
 
   const handleAction = (action: string) => {
     switch (action) {
       case 'calc':
-        navigate(isRedesign ? '/redesign/catalog' : '/catalog');
+        navigate('/catalog');
         break;
       case 'modal':
         setModalOpen(true);
         break;
       case 'catalog':
-        navigate(isRedesign ? '/redesign/catalog' : '/catalog');
+        navigate('/catalog');
         break;
       case 'auth':
         navigate('/login');

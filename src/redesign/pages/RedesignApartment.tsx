@@ -14,7 +14,7 @@ const RedesignApartment = () => {
         <RedesignHeader />
         <div className="max-w-[1400px] mx-auto px-4 py-16 text-center">
           <p className="text-muted-foreground">Квартира не найдена</p>
-          <Link to="/redesign/catalog" className="text-primary text-sm mt-2 inline-block">← Каталог</Link>
+          <Link to="/catalog" className="text-primary text-sm mt-2 inline-block">← Каталог</Link>
         </div>
       </div>
     );
@@ -39,9 +39,9 @@ const RedesignApartment = () => {
       <div className="max-w-[1400px] mx-auto px-4 py-6">
         {/* Breadcrumb */}
         <div className="flex items-center gap-2 text-sm text-muted-foreground mb-5 flex-wrap">
-          <Link to="/redesign/catalog" className="hover:text-foreground transition-colors">Каталог</Link>
+          <Link to="/catalog" className="hover:text-foreground transition-colors">Каталог</Link>
           <span>/</span>
-          <Link to={`/redesign/complex/${complex.slug}`} className="hover:text-foreground transition-colors">{complex.name}</Link>
+          <Link to={`/complex/${complex.slug}`} className="hover:text-foreground transition-colors">{complex.name}</Link>
           <span>/</span>
           <span className="text-foreground font-medium">{apt.rooms === 0 ? 'Студия' : `${apt.rooms}-комнатная`}, {apt.area} м²</span>
         </div>

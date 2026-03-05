@@ -57,7 +57,7 @@ const ApartmentTable = ({ apartments, sort, onSort }: Props) => {
                 <TableCell className={st.className}>{st.label}</TableCell>
                 <TableCell>
                   {a.status !== 'sold' && (
-                    <Link to={`/redesign/apartment/${a.id}`}>
+                    <Link to={`/apartment/${a.id}`}>
                       <Button variant="ghost" size="sm" className="h-8 w-8 p-0 opacity-0 group-hover:opacity-100 transition-opacity">
                         <Eye className="w-4 h-4" />
                       </Button>

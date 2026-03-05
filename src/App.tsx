@@ -54,25 +54,28 @@ const App = () => (
         <ScrollToTop />
         <Suspense fallback={<Loading />}>
           <Routes>
-            <Route path="/" element={<Index />} />
-            <Route path="/catalog" element={<Catalog />} />
-            <Route path="/catalog-zhk" element={<CatalogZhk />} />
-            <Route path="/zhk/:slug" element={<ZhkDetail />} />
-            <Route path="/object/:slug" element={<ObjectDetail />} />
-            <Route path="/news" element={<News />} />
-            <Route path="/news/:slug" element={<NewsDetail />} />
+            {/* Main routes (redesign) */}
+            <Route path="/" element={<RedesignIndex />} />
+            <Route path="/catalog" element={<RedesignCatalog />} />
+            <Route path="/complex/:slug" element={<RedesignComplex />} />
+            <Route path="/apartment/:id" element={<RedesignApartment />} />
+            <Route path="/map" element={<RedesignMap />} />
+            <Route path="/layouts/:complex" element={<RedesignLayouts />} />
+
+            {/* Old routes (kept for backward compatibility) */}
+            <Route path="/old" element={<Index />} />
+            <Route path="/old/catalog" element={<Catalog />} />
+            <Route path="/old/catalog-zhk" element={<CatalogZhk />} />
+            <Route path="/old/zhk/:slug" element={<ZhkDetail />} />
+            <Route path="/old/object/:slug" element={<ObjectDetail />} />
+            <Route path="/old/news" element={<News />} />
+            <Route path="/old/news/:slug" element={<NewsDetail />} />
+
+            {/* Auth routes */}
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
             <Route path="/forgot-password" element={<ForgotPassword />} />
             <Route path="/reset-password" element={<ResetPassword />} />
-
-            {/* Redesign routes */}
-            <Route path="/redesign" element={<RedesignIndex />} />
-            <Route path="/redesign/catalog" element={<RedesignCatalog />} />
-            <Route path="/redesign/complex/:slug" element={<RedesignComplex />} />
-            <Route path="/redesign/apartment/:id" element={<RedesignApartment />} />
-            <Route path="/redesign/map" element={<RedesignMap />} />
-            <Route path="/redesign/layouts/:complex" element={<RedesignLayouts />} />
 
             {/* Admin routes */}
             <Route path="/admin" element={<AdminLayout />}>

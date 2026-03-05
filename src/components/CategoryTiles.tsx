@@ -1,4 +1,4 @@
-import { Link, useLocation } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import catNovostroyki from '@/assets/cat-novostroyki.png';
 import catSecondary from '@/assets/cat-secondary.png';
 import catRent from '@/assets/cat-rent.png';
@@ -24,10 +24,6 @@ const categories = [
 ];
 
 const CategoryTiles = () => {
-  const location = useLocation();
-  const isRedesign = location.pathname.startsWith('/redesign');
-  const catalogPath = isRedesign ? '/redesign/catalog' : '/catalog';
-  
   return (
     <section className="py-4">
       <div className="max-w-[1400px] mx-auto px-4">
@@ -35,7 +31,7 @@ const CategoryTiles = () => {
           {categories.map((cat, i) => (
             <Link
               key={i}
-              to={catalogPath}
+              to="/catalog"
               className="bg-secondary rounded-2xl p-4 flex flex-col items-start hover:shadow-md transition-shadow min-h-[130px] md:min-h-[150px] relative overflow-hidden group"
             >
             <span className="font-semibold text-sm whitespace-pre-line relative z-10">{cat.name}</span>

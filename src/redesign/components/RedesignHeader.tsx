@@ -7,9 +7,9 @@ import { searchComplexes } from '@/redesign/data/mock-data';
 import type { ResidentialComplex } from '@/redesign/data/types';
 
 const navItems = [
-  { label: 'Каталог', href: '/redesign/catalog' },
-  { label: 'На карте', href: '/redesign/map' },
-  { label: 'Застройщики', href: '/redesign/catalog?tab=builders' },
+  { label: 'Каталог', href: '/catalog' },
+  { label: 'На карте', href: '/map' },
+  { label: 'Застройщики', href: '/catalog?tab=builders' },
 ];
 
 const RedesignHeader = () => {
@@ -43,7 +43,7 @@ const RedesignHeader = () => {
       <header className="sticky top-0 z-50 bg-background/95 backdrop-blur-md border-b border-border">
         <div className="max-w-[1400px] mx-auto px-4 h-16 flex items-center justify-between gap-4">
           {/* Logo */}
-          <Link to="/redesign" className="flex items-center gap-2.5 shrink-0">
+          <Link to="/" className="flex items-center gap-2.5 shrink-0">
             <div className="w-9 h-9 flex items-center justify-center shadow-sm">
               <img src="/logo.svg" alt="Live Grid" className="w-full h-full object-contain" />
             </div>
@@ -77,14 +77,14 @@ const RedesignHeader = () => {
               value={query}
               onFocus={() => setSearchOpen(true)}
               onChange={e => handleSearch(e.target.value)}
-              onKeyDown={e => { if (e.key === 'Enter' && query) { navigate(`/redesign/catalog?search=${query}`); setSearchOpen(false); } }}
+              onKeyDown={e => { if (e.key === 'Enter' && query) { navigate(`/catalog?search=${query}`); setSearchOpen(false); } }}
             />
             {searchOpen && results.length > 0 && (
               <div className="absolute top-full left-0 right-0 mt-1 bg-card border border-border rounded-xl shadow-lg overflow-hidden z-50">
                 {results.map(c => (
                   <Link
                     key={c.id}
-                    to={`/redesign/complex/${c.slug}`}
+                    to={`/complex/${c.slug}`}
                     onClick={() => { setSearchOpen(false); setQuery(''); }}
                     className="flex items-center gap-3 px-4 py-3 hover:bg-muted/50 transition-colors border-b border-border last:border-0"
                   >
@@ -146,7 +146,7 @@ const RedesignHeader = () => {
                 autoFocus
                 value={query}
                 onChange={e => handleSearch(e.target.value)}
-                onKeyDown={e => { if (e.key === 'Enter' && query) { navigate(`/redesign/catalog?search=${query}`); setSearchOpen(false); } }}
+                onKeyDown={e => { if (e.key === 'Enter' && query) { navigate(`/catalog?search=${query}`); setSearchOpen(false); } }}
               />
             </div>
             {results.length > 0 && (
@@ -154,7 +154,7 @@ const RedesignHeader = () => {
                 {results.map(c => (
                   <Link
                     key={c.id}
-                    to={`/redesign/complex/${c.slug}`}
+                    to={`/complex/${c.slug}`}
                     onClick={() => { setSearchOpen(false); setQuery(''); }}
                     className="flex items-center gap-3 px-4 py-3 hover:bg-muted/50 transition-colors border-b border-border last:border-0"
                   >
@@ -195,19 +195,19 @@ const RedesignHeader = () => {
       {/* Mobile bottom nav */}
       <div className="lg:hidden fixed bottom-0 left-0 right-0 z-50 bg-background/95 backdrop-blur-md border-t border-border safe-area-bottom">
         <div className="flex items-center justify-around h-14">
-          <Link to="/redesign" className={cn('flex flex-col items-center gap-0.5 text-[10px] py-1', location.pathname === '/redesign' ? 'text-primary' : 'text-muted-foreground')}>
+          <Link to="/" className={cn('flex flex-col items-center gap-0.5 text-[10px] py-1', location.pathname === '/' ? 'text-primary' : 'text-muted-foreground')}>
             <Home className="w-5 h-5" />
             <span>Главная</span>
           </Link>
-          <Link to="/redesign/catalog" className={cn('flex flex-col items-center gap-0.5 text-[10px] py-1', location.pathname === '/redesign/catalog' ? 'text-primary' : 'text-muted-foreground')}>
+          <Link to="/catalog" className={cn('flex flex-col items-center gap-0.5 text-[10px] py-1', location.pathname === '/catalog' ? 'text-primary' : 'text-muted-foreground')}>
             <LayoutGrid className="w-5 h-5" />
             <span>Каталог</span>
           </Link>
-          <Link to="/redesign/map" className={cn('flex flex-col items-center gap-0.5 text-[10px] py-1', location.pathname === '/redesign/map' ? 'text-primary' : 'text-muted-foreground')}>
+          <Link to="/map" className={cn('flex flex-col items-center gap-0.5 text-[10px] py-1', location.pathname === '/map' ? 'text-primary' : 'text-muted-foreground')}>
             <MapIcon className="w-5 h-5" />
             <span>Карта</span>
           </Link>
-          <Link to="/redesign/catalog" className={cn('flex flex-col items-center gap-0.5 text-[10px] py-1', 'text-muted-foreground')}>
+          <Link to="/catalog" className={cn('flex flex-col items-center gap-0.5 text-[10px] py-1', 'text-muted-foreground')}>
             <Building2 className="w-5 h-5" />
             <span>Застройщики</span>
           </Link>

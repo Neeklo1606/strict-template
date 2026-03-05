@@ -52,7 +52,7 @@ const Chessboard = ({ apartments, floors, sections, buildingName }: Props) => {
                   return (
                     <Link
                       key={`${floor}-${s}`}
-                      to={apt.status !== 'sold' ? `/redesign/apartment/${apt.id}` : '#'}
+                      to={apt.status !== 'sold' ? `/apartment/${apt.id}` : '#'}
                       className={cn(
                         'h-14 rounded-lg border text-[10px] leading-tight flex flex-col items-center justify-center transition-all duration-150',
                         statusBg[apt.status],

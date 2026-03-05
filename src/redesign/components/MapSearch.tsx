@@ -51,7 +51,7 @@ const MapSearch = ({ complexes, activeSlug, onSelect, height = '70vh' }: Props) 
     complexes.forEach(c => {
       const pm = new window.ymaps.Placemark(c.coords, {
         balloonContentHeader: `<strong>${c.name}</strong>`,
-        balloonContentBody: `<div style="max-width:240px"><img src="${c.images[0]}" style="width:100%;height:100px;object-fit:cover;border-radius:8px;margin-bottom:8px" /><div style="font-weight:700;margin-bottom:4px">от ${formatPrice(c.priceFrom)}</div><div style="font-size:12px;color:#666">${c.district} · м.${c.subway}</div><a href="/redesign/complex/${c.slug}" style="color:hsl(206,89%,60%);font-size:13px;margin-top:8px;display:block;font-weight:500">Подробнее →</a></div>`,
+        balloonContentBody: `<div style="max-width:240px"><img src="${c.images[0]}" style="width:100%;height:100px;object-fit:cover;border-radius:8px;margin-bottom:8px" /><div style="font-weight:700;margin-bottom:4px">от ${formatPrice(c.priceFrom)}</div><div style="font-size:12px;color:#666">${c.district} · м.${c.subway}</div><a href="/complex/${c.slug}" style="color:hsl(206,89%,60%);font-size:13px;margin-top:8px;display:block;font-weight:500">Подробнее →</a></div>`,
       }, { preset: 'islands#blueCircleDotIcon' });
       pm.events.add('click', () => onSelect?.(c.slug));
       map.geoObjects.add(pm);

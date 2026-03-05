@@ -24,7 +24,7 @@ export interface PropertyData {
 const PropertyCard = ({ data, basePath = '' }: { data: PropertyData; basePath?: string }) => {
   const [liked, setLiked] = useState(false);
   const slug = data.slug || data.title.toLowerCase().replace(/\s+/g, '-').replace(/[^a-zа-яё0-9-]/gi, '');
-  const linkPath = basePath ? `${basePath}/complex/${slug}` : `/object/${slug}`;
+  const linkPath = `/complex/${slug}`;
   return (
     <div className="group rounded-2xl overflow-hidden bg-card border border-border transition-all duration-300 ease-in-out hover:shadow-xl hover:-translate-y-1 will-change-transform">
       <Link to={linkPath} className="block">

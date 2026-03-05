@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { useLocation } from 'react-router-dom';
 import PropertyCard, { type PropertyData } from './PropertyCard';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
@@ -26,11 +25,9 @@ const startSales: PropertyData[] = [
 interface Props { title: string; type: 'hot' | 'start'; }
 
 const PropertyGridSection = ({ title, type }: Props) => {
-  const location = useLocation();
-  const isRedesign = location.pathname.startsWith('/redesign');
   const data = type === 'hot' ? hotDeals : startSales;
   const [helpOpen, setHelpOpen] = useState(false);
-  const basePath = isRedesign ? '/redesign' : '';
+  const basePath = '';
 
   return (
     <section className="py-8">
@@ -42,7 +39,7 @@ const PropertyGridSection = ({ title, type }: Props) => {
               Помощь с подбором
             </Button>
           ) : (
-            <a href={isRedesign ? '/redesign/catalog' : '/catalog'} className="text-primary text-sm font-medium hover:underline">Все предложения →</a>
+            <a href="/catalog" className="text-primary text-sm font-medium hover:underline">Все предложения →</a>
           )}
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">

@@ -42,7 +42,7 @@ const ComplexCard = ({ complex, variant = 'grid' }: Props) => {
   if (variant === 'list') {
     return (
       <Link
-        to={`/redesign/complex/${complex.slug}`}
+        to={`/complex/${complex.slug}`}
         className="group flex rounded-2xl overflow-hidden bg-card border border-border transition-all duration-300 hover:shadow-lg hover:-translate-y-0.5"
       >
         {/* Image */}
@@ -103,7 +103,7 @@ const ComplexCard = ({ complex, variant = 'grid' }: Props) => {
 
   return (
     <Link
-      to={`/redesign/complex/${complex.slug}`}
+      to={`/complex/${complex.slug}`}
       className="group relative flex flex-col rounded-2xl overflow-hidden bg-card border border-border cursor-pointer transition-[transform,box-shadow] duration-200 ease-out hover:shadow-lg hover:-translate-y-0.5"
       style={{ height: '420px', minHeight: '420px' }}
     >

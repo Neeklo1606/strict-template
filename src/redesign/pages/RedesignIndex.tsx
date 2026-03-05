@@ -112,16 +112,16 @@ const RedesignIndex = () => {
                   className="pl-10 h-12 text-sm bg-background shadow-sm"
                   value={q}
                   onChange={e => setQ(e.target.value)}
-                  onKeyDown={e => { if (e.key === 'Enter') window.location.href = `/redesign/catalog${q ? `?search=${q}` : ''}`; }}
+                  onKeyDown={e => { if (e.key === 'Enter') window.location.href = `/catalog${q ? `?search=${q}` : ''}`; }}
                 />
               </div>
-              <Link to={`/redesign/catalog${q ? `?search=${q}` : ''}`}>
+              <Link to={`/catalog${q ? `?search=${q}` : ''}`}>
                 <Button className="h-12 px-8 shadow-sm">Найти</Button>
               </Link>
             </div>
             <div className="flex flex-wrap gap-2 mt-5 justify-center">
               {quickFilters.map(tag => (
-                <Link key={tag.label} to="/redesign/catalog" className="px-3.5 py-2 rounded-full bg-background border border-border text-xs font-medium hover:border-primary/50 hover:bg-accent transition-colors shadow-sm">
+                <Link key={tag.label} to="/catalog" className="px-3.5 py-2 rounded-full bg-background border border-border text-xs font-medium hover:border-primary/50 hover:bg-accent transition-colors shadow-sm">
                   {tag.label}
                 </Link>
               ))}
@@ -179,7 +179,7 @@ const RedesignIndex = () => {
 
       {/* Map CTA */}
       <section className="max-w-[1400px] mx-auto px-4 pb-8">
-        <Link to="/redesign/map" className="block rounded-2xl bg-muted border border-border p-8 sm:p-10 hover:border-primary/30 transition-colors group">
+        <Link to="/map" className="block rounded-2xl bg-muted border border-border p-8 sm:p-10 hover:border-primary/30 transition-colors group">
           <div className="flex items-center gap-4">
             <div className="w-14 h-14 rounded-xl bg-accent flex items-center justify-center shrink-0">
               <MapPin className="w-6 h-6 text-accent-foreground" />

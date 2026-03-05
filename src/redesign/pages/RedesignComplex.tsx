@@ -74,7 +74,7 @@ const RedesignComplex = () => {
         <RedesignHeader />
         <div className="max-w-[1400px] mx-auto px-4 py-16 text-center">
           <p className="text-muted-foreground">Комплекс не найден</p>
-          <Link to="/redesign/catalog" className="text-primary text-sm mt-2 inline-block">← Вернуться в каталог</Link>
+          <Link to="/catalog" className="text-primary text-sm mt-2 inline-block">← Вернуться в каталог</Link>
         </div>
       </div>
     );
@@ -88,7 +88,7 @@ const RedesignComplex = () => {
       <div className="max-w-[1400px] mx-auto px-4 py-6">
         {/* Breadcrumb */}
         <div className="flex items-center gap-2 text-sm text-muted-foreground mb-4">
-          <Link to="/redesign/catalog" className="hover:text-foreground transition-colors flex items-center gap-1">
+          <Link to="/catalog" className="hover:text-foreground transition-colors flex items-center gap-1">
             <ArrowLeft className="w-4 h-4" /> Каталог
           </Link>
           <span>/</span>
