@@ -116,14 +116,12 @@ const RedesignCatalog = () => {
         </div>
 
         <div className="flex gap-6">
-          {/* Sidebar filters (desktop) */}
-          {view !== 'map' && (
-            <aside className="hidden lg:block w-[260px] shrink-0">
-              <div className="sticky top-20">
-                <FilterSidebar filters={filters} onChange={handleFiltersChange} totalCount={filtered.length} />
-              </div>
-            </aside>
-          )}
+          {/* Sidebar filters (desktop) — always visible */}
+          <aside className="hidden lg:block w-[260px] shrink-0">
+            <div className="sticky top-20">
+              <FilterSidebar filters={filters} onChange={handleFiltersChange} totalCount={filtered.length} />
+            </div>
+          </aside>
 
           {/* Content */}
           <div className="flex-1 min-w-0">
@@ -140,9 +138,11 @@ const RedesignCatalog = () => {
               </div>
             )}
             {view === 'map' && (
-              <MapSearch complexes={filtered} activeSlug={mapActive} onSelect={setMapActive} />
+              <div className="h-[calc(100vh-220px)] min-h-[400px]">
+                <MapSearch complexes={filtered} activeSlug={mapActive} onSelect={setMapActive} compact />
+              </div>
             )}
-            {filtered.length === 0 && (
+            {filtered.length === 0 && view !== 'map' && (
               <div className="text-center py-16">
                 <div className="w-14 h-14 rounded-full bg-muted flex items-center justify-center mx-auto mb-3">
                   <SlidersHorizontal className="w-5 h-5 text-muted-foreground" />
