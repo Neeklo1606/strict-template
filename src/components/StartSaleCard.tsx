@@ -1,4 +1,4 @@
-import { Heart, CalendarClock, Building2, MapPin, ChevronRight } from 'lucide-react';
+import { Heart, CalendarClock, MapPin, ChevronRight } from 'lucide-react';
 import { useState, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import { cn } from '@/lib/utils';
