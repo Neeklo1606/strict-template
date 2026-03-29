@@ -175,6 +175,7 @@ const FilterSidebar = ({ filters, onChange, totalCount, showMetro = true, classN
 
   const resetAll = useCallback(() => {
     onChange({
+      objectType: 'apartments', marketType: 'all',
       rooms: [], district: [], subway: [], builder: [],
       finishing: [], deadline: [], status: [], search: '',
     });
