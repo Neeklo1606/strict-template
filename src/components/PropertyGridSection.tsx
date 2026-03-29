@@ -1,5 +1,6 @@
 import { useState, useRef } from 'react';
 import PropertyCard, { type PropertyData } from './PropertyCard';
+import StartSaleCard, { type StartSaleData } from './StartSaleCard';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
