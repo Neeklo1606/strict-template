@@ -9,7 +9,7 @@ import QuizSection from '@/components/QuizSection';
 import PropertyGridSection from '@/components/PropertyGridSection';
 import AboutPlatform from '@/components/AboutPlatform';
 import AdditionalFeatures from '@/components/AdditionalFeatures';
-import CategoryTiles from '@/components/CategoryTiles';
+
 import LatestNews from '@/components/LatestNews';
 import ContactsSection from '@/components/ContactsSection';
 import FooterSection from '@/components/FooterSection';
@@ -25,7 +25,7 @@ const RedesignIndex = () => {
     <div className="min-h-screen bg-background pb-16 lg:pb-0">
       <RedesignHeader />
       <HeroSearch />
-      <CategoryTiles />
+      
 
       {/* Featured */}
       <section className="max-w-[1400px] mx-auto px-4 py-12">
