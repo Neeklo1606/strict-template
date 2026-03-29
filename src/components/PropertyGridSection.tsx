@@ -7,29 +7,29 @@ import { Input } from '@/components/ui/input';
 import { ChevronLeft, ChevronRight, Flame, ArrowRight } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Link } from 'react-router-dom';
-import building1 from '@/assets/building1.jpg';
-import building2 from '@/assets/building2.jpg';
-import building3 from '@/assets/building3.jpg';
-import building4 from '@/assets/building4.jpg';
+import complex1 from '@/assets/complex-1.jpg';
+import complex2 from '@/assets/complex-2.jpg';
+import complex3 from '@/assets/complex-3.jpg';
+import complex4 from '@/assets/complex-4.jpg';
 
 const hotDeals: PropertyData[] = [
-  { image: building2, title: 'ЖК Высотный', price: 'от 8.9 млн', address: 'Москва, Ленинский пр-т', area: '52 м²', rooms: '2 комн.', badges: ['Скидка 10%'] },
-  { image: building1, title: 'ЖК Солнечный', price: 'от 5.1 млн', address: 'Москва, ул. Солнечная', area: '34 м²', rooms: '1 комн.', badges: ['Акция'] },
-  { image: building3, title: 'ЖК Престиж', price: 'от 15.2 млн', address: 'Москва, Тверская', area: '78 м²', rooms: '3 комн.', badges: ['Горячее предложение'] },
-  { image: building4, title: 'ЖК Зеленый', price: 'от 6.7 млн', address: 'МО, г. Красногорск', area: '42 м²', rooms: '1 комн.', badges: ['Скидка 5%'] },
+  { image: complex2, title: 'ЖК Высотный', price: 'от 8.9 млн', address: 'Москва, Ленинский пр-т', area: '52 м²', rooms: '2 комн.', badges: ['Скидка 10%'] },
+  { image: complex1, title: 'ЖК Солнечный', price: 'от 5.1 млн', address: 'Москва, ул. Солнечная', area: '34 м²', rooms: '1 комн.', badges: ['Акция'] },
+  { image: complex3, title: 'ЖК Престиж', price: 'от 15.2 млн', address: 'Москва, Тверская', area: '78 м²', rooms: '3 комн.', badges: ['Горячее предложение'] },
+  { image: complex4, title: 'ЖК Зеленый', price: 'от 6.7 млн', address: 'МО, г. Красногорск', area: '42 м²', rooms: '1 комн.', badges: ['Скидка 5%'] },
 ];
 
 const startSales: StartSaleData[] = [
-  { image: building3, title: 'ЖК Новый Город', price: 'от 4.5 млн', address: 'МО, г. Балашиха', district: 'Балашиха', badges: ['Старт март 2026'], developer: 'ПИК', apartments: [
+  { image: complex3, title: 'ЖК Новый Город', price: 'от 4.5 млн', address: 'МО, г. Балашиха', district: 'Балашиха', badges: ['Старт продаж'], developer: 'ПИК', apartments: [
     { type: 'Студия', price: 'от 3.8 млн', count: 15 }, { type: '1-комн.', price: 'от 4.5 млн', count: 32 }, { type: '2-комн.', price: 'от 6.9 млн', count: 20 }, { type: '3-комн.', price: 'от 9.2 млн', count: 8 },
   ]},
-  { image: building2, title: 'ЖК Метрополь', price: 'от 11.8 млн', address: 'Москва, Арбат', district: 'Арбат', badges: ['Старт апрель 2026'], developer: 'Донстрой', apartments: [
+  { image: complex2, title: 'ЖК Метрополь', price: 'от 11.8 млн', address: 'Москва, Арбат', district: 'Арбат', badges: ['Старт продаж'], developer: 'Донстрой', apartments: [
     { type: '1-комн.', price: 'от 11.8 млн', count: 18 }, { type: '2-комн.', price: 'от 18.5 млн', count: 12 }, { type: '3-комн.', price: 'от 28.0 млн', count: 6 },
   ]},
-  { image: building1, title: 'ЖК Ривьера', price: 'от 7.3 млн', address: 'Москва, наб. Москвы', district: 'Хамовники', badges: ['Старт май 2026'], developer: 'ЛСР', apartments: [
+  { image: complex1, title: 'ЖК Ривьера', price: 'от 7.3 млн', address: 'Москва, наб. Москвы', district: 'Хамовники', badges: ['Старт продаж'], developer: 'ЛСР', apartments: [
     { type: 'Студия', price: 'от 5.1 млн', count: 10 }, { type: '1-комн.', price: 'от 7.3 млн', count: 22 }, { type: '2-комн.', price: 'от 12.4 млн', count: 14 },
   ]},
-  { image: building4, title: 'ЖК Династия', price: 'от 22.1 млн', address: 'Москва, Хамовники', district: 'Хамовники', badges: ['Старт июнь 2026'], developer: 'Capital Group', apartments: [
+  { image: complex4, title: 'ЖК Династия', price: 'от 22.1 млн', address: 'Москва, Хамовники', district: 'Хамовники', badges: ['Старт продаж'], developer: 'Capital Group', apartments: [
     { type: '2-комн.', price: 'от 22.1 млн', count: 8 }, { type: '3-комн.', price: 'от 35.0 млн', count: 5 }, { type: '4-комн.', price: 'от 52.0 млн', count: 3 },
   ]},
 ];
