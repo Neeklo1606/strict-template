@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect, useCallback } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Search, MapPin, SlidersHorizontal, ChevronDown, Building2, Home, TreePine, Store } from 'lucide-react';
+import { Search, MapPin, SlidersHorizontal, ChevronDown, Building2, Home, TreePine, Store, Train, MapPinned, Landmark, Route, HardHat, Banknote } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
@@ -29,10 +29,39 @@ const regions = [
 const propertyTypes = ['Тип квартиры', 'Студия', '1-комнатная', '2-комнатная', '3-комнатная', '4+ комнат'];
 const deadlines = ['Срок сдачи', 'Сдан', '2025', '2026', '2027', '2028+'];
 
+/* ---------- categorised suggestions ---------- */
+type Suggestion = { label: string; type: 'metro' | 'district' | 'complex' | 'street' | 'builder' | 'bank'; icon: typeof Train };
+const staticSuggestions: Suggestion[] = [
+  { label: 'Сокольники', type: 'metro', icon: Train },
+  { label: 'Тверская', type: 'metro', icon: Train },
+  { label: 'Парк Культуры', type: 'metro', icon: Train },
+  { label: 'Хамовники', type: 'district', icon: MapPinned },
+  { label: 'Пресненский', type: 'district', icon: MapPinned },
+  { label: 'Басманный', type: 'district', icon: MapPinned },
+  { label: 'ул. Ленина', type: 'street', icon: Route },
+  { label: 'ул. Профсоюзная', type: 'street', icon: Route },
+  { label: 'ПИК', type: 'builder', icon: HardHat },
+  { label: 'Самолёт', type: 'builder', icon: HardHat },
+  { label: 'Донстрой', type: 'builder', icon: HardHat },
+  { label: 'Сбербанк', type: 'bank', icon: Banknote },
+  { label: 'ВТБ', type: 'bank', icon: Banknote },
+];
+
+const typeLabels: Record<string, string> = {
+  metro: 'Метро', district: 'Район', complex: 'ЖК', street: 'Улица', builder: 'Застройщик', bank: 'Банк',
+};
+
+function filterSuggestions(q: string): Suggestion[] {
+  if (q.length < 2) return [];
+  const lower = q.toLowerCase();
+  return staticSuggestions.filter(s => s.label.toLowerCase().includes(lower)).slice(0, 6);
+}
+
 const HeroSearch = () => {
   const [activeTab, setActiveTab] = useState('apartments');
   const [q, setQ] = useState('');
-  const [results, setResults] = useState<ResidentialComplex[]>([]);
+  const [complexResults, setComplexResults] = useState<ResidentialComplex[]>([]);
+  const [suggestions, setSuggestions] = useState<Suggestion[]>([]);
   const [searchFocused, setSearchFocused] = useState(false);
   const [selectedRegion, setSelectedRegion] = useState('Москва и МО');
   const [regionOpen, setRegionOpen] = useState(false);
@@ -54,7 +83,10 @@ const HeroSearch = () => {
   const handleSearch = useCallback((val: string) => {
     setQ(val);
     clearTimeout(timerRef.current);
-    timerRef.current = setTimeout(() => setResults(val.length >= 2 ? searchComplexes(val) : []), 200);
+    timerRef.current = setTimeout(() => {
+      setComplexResults(val.length >= 2 ? searchComplexes(val) : []);
+      setSuggestions(filterSuggestions(val));
+    }, 200);
   }, []);
 
   const doSearch = () => {
@@ -79,9 +111,7 @@ const HeroSearch = () => {
     return () => document.removeEventListener('mousedown', handler);
   }, []);
 
-  const handleTabClick = (value: string) => {
-    setActiveTab(value);
-  };
+  const hasAutocomplete = searchFocused && (suggestions.length > 0 || complexResults.length > 0);
 
   return (
     <section className="relative bg-background">
@@ -137,7 +167,7 @@ const HeroSearch = () => {
             return (
               <button
                 key={tab.value}
-                onClick={() => handleTabClick(tab.value)}
+                onClick={() => setActiveTab(tab.value)}
                 className={cn(
                   'flex items-center gap-1.5 px-4 py-2.5 rounded-full text-sm font-medium whitespace-nowrap transition-all duration-200 border',
                   activeTab === tab.value
@@ -150,7 +180,6 @@ const HeroSearch = () => {
               </button>
             );
           })}
-          {/* Белгород — accent regional tab */}
           <Link
             to="/catalog?region=belgorod"
             className="flex items-center gap-1.5 px-4 py-2.5 rounded-full text-sm font-medium whitespace-nowrap transition-all duration-200 border border-primary/30 bg-accent text-primary hover:bg-primary hover:text-primary-foreground"
@@ -160,44 +189,73 @@ const HeroSearch = () => {
           </Link>
         </div>
 
-        {/* Search bar */}
+        {/* Search block */}
         <div className="bg-muted/50 rounded-2xl border border-border p-3 sm:p-4 max-w-[1000px] mx-auto">
-          {/* Main search row */}
+          {/* Main row: search + inline filters */}
           <div className="flex flex-col lg:flex-row gap-2 sm:gap-3">
-            {/* Search input */}
+            {/* Search input with categorised autocomplete */}
             <div ref={searchRef} className="relative flex-1">
-              <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4.5 h-4.5 text-muted-foreground pointer-events-none" />
+              <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-[18px] h-[18px] text-muted-foreground pointer-events-none" />
               <Input
-                placeholder="Район, метро, ЖК, улица или застройщик"
+                placeholder="Метро, район, ЖК, улица, застройщик"
                 className="pl-10 h-12 bg-background border-border text-sm"
                 value={q}
                 onFocus={() => setSearchFocused(true)}
                 onChange={e => handleSearch(e.target.value)}
                 onKeyDown={e => { if (e.key === 'Enter') doSearch(); }}
               />
-              {searchFocused && results.length > 0 && (
-                <div className="absolute top-full left-0 right-0 mt-1 bg-card border border-border rounded-xl shadow-lg overflow-hidden z-50 max-h-[280px] overflow-y-auto animate-in fade-in-0 slide-in-from-top-1 duration-150">
-                  {results.map(c => (
-                    <Link
-                      key={c.id}
-                      to={`/complex/${c.slug}`}
-                      onClick={() => { setSearchFocused(false); setQ(''); }}
-                      className="flex items-center gap-3 px-4 py-3 hover:bg-muted/50 transition-colors border-b border-border last:border-0"
-                    >
-                      <img src={c.images[0]} alt="" className="w-10 h-10 rounded-lg object-cover shrink-0" />
-                      <div className="min-w-0">
-                        <p className="text-sm font-medium truncate">{c.name}</p>
-                        <p className="text-xs text-muted-foreground">{c.district} · м. {c.subway}</p>
+              {hasAutocomplete && (
+                <div className="absolute top-full left-0 right-0 mt-1 bg-card border border-border rounded-xl shadow-lg overflow-hidden z-50 max-h-[360px] overflow-y-auto animate-in fade-in-0 slide-in-from-top-1 duration-150">
+                  {/* Categorised suggestions */}
+                  {suggestions.length > 0 && (
+                    <div className="py-1.5">
+                      {suggestions.map((s, i) => {
+                        const Icon = s.icon;
+                        return (
+                          <button
+                            key={`${s.type}-${i}`}
+                            onClick={() => { setQ(s.label); setSearchFocused(false); doSearch(); }}
+                            className="w-full flex items-center gap-3 px-4 py-2.5 hover:bg-muted/50 transition-colors text-left"
+                          >
+                            <Icon className="w-4 h-4 text-muted-foreground shrink-0" />
+                            <span className="text-sm">{s.label}</span>
+                            <span className="ml-auto text-[10px] text-muted-foreground uppercase tracking-wider">{typeLabels[s.type]}</span>
+                          </button>
+                        );
+                      })}
+                    </div>
+                  )}
+                  {/* Complex results */}
+                  {complexResults.length > 0 && (
+                    <>
+                      {suggestions.length > 0 && <div className="h-px bg-border" />}
+                      <div className="py-1.5">
+                        <p className="px-4 py-1 text-[10px] text-muted-foreground uppercase tracking-wider font-medium">Жилые комплексы</p>
+                        {complexResults.map(c => (
+                          <Link
+                            key={c.id}
+                            to={`/complex/${c.slug}`}
+                            onClick={() => { setSearchFocused(false); setQ(''); }}
+                            className="flex items-center gap-3 px-4 py-2.5 hover:bg-muted/50 transition-colors"
+                          >
+                            <img src={c.images[0]} alt="" className="w-10 h-10 rounded-lg object-cover shrink-0" />
+                            <div className="min-w-0">
+                              <p className="text-sm font-medium truncate">{c.name}</p>
+                              <p className="text-xs text-muted-foreground">{c.district} · м. {c.subway}</p>
+                            </div>
+                            <Landmark className="w-4 h-4 text-muted-foreground shrink-0 ml-auto" />
+                          </Link>
+                        ))}
                       </div>
-                    </Link>
-                  ))}
+                    </>
+                  )}
                 </div>
               )}
             </div>
 
-            {/* Inline filters — desktop */}
+            {/* Desktop inline filters */}
             <div className="hidden lg:flex items-center gap-2">
-              {/* Property type */}
+              {/* Type */}
               <div ref={ptRef} className="relative">
                 <button
                   onClick={() => setPtOpen(!ptOpen)}
@@ -208,7 +266,7 @@ const HeroSearch = () => {
                       : 'border-border bg-background hover:bg-secondary'
                   )}
                 >
-                  {propertyType}
+                  {propertyType === 'Тип квартиры' ? 'Тип' : propertyType}
                   <ChevronDown className={cn('w-3.5 h-3.5 transition-transform', ptOpen && 'rotate-180')} />
                 </button>
                 {ptOpen && (
@@ -225,7 +283,7 @@ const HeroSearch = () => {
                 )}
               </div>
 
-              {/* Price range */}
+              {/* Price */}
               <div className="flex items-center h-12 rounded-xl border border-border bg-background overflow-hidden">
                 <input
                   type="text"
@@ -278,50 +336,28 @@ const HeroSearch = () => {
                 className="h-12 px-4 rounded-xl border border-border bg-background hover:bg-secondary text-sm flex items-center gap-1.5 whitespace-nowrap transition-colors"
               >
                 <SlidersHorizontal className="w-4 h-4" />
-                Все фильтры
+                Фильтры
               </button>
             </div>
           </div>
 
           {/* Mobile filters row */}
           <div className="flex lg:hidden gap-2 mt-2 overflow-x-auto pb-1 scrollbar-hide">
-            <div ref={ptRef} className="relative shrink-0">
-              <button
-                onClick={() => setPtOpen(!ptOpen)}
-                className="h-10 px-3 rounded-lg border border-border bg-background text-xs flex items-center gap-1 whitespace-nowrap"
-              >
-                {propertyType}
-                <ChevronDown className="w-3 h-3" />
-              </button>
-              {ptOpen && (
-                <ul className="absolute top-full left-0 mt-1 py-1 bg-card border border-border rounded-lg shadow-lg z-50 min-w-[160px]">
-                  {propertyTypes.map(t => (
-                    <li key={t}>
-                      <button onClick={() => { setPropertyType(t); setPtOpen(false); }} className="w-full text-left px-3 py-2 text-xs hover:bg-muted/50">{t}</button>
-                    </li>
-                  ))}
-                </ul>
-              )}
-            </div>
+            <button
+              onClick={() => setPtOpen(!ptOpen)}
+              className="h-10 px-3 rounded-lg border border-border bg-background text-xs flex items-center gap-1 whitespace-nowrap shrink-0"
+            >
+              {propertyType === 'Тип квартиры' ? 'Тип' : propertyType}
+              <ChevronDown className="w-3 h-3" />
+            </button>
             <button className="h-10 px-3 rounded-lg border border-border bg-background text-xs whitespace-nowrap shrink-0">Цена</button>
-            <div ref={dlRef} className="relative shrink-0">
-              <button
-                onClick={() => setDlOpen(!dlOpen)}
-                className="h-10 px-3 rounded-lg border border-border bg-background text-xs flex items-center gap-1 whitespace-nowrap"
-              >
-                {deadline}
-                <ChevronDown className="w-3 h-3" />
-              </button>
-              {dlOpen && (
-                <ul className="absolute top-full left-0 mt-1 py-1 bg-card border border-border rounded-lg shadow-lg z-50 min-w-[120px]">
-                  {deadlines.map(d => (
-                    <li key={d}>
-                      <button onClick={() => { setDeadline(d); setDlOpen(false); }} className="w-full text-left px-3 py-2 text-xs hover:bg-muted/50">{d}</button>
-                    </li>
-                  ))}
-                </ul>
-              )}
-            </div>
+            <button
+              onClick={() => setDlOpen(!dlOpen)}
+              className="h-10 px-3 rounded-lg border border-border bg-background text-xs flex items-center gap-1 whitespace-nowrap shrink-0"
+            >
+              {deadline}
+              <ChevronDown className="w-3 h-3" />
+            </button>
             <button
               onClick={() => setFiltersOpen(!filtersOpen)}
               className="h-10 px-3 rounded-lg border border-border bg-background text-xs flex items-center gap-1 whitespace-nowrap shrink-0"
@@ -331,10 +367,12 @@ const HeroSearch = () => {
             </button>
           </div>
 
-          {/* Action buttons */}
+          {/* Bottom row: map + counter */}
           <div className="flex items-center justify-between mt-3 sm:mt-4 gap-3">
-            <div className="flex-1" />
-            <div className="flex items-center gap-2">
+            <p className="hidden sm:block text-xs text-muted-foreground">
+              {selectedRegion} · {activeTab === 'apartments' ? 'квартиры' : activeTab === 'houses' ? 'дома' : activeTab === 'land' ? 'участки' : 'коммерция'}
+            </p>
+            <div className="flex items-center gap-2 ml-auto">
               <Link
                 to="/map"
                 className="flex items-center gap-2 h-11 px-5 rounded-xl border border-border bg-background text-sm font-medium hover:bg-secondary transition-colors"
@@ -343,7 +381,7 @@ const HeroSearch = () => {
                 На карте
               </Link>
               <Button onClick={doSearch} className="h-11 px-6 rounded-xl text-sm font-medium shadow-sm">
-                58 728 квартир в 370 ЖК
+                58 728 объектов · 370 ЖК
               </Button>
             </div>
           </div>
