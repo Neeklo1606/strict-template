@@ -1,4 +1,4 @@
-import { Heart, CalendarClock, Building2, MapPin, ChevronRight } from 'lucide-react';
+import { Heart, CalendarClock, MapPin, ChevronRight } from 'lucide-react';
 import { useState, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import { cn } from '@/lib/utils';
@@ -40,7 +40,7 @@ const StartSaleCard = ({ data }: { data: StartSaleData }) => {
 
   return (
     <div
-      className="group rounded-xl overflow-hidden bg-card border border-border transition-all duration-300 ease-in-out will-change-transform hover:shadow-lg hover:-translate-y-0.5"
+      className="group rounded-xl overflow-hidden bg-card border border-border transition-all duration-200 will-change-transform hover:shadow-md hover:-translate-y-px"
       onMouseEnter={() => setExpanded(true)}
       onMouseLeave={() => setExpanded(false)}
     >
@@ -49,13 +49,13 @@ const StartSaleCard = ({ data }: { data: StartSaleData }) => {
         <div
           className={cn(
             'relative overflow-hidden transition-all duration-300 ease-in-out',
-            expanded ? 'h-[130px]' : 'h-[200px]',
+            expanded ? 'h-[100px]' : 'h-[160px]',
           )}
         >
           <img
             src={data.image}
             alt={data.title}
-            className="w-full h-full object-cover transition-transform duration-300 ease-in-out group-hover:scale-[1.03]"
+            className="w-full h-full object-cover transition-transform duration-200 group-hover:scale-[1.03]"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-foreground/20 via-transparent to-transparent" />
 
@@ -84,25 +84,16 @@ const StartSaleCard = ({ data }: { data: StartSaleData }) => {
         </div>
 
         {/* Info block — always visible */}
-        <div className="px-3.5 pt-3 pb-2">
-          <h3 className="font-semibold text-sm leading-tight truncate">{data.title}</h3>
-
-          <div className="flex items-center gap-1.5 text-[11px] text-muted-foreground mt-1">
+        <div className="p-3">
+          <div className="flex justify-between items-start gap-2">
+            <h3 className="font-semibold text-sm leading-tight truncate">{data.title}</h3>
+            <span className="font-bold text-sm shrink-0">{data.price}</span>
+          </div>
+          <div className="flex items-center gap-1 text-[11px] text-muted-foreground mt-0.5">
             <MapPin className="w-3 h-3 shrink-0" />
-            <span className="truncate">{data.district || data.address}</span>
+            <span className="truncate">{data.district || data.address}{data.developer ? ` · ${data.developer}` : ''}</span>
           </div>
-
-          {data.developer && (
-            <div className="flex items-center gap-1.5 text-[11px] text-muted-foreground mt-0.5">
-              <Building2 className="w-3 h-3 shrink-0" />
-              <span className="truncate">{data.developer}</span>
-            </div>
-          )}
-
-          <div className="flex items-center justify-between mt-2">
-            <span className="text-sm font-bold">{data.price}</span>
-            <span className="text-[10px] text-muted-foreground">{totalUnits} квартир</span>
-          </div>
+          <p className="text-[11px] text-muted-foreground">{totalUnits} квартир в продаже</p>
         </div>
       </Link>
 
@@ -113,7 +104,7 @@ const StartSaleCard = ({ data }: { data: StartSaleData }) => {
           expanded ? 'max-h-[220px] opacity-100' : 'max-h-0 opacity-0',
         )}
       >
-        <div className="px-3.5 pb-3">
+        <div className="px-3 pb-3">
           <div className="border-t border-border pt-2 space-y-0.5">
             {apartments.map((apt, i) => (
               <Link
@@ -136,10 +127,10 @@ const StartSaleCard = ({ data }: { data: StartSaleData }) => {
 
       {/* "Подробнее" — visible only when collapsed */}
       <div className={cn(
-        'px-3.5 pb-3 transition-all duration-200',
+        'px-3 pb-3 transition-all duration-200',
         expanded ? 'hidden' : 'block',
       )}>
-        <span className="text-primary text-[11px] font-medium hover:underline">Подробнее →</span>
+        <span className="text-primary text-[11px] font-medium mt-1 hover:underline">Подробнее →</span>
       </div>
     </div>
   );
