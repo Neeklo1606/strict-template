@@ -1,4 +1,6 @@
 import PropertyCard, { type PropertyData } from './PropertyCard';
+import { ArrowRight } from 'lucide-react';
+import { Link } from 'react-router-dom';
 import building1 from '@/assets/building1.jpg';
 import building2 from '@/assets/building2.jpg';
 import building3 from '@/assets/building3.jpg';
@@ -16,23 +18,30 @@ const properties: PropertyData[] = [
 ];
 
 const NewListings = () => (
-  <section className="py-8">
+  <section className="py-8 sm:py-12">
     <div className="max-w-[1400px] mx-auto px-4">
-      <h2 className="text-2xl font-bold mb-6">Новые объявления</h2>
-      <div className="flex gap-6">
-        <div className="flex-1 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-          {properties.map((p, i) => (
-            <PropertyCard key={i} data={p} />
-          ))}
-        </div>
-        <div className="hidden lg:flex flex-col justify-center w-[280px] shrink-0 bg-primary rounded-2xl p-6 text-primary-foreground">
-          <div className="text-5xl font-bold mb-2">100 000 +</div>
-          <div className="text-lg font-medium mb-6">объектов</div>
-          <button className="bg-primary-foreground text-foreground px-5 py-2.5 rounded-full text-sm font-medium self-start hover:opacity-90 transition-opacity">
-            Узнать больше
-          </button>
-        </div>
+      <div className="flex items-center justify-between mb-4 sm:mb-6">
+        <h2 className="text-base sm:text-xl font-bold">Новые объявления</h2>
+        <Link
+          to="/catalog"
+          className="hidden sm:flex items-center gap-1.5 px-3.5 py-2 rounded-full border border-border text-xs sm:text-sm font-medium hover:bg-secondary transition-colors"
+        >
+          Все объявления
+          <ArrowRight className="w-3.5 h-3.5" />
+        </Link>
       </div>
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
+        {properties.map((p, i) => (
+          <PropertyCard key={i} data={p} />
+        ))}
+      </div>
+      <Link
+        to="/catalog"
+        className="flex sm:hidden items-center justify-center gap-1.5 mt-3 py-2 rounded-xl border border-border text-xs font-medium hover:bg-secondary transition-colors"
+      >
+        Все объявления
+        <ArrowRight className="w-3.5 h-3.5" />
+      </Link>
     </div>
   </section>
 );

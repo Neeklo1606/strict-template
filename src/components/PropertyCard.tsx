@@ -21,17 +21,11 @@ export interface PropertyData {
   coords?: [number, number];
 }
 
-const hotBadgeStyle: Record<string, string> = {
-  'Скидка': 'bg-destructive text-destructive-foreground',
-  'Акция': 'bg-primary text-primary-foreground',
-  'Горячее предложение': 'bg-destructive text-destructive-foreground',
-};
-
-const getHotBadgeClass = (label: string) => {
-  for (const key of Object.keys(hotBadgeStyle)) {
-    if (label.toLowerCase().includes(key.toLowerCase())) return hotBadgeStyle[key];
-  }
-  return 'bg-destructive/90 text-destructive-foreground';
+const getBadgeClass = (label: string, isHot: boolean) => {
+  if (!isHot) return 'bg-background/85 backdrop-blur-sm text-foreground';
+  if (label.toLowerCase().includes('скидк') || label.toLowerCase().includes('горяч'))
+    return 'bg-destructive text-destructive-foreground';
+  return 'bg-primary text-primary-foreground';
 };
 
 const PropertyCard = ({ data, variant = 'default' }: { data: PropertyData; basePath?: string; variant?: 'default' | 'hot' }) => {
@@ -65,7 +59,7 @@ const PropertyCard = ({ data, variant = 'default' }: { data: PropertyData; baseP
                 key={i}
                 className={cn(
                   'px-2 py-0.5 rounded-full text-[11px] font-semibold flex items-center gap-1',
-                  isHot ? getHotBadgeClass(b) : 'bg-background/85 backdrop-blur-sm text-foreground'
+                  getBadgeClass(b, isHot)
                 )}
               >
                 {isHot && <Flame className="w-3 h-3" />}
