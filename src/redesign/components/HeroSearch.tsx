@@ -140,6 +140,7 @@ const HeroSearch = () => {
                 {tab.label}
               </button>
             );
+          })}
           {/* Белгород — accent regional tab */}
           <Link
             to="/catalog?region=belgorod"
