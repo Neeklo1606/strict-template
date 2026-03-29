@@ -351,10 +351,7 @@ const HeroSearch = () => {
           </div>
 
           {/* Bottom: action row */}
-          <div className="flex items-center justify-between mt-2.5 sm:mt-4 gap-2">
-            <p className="hidden sm:block text-xs text-muted-foreground">
-              {selectedRegion} · {activeTab === 'apartments' ? 'квартиры' : activeTab === 'houses' ? 'дома' : activeTab === 'land' ? 'участки' : 'коммерция'}
-            </p>
+          <div className="flex items-center justify-end mt-2.5 sm:mt-4 gap-2">
             <div className="flex items-center gap-2 w-full sm:w-auto">
               <Link
                 to="/map"
@@ -364,7 +361,7 @@ const HeroSearch = () => {
                 На карте
               </Link>
               <Button onClick={doSearch} className="h-10 sm:h-11 flex-1 sm:flex-none sm:px-6 rounded-xl text-xs sm:text-sm font-medium shadow-sm">
-                58 728 объектов · 370 ЖК
+                58 728 квартир в 370 ЖК →
               </Button>
             </div>
           </div>
