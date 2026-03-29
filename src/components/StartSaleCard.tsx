@@ -104,7 +104,7 @@ const StartSaleCard = ({ data }: { data: StartSaleData }) => {
           expanded ? 'max-h-[220px] opacity-100' : 'max-h-0 opacity-0',
         )}
       >
-        <div className="px-3.5 pb-3">
+        <div className="px-3 pb-3">
           <div className="border-t border-border pt-2 space-y-0.5">
             {apartments.map((apt, i) => (
               <Link
@@ -127,10 +127,10 @@ const StartSaleCard = ({ data }: { data: StartSaleData }) => {
 
       {/* "Подробнее" — visible only when collapsed */}
       <div className={cn(
-        'px-3.5 pb-3 transition-all duration-200',
+        'px-3 pb-3 transition-all duration-200',
         expanded ? 'hidden' : 'block',
       )}>
-        <span className="text-primary text-[11px] font-medium hover:underline">Подробнее →</span>
+        <span className="text-primary text-[11px] font-medium mt-1 hover:underline">Подробнее →</span>
       </div>
     </div>
   );
