@@ -1,6 +1,6 @@
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useState, useRef, useEffect, useCallback } from 'react';
-import { Phone, Menu, X, Search, Home, LayoutGrid, Map as MapIcon, Heart, LogIn, ChevronDown, Building2 } from 'lucide-react';
+import { Phone, Menu, X, Search, Home, LayoutGrid, Heart, LogIn, ChevronDown } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Input } from '@/components/ui/input';
 import { searchComplexes } from '@/redesign/data/mock-data';
@@ -115,19 +115,20 @@ const RedesignHeader = () => {
           </nav>
 
           {/* Desktop right */}
-          <div className="hidden lg:flex items-center gap-3 text-sm shrink-0">
+          <div className="hidden lg:flex items-center gap-2 shrink-0">
             <Link
               to="/favorites"
-              className="flex items-center justify-center w-10 h-10 rounded-full hover:bg-secondary transition-colors"
+              className="flex items-center justify-center w-11 h-11 rounded-full hover:bg-secondary transition-colors"
               title="Избранное"
             >
-              <Heart className="w-[22px] h-[22px] text-muted-foreground" />
+              <Heart className="w-6 h-6 text-muted-foreground" />
             </Link>
+            <div className="w-px h-5 bg-border" />
             <a
               href="tel:+79045393434"
-              className="flex items-center gap-2 hover:text-primary transition-colors min-h-[44px]"
+              className="flex items-center gap-2 px-2 py-2 rounded-lg text-sm hover:text-primary hover:bg-muted/50 transition-colors"
             >
-              <Phone className="w-4 h-4 text-muted-foreground shrink-0" />
+              <Phone className="w-4 h-4 text-primary shrink-0" />
               <span>+7 (904) 539-34-34</span>
             </a>
             <Link
@@ -225,10 +226,6 @@ const RedesignHeader = () => {
           <Link to="/catalog" className={cn('flex flex-col items-center gap-0.5 text-[10px] py-1', location.pathname === '/catalog' ? 'text-primary' : 'text-muted-foreground')}>
             <LayoutGrid className="w-5 h-5" />
             <span>Каталог</span>
-          </Link>
-          <Link to="/map" className={cn('flex flex-col items-center gap-0.5 text-[10px] py-1', location.pathname === '/map' ? 'text-primary' : 'text-muted-foreground')}>
-            <MapIcon className="w-5 h-5" />
-            <span>Карта</span>
           </Link>
           <Link to="/favorites" className={cn('flex flex-col items-center gap-0.5 text-[10px] py-1', 'text-muted-foreground')}>
             <Heart className="w-5 h-5" />
