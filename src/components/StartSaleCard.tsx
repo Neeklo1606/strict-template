@@ -59,7 +59,7 @@ const StartSaleCard = ({ data }: { data: StartSaleData }) => {
               {data.badges.map((b, i) => (
                 <span
                   key={i}
-                  className="px-2 py-0.5 rounded-full text-[11px] font-semibold flex items-center gap-1 bg-primary text-primary-foreground"
+                  className="px-2 py-0.5 rounded-full text-[11px] font-semibold flex items-center gap-1 bg-background/85 backdrop-blur-sm text-foreground"
                 >
                   <CalendarClock className="w-3 h-3" />
                   {b}

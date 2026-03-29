@@ -1,4 +1,5 @@
-import { MapPin } from 'lucide-react';
+import { MapPin, ArrowRight } from 'lucide-react';
+import { Link } from 'react-router-dom';
 import ZhkCard, { type ZhkData } from './ZhkCard';
 import building1 from '@/assets/building1.jpg';
 import building2 from '@/assets/building2.jpg';
@@ -71,26 +72,38 @@ const zhkList: ZhkData[] = [
 ];
 
 const CatalogZhk = () => (
-  <section className="py-8">
+  <section className="py-8 sm:py-12">
     <div className="max-w-[1400px] mx-auto px-4">
-      <div className="flex items-center justify-between mb-6">
-        <h2 className="text-2xl font-bold">
-          Каталог ЖК в <span className="text-primary underline decoration-primary underline-offset-4">Москве</span> ↓
-        </h2>
-        <div className="hidden md:flex items-center gap-3">
-          <button className="flex items-center gap-2 px-4 py-2 rounded-full border border-border text-sm hover:bg-secondary transition-colors">
-            <MapPin className="w-4 h-4" /> На карте
-          </button>
-          <button className="px-4 py-2 rounded-full border border-border text-sm hover:bg-secondary transition-colors">
-            Все предложения
-          </button>
+      <div className="flex items-center justify-between mb-4 sm:mb-6">
+        <h2 className="text-base sm:text-xl font-bold">Каталог ЖК</h2>
+        <div className="hidden sm:flex items-center gap-2">
+          <Link
+            to="/catalog?view=map"
+            className="flex items-center gap-1.5 px-3.5 py-2 rounded-full border border-border text-xs sm:text-sm font-medium hover:bg-secondary transition-colors"
+          >
+            <MapPin className="w-3.5 h-3.5" /> На карте
+          </Link>
+          <Link
+            to="/catalog"
+            className="flex items-center gap-1.5 px-3.5 py-2 rounded-full border border-border text-xs sm:text-sm font-medium hover:bg-secondary transition-colors"
+          >
+            Все ЖК
+            <ArrowRight className="w-3.5 h-3.5" />
+          </Link>
         </div>
       </div>
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
         {zhkList.map((zhk, i) => (
           <ZhkCard key={i} data={zhk} />
         ))}
       </div>
+      <Link
+        to="/catalog"
+        className="flex sm:hidden items-center justify-center gap-1.5 mt-3 py-2 rounded-xl border border-border text-xs font-medium hover:bg-secondary transition-colors"
+      >
+        Все ЖК
+        <ArrowRight className="w-3.5 h-3.5" />
+      </Link>
     </div>
   </section>
 );

@@ -63,7 +63,7 @@ const ZhkCard = ({ data }: { data: ZhkData }) => {
         {data.badges.length > 0 && (
           <div className="absolute top-2 left-2 flex flex-wrap gap-1 z-10">
             {data.badges.slice(0, 2).map((b, i) => (
-              <span key={i} className="px-2 py-0.5 bg-background/90 backdrop-blur-sm rounded-full text-[11px] font-medium">{b}</span>
+              <span key={i} className="px-2 py-0.5 bg-background/85 backdrop-blur-sm rounded-full text-[11px] font-semibold">{b}</span>
             ))}
           </div>
         )}
@@ -71,10 +71,10 @@ const ZhkCard = ({ data }: { data: ZhkData }) => {
         {/* Heart */}
         <button
           data-no-nav
-          className="absolute top-2 right-2 w-8 h-8 bg-background/70 backdrop-blur-sm rounded-full flex items-center justify-center z-10"
+          className="absolute top-2 right-2 w-7 h-7 bg-background/70 backdrop-blur-sm rounded-full flex items-center justify-center z-10 hover:bg-background/90 transition-colors"
           onClick={e => { e.stopPropagation(); setLiked(!liked); }}
         >
-          <Heart className={cn("w-4 h-4", liked ? "fill-primary text-primary" : "text-muted-foreground")} />
+          <Heart className={cn("w-3.5 h-3.5", liked ? "fill-destructive text-destructive" : "text-muted-foreground")} />
         </button>
 
         {/* Dots */}

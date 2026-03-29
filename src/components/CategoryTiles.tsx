@@ -25,7 +25,7 @@ const categories = [
 
 const CategoryTiles = () => {
   return (
-    <section className="py-4">
+    <section className="py-8 sm:py-12">
       <div className="max-w-[1400px] mx-auto px-4">
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3">
           {categories.map((cat, i) => (
