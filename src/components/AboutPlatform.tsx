@@ -1,85 +1,74 @@
 import { Crown, Users, Heart } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import aboutMain from '@/assets/about-main.jpg';
-import aboutMortgage from '@/assets/about-mortgage.jpg';
-import aboutExperience from '@/assets/about-experience.jpg';
 
 const stats = [
   { value: '12+ лет', label: 'опыта на рынке', icon: Crown },
-  { value: '15+', label: 'сотрудников', icon: Users },
-  { value: '5 тыс +', label: 'клиентов', icon: Heart },
+  { value: '15+ человек', label: 'в команде', icon: Users },
+  { value: '5 000+ клиентов', label: 'по всей России', icon: Heart },
 ];
 
 const AboutPlatform = () => (
   <section className="py-8 sm:py-12 bg-secondary">
     <div className="max-w-[1400px] mx-auto px-4">
-      <h2 className="text-base sm:text-xl font-bold mb-4 sm:mb-6">О платформе Live Grid</h2>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-10">
-        {/* LEFT — image cards */}
-        <div className="flex flex-col gap-3 sm:gap-4 order-2 lg:order-1">
-          <div className="relative rounded-xl overflow-hidden aspect-[16/10]">
-            <img src={aboutMain} alt="Эксклюзивные объекты" className="w-full h-full object-cover" />
-            <div className="absolute inset-0 bg-gradient-to-t from-foreground/70 via-foreground/20 to-transparent" />
-            <div className="absolute bottom-0 left-0 p-4 sm:p-5 text-primary-foreground">
-              <h3 className="text-base sm:text-lg font-bold mb-0.5">Эксклюзивные объекты</h3>
-              <p className="text-xs sm:text-sm leading-snug opacity-90 max-w-xs">
-                Мы работаем с самыми редкими объектами недвижимости для клиентов с высокими бюджетами
-              </p>
-            </div>
-          </div>
+      {/* Main grid: image left, text right */}
+      <div className="grid grid-cols-1 lg:grid-cols-[3fr_2fr] gap-6 lg:gap-8 items-start">
 
-          <div className="grid grid-cols-2 gap-3 sm:gap-4">
-            <div className="relative rounded-xl overflow-hidden aspect-square">
-              <img src={aboutMortgage} alt="Низкий процент" className="w-full h-full object-cover" />
-              <div className="absolute inset-0 bg-gradient-to-t from-foreground/60 via-foreground/10 to-transparent" />
-              <div className="absolute bottom-0 left-0 p-3 sm:p-4 text-primary-foreground">
-                <h4 className="text-sm sm:text-base font-bold mb-0.5">Низкий %</h4>
-                <p className="text-[11px] sm:text-xs leading-snug opacity-90">Сделаем выгодный платеж по ипотеке</p>
-              </div>
-            </div>
-            <div className="relative rounded-xl overflow-hidden aspect-square">
-              <img src={aboutExperience} alt="Большой опыт" className="w-full h-full object-cover" />
-              <div className="absolute inset-0 bg-gradient-to-t from-foreground/60 via-foreground/10 to-transparent" />
-              <div className="absolute bottom-0 left-0 p-3 sm:p-4 text-primary-foreground">
-                <h4 className="text-sm sm:text-base font-bold mb-0.5">Большой опыт</h4>
-                <p className="text-[11px] sm:text-xs leading-snug opacity-90">Позволяет найти самые выгодные предложения</p>
-              </div>
-            </div>
+        {/* Image — fixed aspect, order-2 on mobile */}
+        <div className="relative rounded-xl overflow-hidden aspect-[16/10] order-2 lg:order-1">
+          <img
+            src={aboutMain}
+            alt="О платформе LiveGrid"
+            className="w-full h-full object-cover"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-foreground/50 via-foreground/10 to-transparent" />
+          <div className="absolute bottom-0 left-0 p-4 sm:p-6 text-primary-foreground">
+            <h3 className="text-sm sm:text-base font-bold mb-0.5">Эксклюзивные объекты</h3>
+            <p className="text-[11px] sm:text-xs leading-relaxed opacity-90 max-w-[280px]">
+              Работаем с редкими объектами недвижимости по всей России
+            </p>
           </div>
         </div>
 
-        {/* RIGHT — text + buttons + stats */}
-        <div className="flex flex-col justify-between order-1 lg:order-2">
-          <div>
-            <h3 className="text-lg sm:text-2xl md:text-3xl font-bold mb-3 sm:mb-4">Платформа по недвижимости</h3>
-            <div className="text-xs sm:text-sm text-muted-foreground leading-relaxed space-y-2 sm:space-y-3 max-w-[520px]">
-              <p>LiveGrid – современная платформа по недвижимости, созданная на базе агентства «Авангард».</p>
-              <p>Мы сопровождаем сделки по всей России, работая с жилой и коммерческой недвижимостью любого уровня — от новостроек до инвестиционных объектов.</p>
-              <p>LiveGrid — это экспертиза, прозрачность и уверенность в результате.</p>
-            </div>
+        {/* Text column — order-1 on mobile */}
+        <div className="flex flex-col order-1 lg:order-2">
+          <h2 className="text-base sm:text-xl font-bold mb-1">О платформе</h2>
+          <p className="text-lg sm:text-2xl font-bold mb-4">Live Grid</p>
 
-            <div className="flex gap-3 mt-4 sm:mt-6">
-              <Button className="rounded-xl px-4 sm:px-6 text-xs sm:text-sm">Зарегистрироваться</Button>
-              <Button variant="outline" className="rounded-xl px-4 sm:px-6 text-xs sm:text-sm">Помощь с подбором</Button>
-            </div>
+          <div className="text-xs sm:text-sm text-muted-foreground leading-[1.7] space-y-3 max-w-[440px]">
+            <p>
+              Современная платформа по недвижимости, созданная на базе агентства «Авангард». Сопровождаем сделки по всей России.
+            </p>
+            <p>
+              Полный цикл: подбор, переговоры, юридическая защита и закрытие сделки. Экспертиза, прозрачность и результат.
+            </p>
           </div>
 
-          {/* Stats */}
-          <div className="grid grid-cols-3 gap-3 sm:gap-6 mt-6 sm:mt-8">
-            {stats.map((s) => (
-              <div key={s.label} className="flex items-center gap-2 sm:gap-3 bg-background rounded-xl p-3 sm:p-4">
-                <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-lg bg-accent flex items-center justify-center shrink-0">
-                  <s.icon className="w-4 h-4 sm:w-5 sm:h-5 text-primary" />
-                </div>
-                <div>
-                  <div className="text-sm sm:text-lg font-bold leading-tight">{s.value}</div>
-                  <div className="text-[10px] sm:text-xs text-muted-foreground">{s.label}</div>
-                </div>
-              </div>
-            ))}
+          {/* CTA buttons — aligned, same height */}
+          <div className="flex items-center gap-3 mt-5 sm:mt-6">
+            <Button className="rounded-xl h-10 px-5 text-xs sm:text-sm">Зарегистрироваться</Button>
+            <Button variant="outline" className="rounded-xl h-10 px-5 text-xs sm:text-sm">Помощь с подбором</Button>
           </div>
         </div>
+      </div>
+
+      {/* Stats row — full width, unified height */}
+      <div className="grid grid-cols-3 gap-3 sm:gap-4 mt-6 sm:mt-8">
+        {stats.map((s) => (
+          <div
+            key={s.label}
+            className="flex items-center gap-3 bg-background rounded-xl p-3 sm:p-4 h-[64px] sm:h-[72px]"
+          >
+            <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-lg bg-accent flex items-center justify-center shrink-0">
+              <s.icon className="w-4 h-4 sm:w-5 sm:h-5 text-primary" />
+            </div>
+            <div className="min-w-0">
+              <div className="text-sm sm:text-base font-bold leading-tight truncate">{s.value}</div>
+              <div className="text-[10px] sm:text-xs text-muted-foreground truncate">{s.label}</div>
+            </div>
+          </div>
+        ))}
       </div>
     </div>
   </section>
