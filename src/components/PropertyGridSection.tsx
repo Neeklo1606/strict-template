@@ -40,6 +40,7 @@ const PropertyGridSection = ({ title, type }: Props) => {
   const [helpOpen, setHelpOpen] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
   const isHot = type === 'hot';
+  const isStart = type === 'start';
 
   const scroll = (dir: 'left' | 'right') => {
     if (!scrollRef.current) return;
