@@ -17,46 +17,48 @@ import { complexes } from '@/redesign/data/mock-data';
 import { useState } from 'react';
 
 const RedesignIndex = () => {
-  const [viewMode, setViewMode] = useState<'cards' | 'map'>('cards');
-  const [activeComplex, setActiveComplex] = useState<string | null>(null);
-  const featured = complexes.slice(0, 6);
+  const featured = complexes.slice(0, 4);
 
   return (
     <div className="min-h-screen bg-background pb-16 lg:pb-0">
       <RedesignHeader />
       <HeroSearch />
-      
 
-      {/* Featured */}
-      <section className="max-w-[1400px] mx-auto px-4 py-12">
+      {/* Популярные ЖК — clean showcase */}
+      <section className="max-w-[1400px] mx-auto px-4 py-10 sm:py-12">
         <div className="flex items-center justify-between mb-6">
-          <div>
-            <h2 className="text-xl font-bold">Популярные комплексы</h2>
-            <p className="text-sm text-muted-foreground mt-0.5">Самые востребованные ЖК Москвы</p>
-          </div>
-          <div className="hidden md:flex items-center gap-3">
-            <button
-              onClick={() => setViewMode('map')}
-              className="flex items-center gap-2 px-4 py-2 rounded-full border text-sm transition-colors bg-background border-border hover:bg-secondary"
+          <h2 className="text-lg sm:text-xl font-bold">Популярные ЖК</h2>
+          <div className="flex items-center gap-2">
+            <Link
+              to="/map"
+              className="flex items-center gap-1.5 px-3.5 py-2 rounded-full border border-border text-xs sm:text-sm font-medium hover:bg-secondary transition-colors"
             >
-              <MapPin className="w-4 h-4" />
+              <MapPin className="w-3.5 h-3.5 text-primary" />
               На карте
-            </button>
-            <button
-              onClick={() => setViewMode('cards')}
-              className="px-4 py-2 rounded-full border text-sm transition-colors bg-background border-border hover:bg-secondary"
+            </Link>
+            <Link
+              to="/catalog"
+              className="hidden sm:flex items-center gap-1.5 px-3.5 py-2 rounded-full border border-border text-xs sm:text-sm font-medium hover:bg-secondary transition-colors"
             >
               Все предложения
-            </button>
+              <ArrowRight className="w-3.5 h-3.5" />
+            </Link>
           </div>
         </div>
-        {viewMode === 'cards' ? (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-            {featured.map(c => <ComplexCard key={c.id} complex={c} />)}
-          </div>
-        ) : (
-          <MapSearch complexes={featured} activeSlug={activeComplex} onSelect={setActiveComplex} height="450px" />
-        )}
+
+        {/* Desktop: 4 cols, Tablet: 3, Mobile: 2 compact */}
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4">
+          {featured.map(c => <ComplexCard key={c.id} complex={c} />)}
+        </div>
+
+        {/* Mobile "all" link */}
+        <Link
+          to="/catalog"
+          className="flex sm:hidden items-center justify-center gap-1.5 mt-4 py-2.5 rounded-xl border border-border text-sm font-medium hover:bg-secondary transition-colors"
+        >
+          Все предложения
+          <ArrowRight className="w-4 h-4" />
+        </Link>
       </section>
 
       <PropertyGridSection title="Горячие предложения" type="hot" />
