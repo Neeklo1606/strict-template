@@ -82,11 +82,18 @@ const PropertyGridSection = ({ title, type }: Props) => {
           ref={scrollRef}
           className="flex lg:grid lg:grid-cols-4 gap-4 overflow-x-auto lg:overflow-visible snap-x snap-mandatory scrollbar-hide -mx-4 px-4 lg:mx-0 lg:px-0"
         >
-          {data.map((p, i) => (
-            <div key={i} className="min-w-[280px] sm:min-w-[300px] lg:min-w-0 snap-start">
-              <PropertyCard data={p} variant={isHot ? 'hot' : 'default'} />
-            </div>
-          ))}
+          {isStart
+            ? (data as StartSaleData[]).map((p, i) => (
+                <div key={i} className="min-w-[280px] sm:min-w-[300px] lg:min-w-0 snap-start">
+                  <StartSaleCard data={p} />
+                </div>
+              ))
+            : (data as PropertyData[]).map((p, i) => (
+                <div key={i} className="min-w-[280px] sm:min-w-[300px] lg:min-w-0 snap-start">
+                  <PropertyCard data={p} variant="hot" />
+                </div>
+              ))
+          }
         </div>
       </div>
 
