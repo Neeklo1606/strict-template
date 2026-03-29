@@ -97,17 +97,23 @@ const FooterSection = React.forwardRef<HTMLElement>((_, ref) => (
           <h3 className="text-base sm:text-lg font-bold mb-1">Нужна помощь с выбором?</h3>
           <p className="text-xs sm:text-sm opacity-70">Эксперты LiveGrid подберут объект бесплатно</p>
         </div>
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-3 flex-wrap justify-center sm:justify-end">
           <Button className="rounded-xl h-10 px-5 text-xs sm:text-sm">
             Получить консультацию
           </Button>
           <a
-            href="tel:+74333441"
+            href="tel:+79045393434"
             className="inline-flex items-center gap-2 h-10 px-5 rounded-xl border border-primary-foreground/20 text-xs sm:text-sm font-medium hover:bg-primary-foreground/10 transition-colors"
           >
             <Phone className="w-3.5 h-3.5" />
             Позвонить
           </a>
+          <Link
+            to="/register"
+            className="inline-flex items-center gap-2 h-10 px-5 rounded-xl bg-primary-foreground/10 text-xs sm:text-sm font-medium hover:bg-primary-foreground/20 transition-colors"
+          >
+            Зарегистрироваться
+          </Link>
         </div>
       </div>
     </div>
