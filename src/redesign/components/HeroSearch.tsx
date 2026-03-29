@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect, useCallback } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Search, MapPin, SlidersHorizontal, ChevronDown, Building2, Home, TreePine, Store, HelpCircle } from 'lucide-react';
+import { Search, MapPin, SlidersHorizontal, ChevronDown, Building2, Home, TreePine, Store } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
@@ -12,7 +12,6 @@ const objectTabs = [
   { label: 'Дома', icon: Home, value: 'houses' },
   { label: 'Участки', icon: TreePine, value: 'land' },
   { label: 'Коммерция', icon: Store, value: 'commercial' },
-  { label: 'Подобрать объект', icon: HelpCircle, value: 'quiz' },
 ];
 
 const regions = [
@@ -81,11 +80,6 @@ const HeroSearch = () => {
   }, []);
 
   const handleTabClick = (value: string) => {
-    if (value === 'quiz') {
-      const el = document.getElementById('quiz-section');
-      el?.scrollIntoView({ behavior: 'smooth' });
-      return;
-    }
     setActiveTab(value);
   };
 
@@ -124,7 +118,7 @@ const HeroSearch = () => {
         {/* Title */}
         <h1 className="text-2xl md:text-4xl font-bold text-center mb-8 leading-tight">
           <span className="text-primary italic">Live Grid.</span>{' '}
-          Найдите свою недвижимость
+          62 000+ квартир по России
         </h1>
 
         {/* Tabs */}
@@ -147,6 +141,14 @@ const HeroSearch = () => {
               </button>
             );
           })}
+          {/* Белгород — accent regional tab */}
+          <Link
+            to="/catalog?region=belgorod"
+            className="flex items-center gap-1.5 px-4 py-2.5 rounded-full text-sm font-medium whitespace-nowrap transition-all duration-200 border border-primary/30 bg-accent text-primary hover:bg-primary hover:text-primary-foreground"
+          >
+            <MapPin className="w-4 h-4" />
+            Белгород
+          </Link>
         </div>
 
         {/* Search bar */}
