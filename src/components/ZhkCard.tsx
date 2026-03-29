@@ -1,6 +1,7 @@
 import { useState, useRef, useCallback } from 'react';
 import { Heart, MapPin } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import PropertyBadge from './PropertyBadge';
 import { useNavigate } from 'react-router-dom';
 
 export interface ZhkApartment { type: string; area: string; price: string; }
@@ -63,7 +64,7 @@ const ZhkCard = ({ data }: { data: ZhkData }) => {
         {data.badges.length > 0 && (
           <div className="absolute top-2 left-2 flex flex-wrap gap-1 z-10">
             {data.badges.slice(0, 2).map((b, i) => (
-              <span key={i} className="px-2 py-0.5 bg-background/85 backdrop-blur-sm rounded-full text-[11px] font-semibold">{b}</span>
+              <PropertyBadge key={i} label={b} type="info" />
             ))}
           </div>
         )}
