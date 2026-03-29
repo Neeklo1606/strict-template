@@ -54,7 +54,7 @@ const NewsDetail = () => {
           <div className="lg:w-1/2 flex flex-col justify-center">
             <h1 className="text-2xl lg:text-3xl font-bold mb-3">Старт строительства нового комплекса в центре Москвы</h1>
             <div className="flex items-center gap-4 text-sm text-muted-foreground mb-4">
-              <span className="flex items-center gap-1"><Calendar className="w-4 h-4" /> 15 фев 2025</span>
+              <span className="flex items-center gap-1"><Calendar className="w-4 h-4" /> 28 мар 2026</span>
               <span className="flex items-center gap-1"><Eye className="w-4 h-4" /> 1 250</span>
             </div>
             <div className="space-y-3 text-sm text-muted-foreground leading-relaxed">
@@ -89,9 +89,9 @@ const NewsDetail = () => {
             <p>Все квартиры имеют свободные планировки с высотой потолков 3.1 метра. Панорамное остекление от пола до потолка обеспечивает максимальное количество естественного света.</p>
           </div>
 
-          {/* Video block */}
-          <div className="bg-primary rounded-2xl flex items-center justify-center min-h-[200px] md:min-h-[300px]">
-            <span className="text-3xl font-bold text-primary-foreground">ВИДЕО</span>
+          {/* Gallery image instead of video */}
+          <div className="rounded-2xl overflow-hidden aspect-[16/9]">
+            <img src={complex1} alt="Обзор комплекса" className="w-full h-full object-cover" loading="lazy" />
           </div>
         </div>
       </section>
