@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom';
 import { MapPin, Heart } from 'lucide-react';
 import { useState } from 'react';
 import { cn } from '@/lib/utils';
+import PropertyBadge from '@/components/PropertyBadge';
 import type { ResidentialComplex } from '@/redesign/data/types';
 import { formatPrice } from '@/redesign/data/mock-data';
 
@@ -10,17 +11,22 @@ interface Props {
   variant?: 'grid' | 'list';
 }
 
-const statusLabels: Record<string, { label: string; className: string }> = {
-  completed: { label: 'Сдан', className: 'bg-green-500/90 text-primary-foreground' },
-  building: { label: 'Строится', className: 'bg-primary/90 text-primary-foreground' },
-  planned: { label: 'Проект', className: 'bg-muted text-muted-foreground' },
+const statusBadgeType: Record<string, 'new' | 'promo' | 'info'> = {
+  completed: 'new',
+  building: 'promo',
+  planned: 'info',
+};
+const statusLabel: Record<string, string> = {
+  completed: 'Сдан',
+  building: 'Строится',
+  planned: 'Проект',
 };
 
 const ComplexCard = ({ complex, variant = 'grid' }: Props) => {
   const [liked, setLiked] = useState(false);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const totalApts = complex.buildings.reduce((s, b) => s + b.apartments.filter(a => a.status === 'available').length, 0);
-  const status = statusLabels[complex.status];
+  const badgeType = statusBadgeType[complex.status] || 'info';
 
   if (variant === 'list') {
     return (
@@ -30,9 +36,7 @@ const ComplexCard = ({ complex, variant = 'grid' }: Props) => {
       >
         <div className="relative w-[220px] shrink-0 overflow-hidden bg-muted">
           <img src={complex.images[0]} alt={complex.name} className="w-full h-full object-cover transition-transform duration-200 group-hover:scale-[1.02]" />
-          <span className={cn('absolute top-2 left-2 px-2 py-0.5 rounded-full text-[11px] font-medium backdrop-blur-sm', status.className)}>
-            {status.label}
-          </span>
+          <PropertyBadge label={statusLabel[complex.status]} type={badgeType} className="absolute top-2 left-2" />
           <button
             className="absolute top-2 right-2 w-7 h-7 bg-background/80 backdrop-blur-sm rounded-full flex items-center justify-center"
             onClick={e => { e.preventDefault(); e.stopPropagation(); setLiked(!liked); }}
@@ -68,9 +72,7 @@ const ComplexCard = ({ complex, variant = 'grid' }: Props) => {
           alt={complex.name}
           className="w-full h-full object-cover transition-transform duration-200 group-hover:scale-[1.02]"
         />
-        <span className={cn('absolute top-2 left-2 px-2 py-0.5 rounded-full text-[11px] font-medium backdrop-blur-sm', status.className)}>
-          {status.label}
-        </span>
+        <PropertyBadge label={statusLabel[complex.status]} type={badgeType} className="absolute top-2 left-2" />
         <button
           type="button"
           className="absolute top-2 right-2 w-7 h-7 rounded-full flex items-center justify-center z-10 bg-background/70 backdrop-blur-sm hover:bg-background/90"

@@ -1,4 +1,5 @@
-import { Heart, CalendarClock, MapPin } from 'lucide-react';
+import { Heart, MapPin } from 'lucide-react';
+import PropertyBadge from './PropertyBadge';
 import { useState, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import { cn } from '@/lib/utils';
@@ -57,13 +58,7 @@ const StartSaleCard = ({ data }: { data: StartSaleData }) => {
           {data.badges && data.badges.length > 0 && (
             <div className="absolute top-2 left-2 flex flex-wrap gap-1 z-10">
               {data.badges.map((b, i) => (
-                <span
-                  key={i}
-                  className="px-2 py-0.5 rounded-full text-[11px] font-semibold flex items-center gap-1 bg-background/85 backdrop-blur-sm text-foreground"
-                >
-                  <CalendarClock className="w-3 h-3" />
-                  {b}
-                </span>
+                <PropertyBadge key={i} label={b} type="start" />
               ))}
             </div>
           )}

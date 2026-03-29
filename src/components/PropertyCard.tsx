@@ -1,7 +1,8 @@
-import { Heart, Flame } from 'lucide-react';
+import { Heart } from 'lucide-react';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { cn } from '@/lib/utils';
+import PropertyBadge from './PropertyBadge';
 
 export interface PropertyData {
   image: string;
@@ -20,13 +21,6 @@ export interface PropertyData {
   mortgage?: string;
   coords?: [number, number];
 }
-
-const getBadgeClass = (label: string, isHot: boolean) => {
-  if (!isHot) return 'bg-background/85 backdrop-blur-sm text-foreground';
-  if (label.toLowerCase().includes('скидк') || label.toLowerCase().includes('горяч'))
-    return 'bg-destructive text-destructive-foreground';
-  return 'bg-primary text-primary-foreground';
-};
 
 const PropertyCard = ({ data, variant = 'default' }: { data: PropertyData; basePath?: string; variant?: 'default' | 'hot' }) => {
   const [liked, setLiked] = useState(false);
@@ -55,16 +49,7 @@ const PropertyCard = ({ data, variant = 'default' }: { data: PropertyData; baseP
         {data.badges && data.badges.length > 0 && (
           <div className="absolute top-2 left-2 flex flex-wrap gap-1 z-10">
             {data.badges.map((b, i) => (
-              <span
-                key={i}
-                className={cn(
-                  'px-2 py-0.5 rounded-full text-[11px] font-semibold flex items-center gap-1',
-                  getBadgeClass(b, isHot)
-                )}
-              >
-                {isHot && <Flame className="w-3 h-3" />}
-                {b}
-              </span>
+              <PropertyBadge key={i} label={b} type={isHot ? undefined : 'info'} />
             ))}
           </div>
         )}
