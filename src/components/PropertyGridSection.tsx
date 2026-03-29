@@ -4,8 +4,9 @@ import StartSaleCard, { type StartSaleData } from './StartSaleCard';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
-import { ChevronLeft, ChevronRight, Flame } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Flame, ArrowRight } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { Link } from 'react-router-dom';
 import building1 from '@/assets/building1.jpg';
 import building2 from '@/assets/building2.jpg';
 import building3 from '@/assets/building3.jpg';
@@ -49,15 +50,15 @@ const PropertyGridSection = ({ title, type }: Props) => {
   };
 
   return (
-    <section className={cn('py-8', isHot && 'bg-accent/30')}>
+    <section className={cn('py-8 sm:py-12', isHot && 'bg-accent/30')}>
       <div className="max-w-[1400px] mx-auto px-4">
-        {/* Header */}
-        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-6 gap-3">
+        {/* Section header — unified pattern */}
+        <div className="flex items-center justify-between mb-4 sm:mb-6">
           <div className="flex items-center gap-2">
-            {isHot && <Flame className="w-5 h-5 text-destructive" />}
-            <h2 className="text-2xl font-bold">{title}</h2>
+            {isHot && <Flame className="w-4 h-4 sm:w-5 sm:h-5 text-destructive" />}
+            <h2 className="text-base sm:text-xl font-bold">{title}</h2>
           </div>
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2">
             {/* Desktop arrows */}
             <div className="hidden lg:flex items-center gap-1.5">
               <button onClick={() => scroll('left')} className="w-8 h-8 rounded-full border border-border bg-background flex items-center justify-center hover:bg-secondary transition-colors">
@@ -67,12 +68,18 @@ const PropertyGridSection = ({ title, type }: Props) => {
                 <ChevronRight className="w-4 h-4" />
               </button>
             </div>
-            {type === 'start' ? (
-              <Button size="lg" className="w-full sm:w-auto" onClick={() => setHelpOpen(true)}>
+            {isStart ? (
+              <Button size="sm" className="hidden sm:flex rounded-xl text-xs" onClick={() => setHelpOpen(true)}>
                 Помощь с подбором
               </Button>
             ) : (
-              <a href="/catalog" className="text-primary text-sm font-medium hover:underline">Все предложения →</a>
+              <Link
+                to="/catalog"
+                className="hidden sm:flex items-center gap-1.5 px-3.5 py-2 rounded-full border border-border text-xs sm:text-sm font-medium hover:bg-secondary transition-colors"
+              >
+                Все предложения
+                <ArrowRight className="w-3.5 h-3.5" />
+              </Link>
             )}
           </div>
         </div>
@@ -80,21 +87,39 @@ const PropertyGridSection = ({ title, type }: Props) => {
         {/* Cards — swipe on mobile, grid on lg */}
         <div
           ref={scrollRef}
-          className="flex lg:grid lg:grid-cols-4 gap-4 overflow-x-auto lg:overflow-visible snap-x snap-mandatory scrollbar-hide -mx-4 px-4 lg:mx-0 lg:px-0"
+          className="flex lg:grid lg:grid-cols-4 gap-3 sm:gap-4 overflow-x-auto lg:overflow-visible snap-x snap-mandatory scrollbar-hide -mx-4 px-4 lg:mx-0 lg:px-0"
         >
           {isStart
             ? (data as StartSaleData[]).map((p, i) => (
-                <div key={i} className="min-w-[280px] sm:min-w-[300px] lg:min-w-0 snap-start">
+                <div key={i} className="min-w-[260px] sm:min-w-[280px] lg:min-w-0 snap-start shrink-0">
                   <StartSaleCard data={p} />
                 </div>
               ))
             : (data as PropertyData[]).map((p, i) => (
-                <div key={i} className="min-w-[280px] sm:min-w-[300px] lg:min-w-0 snap-start">
+                <div key={i} className="min-w-[260px] sm:min-w-[280px] lg:min-w-0 snap-start shrink-0">
                   <PropertyCard data={p} variant="hot" />
                 </div>
               ))
           }
         </div>
+
+        {/* Mobile action link */}
+        {isStart ? (
+          <button
+            onClick={() => setHelpOpen(true)}
+            className="flex sm:hidden items-center justify-center gap-1.5 mt-3 py-2 w-full rounded-xl border border-border text-xs font-medium hover:bg-secondary transition-colors"
+          >
+            Помощь с подбором
+          </button>
+        ) : (
+          <Link
+            to="/catalog"
+            className="flex sm:hidden items-center justify-center gap-1.5 mt-3 py-2 rounded-xl border border-border text-xs font-medium hover:bg-secondary transition-colors"
+          >
+            Все предложения
+            <ArrowRight className="w-3.5 h-3.5" />
+          </Link>
+        )}
       </div>
 
       <Dialog open={helpOpen} onOpenChange={setHelpOpen}>

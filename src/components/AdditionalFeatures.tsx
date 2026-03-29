@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { Calculator, UserSearch, Building2, UserCircle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import {
@@ -16,32 +16,24 @@ const features = [
     title: 'Ипотечный калькулятор',
     button: 'Рассчитаем ипотеку',
     action: 'calc',
-    gradient: 'from-blue-100 to-sky-50',
-    iconColor: 'text-blue-500',
   },
   {
     icon: UserSearch,
     title: 'Индивидуальный подбор',
     button: 'Помощь с подбором',
     action: 'modal',
-    gradient: 'from-emerald-100 to-green-50',
-    iconColor: 'text-emerald-500',
   },
   {
     icon: Building2,
     title: 'Вся недвижимость',
     button: 'Все предложения',
     action: 'catalog',
-    gradient: 'from-orange-100 to-amber-50',
-    iconColor: 'text-orange-500',
   },
   {
     icon: UserCircle,
     title: 'Ваш личный кабинет',
     button: 'Войти / Зарегистрироваться',
     action: 'auth',
-    gradient: 'from-violet-100 to-purple-50',
-    iconColor: 'text-violet-500',
   },
 ];
 
@@ -68,40 +60,40 @@ const AdditionalFeatures = () => {
   };
 
   return (
-    <section className="py-12">
+    <section className="py-8 sm:py-12">
       <div className="max-w-[1400px] mx-auto px-4">
-        <h2 className="text-2xl font-bold mb-8">Дополнительные возможности</h2>
+        <h2 className="text-base sm:text-xl font-bold mb-4 sm:mb-6">Дополнительные возможности</h2>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+        {/* Desktop grid */}
+        <div className="hidden sm:grid sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
           {features.map((f, i) => (
-            <div key={i} className="flex flex-col gap-3">
-              {/* Card */}
-              <div
-                onClick={() => handleAction(f.action)}
-                className={`
-                  bg-gradient-to-br ${f.gradient}
-                  rounded-2xl p-8 flex flex-col items-center justify-center
-                  cursor-pointer select-none
-                  h-[220px]
-                  shadow-sm
-                  transition-all duration-250 ease-out
-                  hover:-translate-y-1.5 hover:shadow-lg
-                  will-change-transform
-                `}
-              >
-                <f.icon className={`w-16 h-16 ${f.iconColor} mb-4`} strokeWidth={1.5} />
-                <span className="text-base font-semibold text-foreground text-center leading-tight">
-                  {f.title}
-                </span>
+            <div
+              key={i}
+              onClick={() => handleAction(f.action)}
+              className="rounded-xl border border-border bg-card p-5 sm:p-6 flex flex-col items-center justify-center gap-3 cursor-pointer select-none h-[180px] sm:h-[200px] transition-all duration-200 hover:shadow-md hover:-translate-y-px hover:border-primary/30 group"
+            >
+              <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-xl bg-accent flex items-center justify-center">
+                <f.icon className="w-6 h-6 sm:w-7 sm:h-7 text-primary" strokeWidth={1.5} />
               </div>
+              <span className="text-sm font-semibold text-foreground text-center leading-tight">{f.title}</span>
+              <span className="text-primary text-[11px] font-medium group-hover:underline">{f.button}</span>
+            </div>
+          ))}
+        </div>
 
-              {/* Button */}
-              <Button
-                onClick={() => handleAction(f.action)}
-                className="w-full rounded-xl h-12 text-sm font-medium"
-              >
-                {f.button}
-              </Button>
+        {/* Mobile swiper */}
+        <div className="flex sm:hidden gap-3 overflow-x-auto snap-x snap-mandatory scrollbar-hide -mx-4 px-4">
+          {features.map((f, i) => (
+            <div
+              key={i}
+              onClick={() => handleAction(f.action)}
+              className="min-w-[200px] snap-start shrink-0 rounded-xl border border-border bg-card p-4 flex flex-col items-center justify-center gap-2.5 cursor-pointer select-none h-[160px] transition-all duration-200 active:scale-[0.98]"
+            >
+              <div className="w-11 h-11 rounded-xl bg-accent flex items-center justify-center">
+                <f.icon className="w-5 h-5 text-primary" strokeWidth={1.5} />
+              </div>
+              <span className="text-xs font-semibold text-foreground text-center leading-tight">{f.title}</span>
+              <span className="text-primary text-[11px] font-medium">{f.button}</span>
             </div>
           ))}
         </div>
