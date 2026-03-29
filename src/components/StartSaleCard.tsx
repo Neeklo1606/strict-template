@@ -84,25 +84,16 @@ const StartSaleCard = ({ data }: { data: StartSaleData }) => {
         </div>
 
         {/* Info block — always visible */}
-        <div className="px-3.5 pt-3 pb-2">
-          <h3 className="font-semibold text-sm leading-tight truncate">{data.title}</h3>
-
-          <div className="flex items-center gap-1.5 text-[11px] text-muted-foreground mt-1">
+        <div className="p-3">
+          <div className="flex justify-between items-start gap-2">
+            <h3 className="font-semibold text-sm leading-tight truncate">{data.title}</h3>
+            <span className="font-bold text-sm shrink-0">{data.price}</span>
+          </div>
+          <div className="flex items-center gap-1 text-[11px] text-muted-foreground mt-0.5">
             <MapPin className="w-3 h-3 shrink-0" />
-            <span className="truncate">{data.district || data.address}</span>
+            <span className="truncate">{data.district || data.address}{data.developer ? ` · ${data.developer}` : ''}</span>
           </div>
-
-          {data.developer && (
-            <div className="flex items-center gap-1.5 text-[11px] text-muted-foreground mt-0.5">
-              <Building2 className="w-3 h-3 shrink-0" />
-              <span className="truncate">{data.developer}</span>
-            </div>
-          )}
-
-          <div className="flex items-center justify-between mt-2">
-            <span className="text-sm font-bold">{data.price}</span>
-            <span className="text-[10px] text-muted-foreground">{totalUnits} квартир</span>
-          </div>
+          <p className="text-[11px] text-muted-foreground">{totalUnits} квартир в продаже</p>
         </div>
       </Link>
 
