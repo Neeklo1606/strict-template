@@ -8,10 +8,10 @@ import AdditionalFeatures from '@/components/AdditionalFeatures';
 import LatestNews from '@/components/LatestNews';
 import ContactsSection from '@/components/ContactsSection';
 import FooterSection from '@/components/FooterSection';
-import complex1 from '@/assets/complex1.jpg';
-import complex2 from '@/assets/complex2.jpg';
-import complex3 from '@/assets/complex3.jpg';
-import complex4 from '@/assets/complex4.jpg';
+import complex1 from '@/assets/complex-1.jpg';
+import complex2 from '@/assets/complex-2.jpg';
+import complex3 from '@/assets/complex-3.jpg';
+import complex4 from '@/assets/complex-4.jpg';
 
 const allZhk: ZhkData[] = [
   {
