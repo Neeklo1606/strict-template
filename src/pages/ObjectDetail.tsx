@@ -12,10 +12,10 @@ import AdditionalFeatures from '@/components/AdditionalFeatures';
 import LatestNews from '@/components/LatestNews';
 import ContactsSection from '@/components/ContactsSection';
 import FooterSection from '@/components/FooterSection';
-import building1 from '@/assets/building1.jpg';
-import building2 from '@/assets/building2.jpg';
-import building3 from '@/assets/building3.jpg';
-import building4 from '@/assets/building4.jpg';
+import complex1 from '@/assets/complex-1.jpg';
+import complex2 from '@/assets/complex-2.jpg';
+import complex3 from '@/assets/complex-3.jpg';
+import complex4 from '@/assets/complex-4.jpg';
 
 /* ---- mock data ---- */
 const objectData = {
@@ -30,7 +30,7 @@ const objectData = {
   zhkName: 'ЖК Смородина',
   zhkSlug: 'smorodina',
   deliveryDate: 'Март 2027',
-  images: [building1, building2, building3, building4],
+  images: [complex1, complex2, complex3, complex4],
   description: [
     'Просторная двухкомнатная квартира в современном жилом комплексе с продуманной планировкой и качественной отделкой. Большие окна обеспечивают максимальное естественное освещение.',
     'Квартира расположена на 8 этаже 16-этажного дома, что обеспечивает прекрасный вид на парковую зону и городскую панораму.',
@@ -48,29 +48,29 @@ const objectData = {
   ],
   infrastructure: [
     { title: 'Особенности', image: '', accent: true },
-    { title: 'Современный фитнес-зал', image: building2 },
-    { title: 'Зона отдыха и парка', image: building3 },
-    { title: 'Сад и зеленая зона', image: building4 },
-    { title: 'Бассейн на 16 этаже\nс панорамным видом на море', image: building1 },
+    { title: 'Современный фитнес-зал', image: complex2 },
+    { title: 'Зона отдыха и парка', image: complex3 },
+    { title: 'Сад и зеленая зона', image: complex4 },
+    { title: 'Бассейн на 16 этаже\nс панорамным видом на море', image: complex1 },
   ],
 };
 
 const similarZhk: ZhkData[] = [
-  { images: [building2, building1, building3], name: 'ЖК Высота', price: 'от 12.3 млн', unitsCount: '180 квартир', badges: ['Ипотека 6%'], apartments: [{ type: '2-комнатная', area: 'от 68 м.кв.', price: 'от 12.3 млн' }] },
-  { images: [building3, building4, building1], name: 'ЖК Парк Сити', price: 'от 7.1 млн', unitsCount: '340 квартир', badges: [], apartments: [{ type: '1-комнатная', area: 'от 38 м.кв.', price: 'от 7.1 млн' }] },
-  { images: [building1, building2, building4], name: 'ЖК Снегири', price: 'от 5.6 млн', unitsCount: '226 квартир', badges: ['Рассрочка'], apartments: [{ type: 'Студия', area: 'от 24 м.кв.', price: 'от 5.6 млн' }] },
-  { images: [building4, building3, building2], name: 'ЖК Лесной', price: 'от 9.5 млн', unitsCount: '95 квартир', badges: [], apartments: [{ type: '2-комнатная', area: 'от 54 м.кв.', price: 'от 9.5 млн' }] },
+  { images: [complex2, complex1, complex3], name: 'ЖК Высота', price: 'от 12.3 млн', unitsCount: '180 квартир', badges: ['Ипотека 6%'], apartments: [{ type: '2-комнатная', area: 'от 68 м.кв.', price: 'от 12.3 млн' }] },
+  { images: [complex3, complex4, complex1], name: 'ЖК Парк Сити', price: 'от 7.1 млн', unitsCount: '340 квартир', badges: [], apartments: [{ type: '1-комнатная', area: 'от 38 м.кв.', price: 'от 7.1 млн' }] },
+  { images: [complex1, complex2, complex4], name: 'ЖК Снегири', price: 'от 5.6 млн', unitsCount: '226 квартир', badges: ['Рассрочка'], apartments: [{ type: 'Студия', area: 'от 24 м.кв.', price: 'от 5.6 млн' }] },
+  { images: [complex4, complex3, complex2], name: 'ЖК Лесной', price: 'от 9.5 млн', unitsCount: '95 квартир', badges: [], apartments: [{ type: '2-комнатная', area: 'от 54 м.кв.', price: 'от 9.5 млн' }] },
 ];
 
 const similarObjects: PropertyData[] = [
-  { image: building1, title: 'Дом 145 м², Подмосковье', price: 'от 12.5 млн', address: 'Москва, р-н Тверской', area: '145 м²', rooms: '4 комн.', badges: ['Новый'] },
-  { image: building2, title: 'Дом 130 м², Подмосковье', price: 'от 10.8 млн', address: 'МО, г. Красногорск', area: '130 м²', rooms: '3 комн.' },
-  { image: building3, title: 'Дом 115 м², Подмосковье', price: 'от 9.2 млн', address: 'МО, г. Балашиха', area: '115 м²', rooms: '3 комн.' },
-  { image: building4, title: 'Дом 160 м², Подмосковье', price: 'от 15.4 млн', address: 'Москва, Хамовники', area: '160 м²', rooms: '4 комн.' },
-  { image: building2, title: 'Дом 95 м², Подмосковье', price: 'от 7.6 млн', address: 'МО, Одинцово', area: '95 м²', rooms: '2 комн.' },
-  { image: building3, title: 'Дом 110 м², Подмосковье', price: 'от 8.9 млн', address: 'МО, Мытищи', area: '110 м²', rooms: '3 комн.' },
-  { image: building1, title: 'Дом 180 м², Подмосковье', price: 'от 18.1 млн', address: 'Москва, Арбат', area: '180 м²', rooms: '5 комн.' },
-  { image: building4, title: 'Дом 125 м², Подмосковье', price: 'от 10.2 млн', address: 'МО, Люберцы', area: '125 м²', rooms: '3 комн.' },
+  { image: complex1, title: 'Дом 145 м², Подмосковье', price: 'от 12.5 млн', address: 'Москва, р-н Тверской', area: '145 м²', rooms: '4 комн.', badges: ['Новый'] },
+  { image: complex2, title: 'Дом 130 м², Подмосковье', price: 'от 10.8 млн', address: 'МО, г. Красногорск', area: '130 м²', rooms: '3 комн.' },
+  { image: complex3, title: 'Дом 115 м², Подмосковье', price: 'от 9.2 млн', address: 'МО, г. Балашиха', area: '115 м²', rooms: '3 комн.' },
+  { image: complex4, title: 'Дом 160 м², Подмосковье', price: 'от 15.4 млн', address: 'Москва, Хамовники', area: '160 м²', rooms: '4 комн.' },
+  { image: complex2, title: 'Дом 95 м², Подмосковье', price: 'от 7.6 млн', address: 'МО, Одинцово', area: '95 м²', rooms: '2 комн.' },
+  { image: complex3, title: 'Дом 110 м², Подмосковье', price: 'от 8.9 млн', address: 'МО, Мытищи', area: '110 м²', rooms: '3 комн.' },
+  { image: complex1, title: 'Дом 180 м², Подмосковье', price: 'от 18.1 млн', address: 'Москва, Арбат', area: '180 м²', rooms: '5 комн.' },
+  { image: complex4, title: 'Дом 125 м², Подмосковье', price: 'от 10.2 млн', address: 'МО, Люберцы', area: '125 м²', rooms: '3 комн.' },
 ];
 
 const ObjectDetail = () => {

@@ -7,15 +7,15 @@ import QuizSection from '@/components/QuizSection';
 import AboutPlatform from '@/components/AboutPlatform';
 import AdditionalFeatures from '@/components/AdditionalFeatures';
 import ContactsSection from '@/components/ContactsSection';
-import building1 from '@/assets/building1.jpg';
-import building2 from '@/assets/building2.jpg';
-import building3 from '@/assets/building3.jpg';
-import building4 from '@/assets/building4.jpg';
+import complex1 from '@/assets/complex-1.jpg';
+import complex2 from '@/assets/complex-2.jpg';
+import complex3 from '@/assets/complex-3.jpg';
+import complex4 from '@/assets/complex-4.jpg';
 
 const allNews = Array.from({ length: 32 }, (_, i) => ({
   id: i + 1,
   slug: `news-${i + 1}`,
-  image: [building1, building2, building3, building4][i % 4],
+  image: [complex1, complex2, complex3, complex4][i % 4],
   title: [
     'Старт продаж нового корпуса в ЖК Смородина — квартиры от 3.4 млн рублей',
     'Специальные условия на ипотеку для новостроек — ставка от 3% годовых',

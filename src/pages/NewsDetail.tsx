@@ -7,16 +7,16 @@ import AboutPlatform from '@/components/AboutPlatform';
 import AdditionalFeatures from '@/components/AdditionalFeatures';
 import ContactsSection from '@/components/ContactsSection';
 import ZhkCard, { ZhkData } from '@/components/ZhkCard';
-import building1 from '@/assets/building1.jpg';
-import building2 from '@/assets/building2.jpg';
-import building3 from '@/assets/building3.jpg';
-import building4 from '@/assets/building4.jpg';
+import complex1 from '@/assets/complex-1.jpg';
+import complex2 from '@/assets/complex-2.jpg';
+import complex3 from '@/assets/complex-3.jpg';
+import complex4 from '@/assets/complex-4.jpg';
 
 const similarZhk: ZhkData[] = [
-  { images: [building1, building2], name: 'ЖК Смородина', price: 'от 3.4 млн', unitsCount: '365 квартир', badges: ['Рассрочка'], apartments: [{ type: 'Студии', area: 'от 22 м²', price: 'от 3.4 млн' }, { type: '1-комн', area: 'от 35 м²', price: 'от 5.1 млн' }] },
-  { images: [building2, building3], name: 'ЖК Панорама', price: 'от 4.8 млн', unitsCount: '280 квартир', badges: ['Сдан'], apartments: [{ type: 'Студии', area: 'от 25 м²', price: 'от 4.8 млн' }] },
-  { images: [building3, building4], name: 'ЖК Аквамарин', price: 'от 5.2 млн', unitsCount: '190 квартир', badges: ['Ипотека 3%'], apartments: [{ type: '1-комн', area: 'от 38 м²', price: 'от 5.2 млн' }] },
-  { images: [building4, building1], name: 'ЖК Riverside', price: 'от 6.1 млн', unitsCount: '420 квартир', badges: ['Старт продаж'], apartments: [{ type: '2-комн', area: 'от 55 м²', price: 'от 6.1 млн' }] },
+  { images: [complex1, complex2], name: 'ЖК Смородина', price: 'от 3.4 млн', unitsCount: '365 квартир', badges: ['Рассрочка'], apartments: [{ type: 'Студии', area: 'от 22 м²', price: 'от 3.4 млн' }, { type: '1-комн', area: 'от 35 м²', price: 'от 5.1 млн' }] },
+  { images: [complex2, complex3], name: 'ЖК Панорама', price: 'от 4.8 млн', unitsCount: '280 квартир', badges: ['Сдан'], apartments: [{ type: 'Студии', area: 'от 25 м²', price: 'от 4.8 млн' }] },
+  { images: [complex3, complex4], name: 'ЖК Аквамарин', price: 'от 5.2 млн', unitsCount: '190 квартир', badges: ['Ипотека 3%'], apartments: [{ type: '1-комн', area: 'от 38 м²', price: 'от 5.2 млн' }] },
+  { images: [complex4, complex1], name: 'ЖК Riverside', price: 'от 6.1 млн', unitsCount: '420 квартир', badges: ['Старт продаж'], apartments: [{ type: '2-комн', area: 'от 55 м²', price: 'от 6.1 млн' }] },
 ];
 
 const NewsDetail = () => {
@@ -42,7 +42,7 @@ const NewsDetail = () => {
         <div className="flex flex-col lg:flex-row gap-6">
           {/* Main image */}
           <div className="lg:w-1/2 relative rounded-2xl overflow-hidden aspect-[4/3]">
-            <img src={building1} alt="Новость" className="w-full h-full object-cover" />
+            <img src={complex1} alt="Новость" className="w-full h-full object-cover" />
             <div className="absolute top-3 left-3 flex flex-wrap gap-1.5">
               <span className="px-2.5 py-1 bg-primary text-primary-foreground rounded-full text-xs font-medium">НОВЫЕ СЕЗОНЫ 2</span>
               <span className="px-2.5 py-1 bg-destructive text-destructive-foreground rounded-full text-xs font-medium">СТАРТ ПРОДАЖ</span>
@@ -73,13 +73,13 @@ const NewsDetail = () => {
             <div>
               <h2 className="text-xl font-bold mb-3">Архитектура проекта</h2>
               <div className="rounded-2xl overflow-hidden aspect-[4/3]">
-                <img src={building2} alt="Архитектура" className="w-full h-full object-cover" />
+                <img src={complex2} alt="Архитектура" className="w-full h-full object-cover" />
               </div>
             </div>
             <div>
               <h2 className="text-xl font-bold mb-3">Планировки квартир</h2>
               <div className="rounded-2xl overflow-hidden aspect-[4/3]">
-                <img src={building3} alt="Планировки" className="w-full h-full object-cover" />
+                <img src={complex3} alt="Планировки" className="w-full h-full object-cover" />
               </div>
             </div>
           </div>
@@ -107,9 +107,9 @@ const NewsDetail = () => {
               <p className="text-sm opacity-80 mt-2">Закрытая территория, подземный паркинг, видеонаблюдение 24/7</p>
             </div>
             {[
-              { img: building1, label: 'Фитнес-зал' },
-              { img: building2, label: 'Зона отдыха' },
-              { img: building3, label: 'Сад и бассейн' },
+              { img: complex1, label: 'Фитнес-зал' },
+              { img: complex2, label: 'Зона отдыха' },
+              { img: complex3, label: 'Сад и бассейн' },
             ].map((item, i) => (
               <div key={i} className="rounded-2xl overflow-hidden relative min-h-[180px]">
                 <img src={item.img} alt={item.label} className="w-full h-full object-cover absolute inset-0" />

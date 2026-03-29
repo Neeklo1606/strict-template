@@ -20,17 +20,17 @@ import {
   PaginationLink,
   PaginationNext,
 } from '@/components/ui/pagination';
-import building1 from '@/assets/building1.jpg';
-import building2 from '@/assets/building2.jpg';
-import building3 from '@/assets/building3.jpg';
-import building4 from '@/assets/building4.jpg';
+import complex1 from '@/assets/complex-1.jpg';
+import complex2 from '@/assets/complex-2.jpg';
+import complex3 from '@/assets/complex-3.jpg';
+import complex4 from '@/assets/complex-4.jpg';
 import { cn } from '@/lib/utils';
 import type { PropertyData } from '@/components/PropertyCard';
 
 const CatalogMapView = lazy(() => import('@/components/catalog/CatalogMapView'));
 
 /* ── mock properties ── */
-const images = [building1, building2, building3, building4];
+const images = [complex1, complex2, complex3, complex4];
 
 const moscowCoords: [number, number][] = [
   [55.76, 37.62], [55.74, 37.58], [55.78, 37.64], [55.72, 37.60],
