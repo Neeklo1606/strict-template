@@ -140,7 +140,14 @@ const HeroSearch = () => {
                 {tab.label}
               </button>
             );
-          })}
+          {/* Белгород — accent regional tab */}
+          <Link
+            to="/catalog?region=belgorod"
+            className="flex items-center gap-1.5 px-4 py-2.5 rounded-full text-sm font-medium whitespace-nowrap transition-all duration-200 border border-primary/30 bg-accent text-primary hover:bg-primary hover:text-primary-foreground"
+          >
+            <MapPin className="w-4 h-4" />
+            Белгород
+          </Link>
         </div>
 
         {/* Search bar */}
