@@ -36,7 +36,7 @@ const ComplexCard = ({ complex, variant = 'grid' }: Props) => {
       >
         <div className="relative w-[220px] shrink-0 overflow-hidden bg-muted">
           <img src={complex.images[0]} alt={complex.name} className="w-full h-full object-cover transition-transform duration-200 group-hover:scale-[1.02]" />
-          <PropertyBadge label={statusLabel[complex.status]} type={badgeType} />
+          <PropertyBadge label={statusLabel[complex.status]} type={badgeType} className="absolute top-2 left-2" />
           <button
             className="absolute top-2 right-2 w-7 h-7 bg-background/80 backdrop-blur-sm rounded-full flex items-center justify-center"
             onClick={e => { e.preventDefault(); e.stopPropagation(); setLiked(!liked); }}
