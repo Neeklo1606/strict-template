@@ -8,14 +8,14 @@ import AdditionalFeatures from '@/components/AdditionalFeatures';
 import LatestNews from '@/components/LatestNews';
 import ContactsSection from '@/components/ContactsSection';
 import FooterSection from '@/components/FooterSection';
-import building1 from '@/assets/building1.jpg';
-import building2 from '@/assets/building2.jpg';
-import building3 from '@/assets/building3.jpg';
-import building4 from '@/assets/building4.jpg';
+import complex1 from '@/assets/complex1.jpg';
+import complex2 from '@/assets/complex2.jpg';
+import complex3 from '@/assets/complex3.jpg';
+import complex4 from '@/assets/complex4.jpg';
 
 const allZhk: ZhkData[] = [
   {
-    images: [building1, building2, building3],
+    images: [complex1, complex2, complex3],
     name: 'ЖК Снегири', price: 'от 5.6 млн', unitsCount: 'В продаже 226 квартир',
     badges: ['Рассрочка 1 год', 'Ипотека 6%'],
     apartments: [
@@ -26,7 +26,7 @@ const allZhk: ZhkData[] = [
     ],
   },
   {
-    images: [building2, building1, building4],
+    images: [complex2, complex1, complex4],
     name: 'КП Черкизово', price: 'от 16.6 млн', unitsCount: 'В продаже 56 коттеджей',
     badges: ['ТОП продаж', 'С ремонтом'],
     apartments: [
@@ -35,7 +35,7 @@ const allZhk: ZhkData[] = [
     ],
   },
   {
-    images: [building3, building2, building1],
+    images: [complex3, complex2, complex1],
     name: 'ЖК Смородина', price: 'от 3.8 млн', unitsCount: 'В продаже 795 квартир',
     badges: ['Эконом+', 'Ипотека 6%'],
     apartments: [
@@ -45,7 +45,7 @@ const allZhk: ZhkData[] = [
     ],
   },
   {
-    images: [building4, building3, building2],
+    images: [complex4, complex3, complex2],
     name: 'Таунхаусы в центре', price: 'от 32.8 млн', unitsCount: 'В продаже 22 таунхауса',
     badges: ['Рассрочка 1 год', 'Инвестиция'],
     apartments: [
@@ -53,31 +53,31 @@ const allZhk: ZhkData[] = [
     ],
   },
   {
-    images: [building1, building3, building4],
+    images: [complex1, complex3, complex4],
     name: 'ЖК Парк Сити', price: 'от 7.1 млн', unitsCount: 'В продаже 340 квартир',
     badges: [],
     apartments: [{ type: '1-комнатная', area: 'от 38 м.кв.', price: 'от 7.1 млн' }],
   },
   {
-    images: [building2, building4, building1],
+    images: [complex2, complex4, complex1],
     name: 'ЖК Высота', price: 'от 12.3 млн', unitsCount: 'В продаже 180 квартир',
     badges: [],
     apartments: [{ type: '2-комнатная', area: 'от 68 м.кв.', price: 'от 12.3 млн' }],
   },
   {
-    images: [building3, building1, building2],
+    images: [complex3, complex1, complex2],
     name: 'ЖК Дубровка', price: 'от 4.2 млн', unitsCount: 'В продаже 520 квартир',
     badges: [],
     apartments: [{ type: 'Студия', area: 'от 22 м.кв.', price: 'от 4.2 млн' }],
   },
   {
-    images: [building4, building2, building3],
+    images: [complex4, complex2, complex3],
     name: 'ЖК Лесной', price: 'от 9.5 млн', unitsCount: 'В продаже 95 квартир',
     badges: [],
     apartments: [{ type: '2-комнатная', area: 'от 54 м.кв.', price: 'от 9.5 млн' }],
   },
   {
-    images: [building1, building4, building2],
+    images: [complex1, complex4, complex2],
     name: 'ЖК Снегири', price: 'от 5.6 млн', unitsCount: 'В продаже 226 квартир',
     badges: ['Рассрочка 1 год'],
     apartments: [
@@ -86,19 +86,19 @@ const allZhk: ZhkData[] = [
     ],
   },
   {
-    images: [building2, building3, building1],
+    images: [complex2, complex3, complex1],
     name: 'КП Черкизово', price: 'от 16.6 млн', unitsCount: 'В продаже 56 коттеджей',
     badges: ['ТОП продаж'],
     apartments: [{ type: 'Коттедж', area: 'от 120 м.кв.', price: 'от 16.6 млн' }],
   },
   {
-    images: [building3, building4, building1],
+    images: [complex3, complex4, complex1],
     name: 'ЖК Смородина', price: 'от 3.8 млн', unitsCount: 'В продаже 795 квартир',
     badges: ['Эконом+'],
     apartments: [{ type: 'Студия', area: 'от 20 м.кв.', price: 'от 3.8 млн' }],
   },
   {
-    images: [building4, building1, building3],
+    images: [complex4, complex1, complex3],
     name: 'Таунхаусы в центре', price: 'от 32.8 млн', unitsCount: 'В продаже 22 таунхауса',
     badges: [],
     apartments: [{ type: 'Таунхаус', area: 'от 150 м.кв.', price: 'от 32.8 млн' }],
