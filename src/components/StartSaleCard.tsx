@@ -40,7 +40,7 @@ const StartSaleCard = ({ data }: { data: StartSaleData }) => {
 
   return (
     <div
-      className="group rounded-xl overflow-hidden bg-card border border-border transition-all duration-300 ease-in-out will-change-transform hover:shadow-lg hover:-translate-y-0.5"
+      className="group rounded-xl overflow-hidden bg-card border border-border transition-all duration-200 will-change-transform hover:shadow-md hover:-translate-y-px"
       onMouseEnter={() => setExpanded(true)}
       onMouseLeave={() => setExpanded(false)}
     >
@@ -49,13 +49,13 @@ const StartSaleCard = ({ data }: { data: StartSaleData }) => {
         <div
           className={cn(
             'relative overflow-hidden transition-all duration-300 ease-in-out',
-            expanded ? 'h-[130px]' : 'h-[200px]',
+            expanded ? 'h-[100px]' : 'h-[160px]',
           )}
         >
           <img
             src={data.image}
             alt={data.title}
-            className="w-full h-full object-cover transition-transform duration-300 ease-in-out group-hover:scale-[1.03]"
+            className="w-full h-full object-cover transition-transform duration-200 group-hover:scale-[1.03]"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-foreground/20 via-transparent to-transparent" />
 

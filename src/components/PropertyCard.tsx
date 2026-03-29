@@ -34,84 +34,69 @@ const getHotBadgeClass = (label: string) => {
   return 'bg-destructive/90 text-destructive-foreground';
 };
 
-const PropertyCard = ({ data, basePath = '', variant = 'default' }: { data: PropertyData; basePath?: string; variant?: 'default' | 'hot' }) => {
+const PropertyCard = ({ data, variant = 'default' }: { data: PropertyData; basePath?: string; variant?: 'default' | 'hot' }) => {
   const [liked, setLiked] = useState(false);
   const slug = data.slug || data.title.toLowerCase().replace(/\s+/g, '-').replace(/[^a-zа-яё0-9-]/gi, '');
   const linkPath = `/complex/${slug}`;
   const isHot = variant === 'hot';
 
   return (
-    <div className={cn(
-      'group rounded-2xl overflow-hidden bg-card border transition-all duration-300 ease-in-out will-change-transform',
-      isHot
-        ? 'border-primary/20 hover:border-primary/40 hover:shadow-lg hover:shadow-primary/5 hover:-translate-y-1'
-        : 'border-border hover:shadow-xl hover:-translate-y-1'
-    )}>
-      <Link to={linkPath} className="block">
-        {/* Image */}
-        <div className="relative overflow-hidden" style={{ height: '220px' }}>
-          <img
-            src={data.image}
-            alt={data.title}
-            className={cn(
-              'w-full h-full object-cover transition-transform duration-300 ease-in-out',
-              isHot ? 'group-hover:scale-[1.05]' : 'group-hover:scale-[1.03]'
-            )}
-          />
-          {/* Hot overlay */}
-          {isHot && (
-            <div className="absolute inset-0 bg-gradient-to-t from-foreground/20 via-transparent to-transparent transition-opacity duration-300 group-hover:from-foreground/30" />
-          )}
-          {/* Badges */}
-          {data.badges && data.badges.length > 0 && (
-            <div className="absolute top-2.5 left-2.5 flex flex-wrap gap-1.5 z-10">
-              {data.badges.map((b, i) => (
-                <span
-                  key={i}
-                  className={cn(
-                    'px-2.5 py-1 rounded-full text-xs font-semibold flex items-center gap-1',
-                    isHot ? getHotBadgeClass(b) : 'bg-background/85 backdrop-blur-sm text-foreground'
-                  )}
-                >
-                  {isHot && <Flame className="w-3 h-3" />}
-                  {b}
-                </span>
-              ))}
-            </div>
-          )}
-          {/* Favorite */}
-          <button
-            className="absolute top-2.5 right-2.5 w-8 h-8 bg-background/80 backdrop-blur-sm rounded-full flex items-center justify-center z-10 transition-transform duration-200 active:scale-90"
-            onClick={(e) => { e.preventDefault(); e.stopPropagation(); setLiked(!liked); }}
-          >
-            <Heart className={cn('w-4 h-4', liked ? 'fill-destructive text-destructive' : 'text-muted-foreground')} />
-          </button>
-        </div>
-
-        {/* Info */}
-        <div className="p-3.5">
-          <div className="flex justify-between items-start gap-2">
-            <h3 className="font-semibold text-sm leading-tight truncate">{data.title}</h3>
-            <span className={cn(
-              'font-bold whitespace-nowrap shrink-0',
-              isHot ? 'text-base text-primary' : 'text-sm'
-            )}>{data.price}</span>
+    <Link
+      to={linkPath}
+      className={cn(
+        'group flex flex-col rounded-xl overflow-hidden bg-card border transition-all duration-200',
+        isHot
+          ? 'border-primary/20 hover:border-primary/40 hover:shadow-md'
+          : 'border-border hover:shadow-md hover:-translate-y-px'
+      )}
+    >
+      {/* Image */}
+      <div className="relative shrink-0 overflow-hidden h-[160px]">
+        <img
+          src={data.image}
+          alt={data.title}
+          className="w-full h-full object-cover transition-transform duration-200 group-hover:scale-[1.03]"
+        />
+        {isHot && (
+          <div className="absolute inset-0 bg-gradient-to-t from-foreground/15 via-transparent to-transparent" />
+        )}
+        {data.badges && data.badges.length > 0 && (
+          <div className="absolute top-2 left-2 flex flex-wrap gap-1 z-10">
+            {data.badges.map((b, i) => (
+              <span
+                key={i}
+                className={cn(
+                  'px-2 py-0.5 rounded-full text-[11px] font-semibold flex items-center gap-1',
+                  isHot ? getHotBadgeClass(b) : 'bg-background/85 backdrop-blur-sm text-foreground'
+                )}
+              >
+                {isHot && <Flame className="w-3 h-3" />}
+                {b}
+              </span>
+            ))}
           </div>
-          {data.description ? (
-            <p className="text-xs text-muted-foreground mt-1.5 line-clamp-2 leading-relaxed">{data.description}</p>
-          ) : (
-            <>
-              <p className="text-xs text-muted-foreground mt-1">{data.address}</p>
-              <div className="flex gap-3 mt-1 text-xs text-muted-foreground">
-                {data.area && <span>{data.area}</span>}
-                {data.rooms && <span>{data.rooms}</span>}
-              </div>
-            </>
-          )}
-          <span className="text-primary text-xs font-medium mt-2 inline-block hover:underline">Подробнее</span>
+        )}
+        <button
+          className="absolute top-2 right-2 w-7 h-7 bg-background/80 backdrop-blur-sm rounded-full flex items-center justify-center z-10"
+          onClick={(e) => { e.preventDefault(); e.stopPropagation(); setLiked(!liked); }}
+        >
+          <Heart className={cn('w-3.5 h-3.5', liked ? 'fill-destructive text-destructive' : 'text-muted-foreground')} />
+        </button>
+      </div>
+
+      {/* Info */}
+      <div className="p-3 flex flex-col gap-0.5">
+        <div className="flex justify-between items-start gap-2">
+          <h3 className="font-semibold text-sm leading-tight truncate">{data.title}</h3>
+          <span className={cn('font-bold text-sm shrink-0', isHot && 'text-primary')}>{data.price}</span>
         </div>
-      </Link>
-    </div>
+        <p className="text-[11px] text-muted-foreground truncate">{data.address}</p>
+        {(data.area || data.rooms) && (
+          <p className="text-[11px] text-muted-foreground">{[data.area, data.rooms].filter(Boolean).join(' · ')}</p>
+        )}
+        <span className="text-primary text-[11px] font-medium mt-1 hover:underline">Подробнее</span>
+      </div>
+    </Link>
   );
 };
 
