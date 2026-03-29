@@ -1,8 +1,10 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import PropertyCard, { type PropertyData } from './PropertyCard';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
+import { ChevronLeft, ChevronRight, Flame } from 'lucide-react';
+import { cn } from '@/lib/utils';
 import building1 from '@/assets/building1.jpg';
 import building2 from '@/assets/building2.jpg';
 import building3 from '@/assets/building3.jpg';
@@ -11,8 +13,8 @@ import building4 from '@/assets/building4.jpg';
 const hotDeals: PropertyData[] = [
   { image: building2, title: 'ЖК Высотный', price: 'от 8.9 млн', address: 'Москва, Ленинский пр-т', area: '52 м²', rooms: '2 комн.', badges: ['Скидка 10%'] },
   { image: building1, title: 'ЖК Солнечный', price: 'от 5.1 млн', address: 'Москва, ул. Солнечная', area: '34 м²', rooms: '1 комн.', badges: ['Акция'] },
-  { image: building3, title: 'ЖК Престиж', price: 'от 15.2 млн', address: 'Москва, Тверская', area: '78 м²', rooms: '3 комн.' },
-  { image: building4, title: 'ЖК Зеленый', price: 'от 6.7 млн', address: 'МО, г. Красногорск', area: '42 м²', rooms: '1 комн.' },
+  { image: building3, title: 'ЖК Престиж', price: 'от 15.2 млн', address: 'Москва, Тверская', area: '78 м²', rooms: '3 комн.', badges: ['Горячее предложение'] },
+  { image: building4, title: 'ЖК Зеленый', price: 'от 6.7 млн', address: 'МО, г. Красногорск', area: '42 м²', rooms: '1 комн.', badges: ['Скидка 5%'] },
 ];
 
 const startSales: PropertyData[] = [
@@ -27,24 +29,53 @@ interface Props { title: string; type: 'hot' | 'start'; }
 const PropertyGridSection = ({ title, type }: Props) => {
   const data = type === 'hot' ? hotDeals : startSales;
   const [helpOpen, setHelpOpen] = useState(false);
-  const basePath = '';
+  const scrollRef = useRef<HTMLDivElement>(null);
+  const isHot = type === 'hot';
+
+  const scroll = (dir: 'left' | 'right') => {
+    if (!scrollRef.current) return;
+    const amount = scrollRef.current.offsetWidth * 0.75;
+    scrollRef.current.scrollBy({ left: dir === 'left' ? -amount : amount, behavior: 'smooth' });
+  };
 
   return (
-    <section className="py-8">
+    <section className={cn('py-8', isHot && 'bg-accent/30')}>
       <div className="max-w-[1400px] mx-auto px-4">
+        {/* Header */}
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-6 gap-3">
-          <h2 className="text-2xl font-bold">{title}</h2>
-          {type === 'start' ? (
-            <Button size="lg" className="w-full sm:w-auto" onClick={() => setHelpOpen(true)}>
-              Помощь с подбором
-            </Button>
-          ) : (
-            <a href="/catalog" className="text-primary text-sm font-medium hover:underline">Все предложения →</a>
-          )}
+          <div className="flex items-center gap-2">
+            {isHot && <Flame className="w-5 h-5 text-destructive" />}
+            <h2 className="text-2xl font-bold">{title}</h2>
+          </div>
+          <div className="flex items-center gap-3">
+            {/* Desktop arrows */}
+            <div className="hidden lg:flex items-center gap-1.5">
+              <button onClick={() => scroll('left')} className="w-8 h-8 rounded-full border border-border bg-background flex items-center justify-center hover:bg-secondary transition-colors">
+                <ChevronLeft className="w-4 h-4" />
+              </button>
+              <button onClick={() => scroll('right')} className="w-8 h-8 rounded-full border border-border bg-background flex items-center justify-center hover:bg-secondary transition-colors">
+                <ChevronRight className="w-4 h-4" />
+              </button>
+            </div>
+            {type === 'start' ? (
+              <Button size="lg" className="w-full sm:w-auto" onClick={() => setHelpOpen(true)}>
+                Помощь с подбором
+              </Button>
+            ) : (
+              <a href="/catalog" className="text-primary text-sm font-medium hover:underline">Все предложения →</a>
+            )}
+          </div>
         </div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+
+        {/* Cards — swipe on mobile, grid on lg */}
+        <div
+          ref={scrollRef}
+          className="flex lg:grid lg:grid-cols-4 gap-4 overflow-x-auto lg:overflow-visible snap-x snap-mandatory scrollbar-hide -mx-4 px-4 lg:mx-0 lg:px-0"
+        >
           {data.map((p, i) => (
-            <PropertyCard key={i} data={p} basePath={basePath} />
+            <div key={i} className="min-w-[280px] sm:min-w-[300px] lg:min-w-0 snap-start">
+              <PropertyCard data={p} variant={isHot ? 'hot' : 'default'} />
+            </div>
           ))}
         </div>
       </div>
