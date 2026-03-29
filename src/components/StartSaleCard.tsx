@@ -1,4 +1,4 @@
-import { Heart, CalendarClock, MapPin, ChevronRight } from 'lucide-react';
+import { Heart, CalendarClock, MapPin } from 'lucide-react';
 import { useState, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import { cn } from '@/lib/utils';
@@ -25,33 +25,28 @@ const defaultApartments = [
 
 const StartSaleCard = ({ data }: { data: StartSaleData }) => {
   const [liked, setLiked] = useState(false);
-  const [expanded, setExpanded] = useState(false);
+  const [hovered, setHovered] = useState(false);
   const slug = data.slug || data.title.toLowerCase().replace(/\s+/g, '-').replace(/[^a-zа-яё0-9-]/gi, '');
   const linkPath = `/complex/${slug}`;
   const apartments = data.apartments || defaultApartments;
   const totalUnits = apartments.reduce((s, a) => s + a.count, 0);
 
   const handleTap = useCallback((e: React.MouseEvent) => {
-    if ('ontouchstart' in window && !expanded) {
+    if ('ontouchstart' in window && !hovered) {
       e.preventDefault();
-      setExpanded(true);
+      setHovered(true);
     }
-  }, [expanded]);
+  }, [hovered]);
 
   return (
     <div
-      className="group rounded-xl overflow-hidden bg-card border border-border transition-all duration-200 will-change-transform hover:shadow-md hover:-translate-y-px"
-      onMouseEnter={() => setExpanded(true)}
-      onMouseLeave={() => setExpanded(false)}
+      className="group relative rounded-xl overflow-hidden bg-card border border-border transition-shadow duration-200 hover:shadow-md h-[300px] flex flex-col"
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
     >
-      <Link to={linkPath} className="block" onClick={handleTap}>
-        {/* Image — shrinks on expand */}
-        <div
-          className={cn(
-            'relative overflow-hidden transition-all duration-300 ease-in-out',
-            expanded ? 'h-[100px]' : 'h-[160px]',
-          )}
-        >
+      <Link to={linkPath} className="flex flex-col flex-1 min-h-0" onClick={handleTap}>
+        {/* Image — fixed height, no shrinking */}
+        <div className="relative shrink-0 overflow-hidden h-[160px]">
           <img
             src={data.image}
             alt={data.title}
@@ -59,7 +54,6 @@ const StartSaleCard = ({ data }: { data: StartSaleData }) => {
           />
           <div className="absolute inset-0 bg-gradient-to-t from-foreground/20 via-transparent to-transparent" />
 
-          {/* Start date badge */}
           {data.badges && data.badges.length > 0 && (
             <div className="absolute top-2 left-2 flex flex-wrap gap-1 z-10">
               {data.badges.map((b, i) => (
@@ -74,7 +68,6 @@ const StartSaleCard = ({ data }: { data: StartSaleData }) => {
             </div>
           )}
 
-          {/* Favorite — unified */}
           <button
             className="absolute top-2 right-2 w-7 h-7 bg-background/70 backdrop-blur-sm rounded-full flex items-center justify-center z-10 hover:bg-background/90 transition-colors active:scale-90"
             onClick={(e) => { e.preventDefault(); e.stopPropagation(); setLiked(!liked); }}
@@ -83,8 +76,8 @@ const StartSaleCard = ({ data }: { data: StartSaleData }) => {
           </button>
         </div>
 
-        {/* Info block */}
-        <div className="p-3">
+        {/* Info block — fills remaining space */}
+        <div className="p-3 flex-1 flex flex-col gap-0.5">
           <div className="flex justify-between items-start gap-2">
             <h3 className="font-semibold text-sm leading-tight truncate">{data.title}</h3>
             <span className="font-bold text-sm shrink-0">{data.price}</span>
@@ -94,43 +87,57 @@ const StartSaleCard = ({ data }: { data: StartSaleData }) => {
             <span className="truncate">{data.district || data.address}{data.developer ? ` · ${data.developer}` : ''}</span>
           </div>
           <p className="text-[11px] text-muted-foreground">{totalUnits} квартир в продаже</p>
+          <span className="text-primary text-[11px] font-medium mt-auto hover:underline">Подробнее</span>
         </div>
       </Link>
 
-      {/* Expandable apartment list */}
+      {/* Hover overlay — absolute, no layout shift */}
       <div
         className={cn(
-          'overflow-hidden transition-all duration-300 ease-in-out',
-          expanded ? 'max-h-[220px] opacity-100' : 'max-h-0 opacity-0',
+          'absolute inset-0 z-20 rounded-xl bg-card/95 backdrop-blur-sm flex flex-col transition-all duration-250 ease-in-out pointer-events-none',
+          hovered ? 'opacity-100 translate-y-0 pointer-events-auto' : 'opacity-0 translate-y-2'
         )}
       >
-        <div className="px-3 pb-3">
-          <div className="border-t border-border pt-2 space-y-0.5">
-            {apartments.map((apt, i) => (
-              <Link
-                key={i}
-                to={`${linkPath}?rooms=${encodeURIComponent(apt.type)}`}
-                className="flex items-center justify-between py-1.5 px-2 -mx-1 rounded-lg hover:bg-secondary transition-colors text-xs group/row"
-                onClick={(e) => e.stopPropagation()}
-              >
-                <span className="text-foreground font-medium">{apt.type}</span>
-                <div className="flex items-center gap-2.5">
-                  <span className="text-muted-foreground">{apt.count} шт.</span>
-                  <span className="font-semibold text-primary">{apt.price}</span>
-                  <ChevronRight className="w-3 h-3 text-muted-foreground opacity-0 group-hover/row:opacity-100 transition-opacity" />
-                </div>
-              </Link>
-            ))}
+        {/* Overlay header */}
+        <div className="p-3 border-b border-border">
+          <div className="flex justify-between items-start gap-2">
+            <h3 className="font-semibold text-sm leading-tight truncate">{data.title}</h3>
+            <span className="font-bold text-sm shrink-0 text-primary">{data.price}</span>
+          </div>
+          <div className="flex items-center gap-1 text-[11px] text-muted-foreground mt-0.5">
+            <MapPin className="w-3 h-3 shrink-0" />
+            <span className="truncate">{data.district || data.address}{data.developer ? ` · ${data.developer}` : ''}</span>
           </div>
         </div>
-      </div>
 
-      {/* "Подробнее" — visible only when collapsed */}
-      <div className={cn(
-        'px-3 pb-3 transition-all duration-200',
-        expanded ? 'hidden' : 'block',
-      )}>
-        <span className="text-primary text-[11px] font-medium mt-1 hover:underline">Подробнее</span>
+        {/* Apartment list */}
+        <div className="flex-1 p-3 flex flex-col gap-0.5 overflow-y-auto">
+          <p className="text-[10px] text-muted-foreground uppercase tracking-wider font-medium mb-1">Квартиры в продаже</p>
+          {apartments.map((apt, i) => (
+            <Link
+              key={i}
+              to={`${linkPath}?rooms=${encodeURIComponent(apt.type)}`}
+              className="flex items-center justify-between py-1.5 px-2 -mx-1 rounded-lg hover:bg-secondary transition-colors text-xs"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <span className="text-foreground font-medium">{apt.type}</span>
+              <div className="flex items-center gap-2.5">
+                <span className="text-muted-foreground">{apt.count} шт.</span>
+                <span className="font-semibold text-primary">{apt.price}</span>
+              </div>
+            </Link>
+          ))}
+        </div>
+
+        {/* Overlay footer */}
+        <div className="p-3 border-t border-border">
+          <Link
+            to={linkPath}
+            className="block w-full text-center py-2 rounded-lg bg-primary text-primary-foreground text-xs font-medium hover:bg-primary/90 transition-colors"
+          >
+            Подробнее о ЖК
+          </Link>
+        </div>
       </div>
     </div>
   );
