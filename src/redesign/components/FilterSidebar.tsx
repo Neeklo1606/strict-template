@@ -5,7 +5,7 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { Button } from '@/components/ui/button';
 import { ChevronDown, Search, X, MapPin } from 'lucide-react';
 import { cn } from '@/lib/utils';
-import type { CatalogFilters } from '@/redesign/data/types';
+import type { CatalogFilters, ObjectType, MarketType } from '@/redesign/data/types';
 import { districts, subways, builders, deadlines } from '@/redesign/data/mock-data';
 
 interface Props {
@@ -16,12 +16,17 @@ interface Props {
   className?: string;
 }
 
-const objectTypes = [
-  { value: 'new', label: 'Новостройки' },
-  { value: 'secondary', label: 'Вторичка' },
+const objectTypes: { value: ObjectType; label: string }[] = [
+  { value: 'apartments', label: 'Квартиры' },
   { value: 'houses', label: 'Дома' },
   { value: 'land', label: 'Участки' },
   { value: 'commercial', label: 'Коммерция' },
+];
+
+const marketTypes: { value: MarketType; label: string }[] = [
+  { value: 'all', label: 'Все' },
+  { value: 'new', label: 'Новостройки' },
+  { value: 'secondary', label: 'Вторичка' },
 ];
 
 const housingTypes = [
@@ -170,6 +175,7 @@ const FilterSidebar = ({ filters, onChange, totalCount, showMetro = true, classN
 
   const resetAll = useCallback(() => {
     onChange({
+      objectType: 'apartments', marketType: 'all',
       rooms: [], district: [], subway: [], builder: [],
       finishing: [], deadline: [], status: [], search: '',
     });
@@ -202,27 +208,54 @@ const FilterSidebar = ({ filters, onChange, totalCount, showMetro = true, classN
           {objectTypes.map(t => (
             <button
               key={t.value}
-              className="px-3 py-1.5 rounded-lg text-xs border border-border bg-background hover:border-primary/50 transition-colors"
+              onClick={() => update('objectType', t.value)}
+              className={cn(
+                'px-3 py-1.5 rounded-lg text-xs border transition-colors',
+                filters.objectType === t.value
+                  ? 'bg-primary text-primary-foreground border-primary'
+                  : 'border-border bg-background hover:border-primary/50'
+              )}
             >
               {t.label}
             </button>
           ))}
         </div>
+        {/* Sub-filter: Новостройки / Вторичка — only for Квартиры */}
+        {filters.objectType === 'apartments' && (
+          <div className="flex gap-1 mt-2 pt-2 border-t border-border/50">
+            {marketTypes.map(t => (
+              <button
+                key={t.value}
+                onClick={() => update('marketType', t.value)}
+                className={cn(
+                  'px-2.5 py-1 rounded-md text-[11px] font-medium border transition-colors',
+                  filters.marketType === t.value
+                    ? 'bg-accent text-accent-foreground border-primary/30'
+                    : 'border-border bg-background hover:border-primary/50 text-muted-foreground'
+                )}
+              >
+                {t.label}
+              </button>
+            ))}
+          </div>
+        )}
       </FilterSection>
 
-      {/* 2. Тип жилья */}
-      <FilterSection title="Тип жилья" defaultOpen={false}>
-        <div className="flex flex-wrap gap-1">
-          {housingTypes.map(t => (
-            <button
-              key={t.value}
-              className="px-3 py-1.5 rounded-lg text-xs border border-border bg-background hover:border-primary/50 transition-colors"
-            >
-              {t.label}
-            </button>
-          ))}
-        </div>
-      </FilterSection>
+      {/* 2. Тип жилья — only for apartments */}
+      {filters.objectType === 'apartments' && (
+        <FilterSection title="Тип жилья" defaultOpen={false}>
+          <div className="flex flex-wrap gap-1">
+            {housingTypes.map(t => (
+              <button
+                key={t.value}
+                className="px-3 py-1.5 rounded-lg text-xs border border-border bg-background hover:border-primary/50 transition-colors"
+              >
+                {t.label}
+              </button>
+            ))}
+          </div>
+        </FilterSection>
+      )}
 
       {/* 3. Цена */}
       <FilterSection title="Цена, ₽" count={filters.priceMin || filters.priceMax ? 1 : 0}>

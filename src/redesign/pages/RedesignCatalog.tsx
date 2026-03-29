@@ -9,7 +9,7 @@ import ComplexCard from '@/redesign/components/ComplexCard';
 import FilterSidebar from '@/redesign/components/FilterSidebar';
 import MapSearch from '@/redesign/components/MapSearch';
 import { complexes } from '@/redesign/data/mock-data';
-import { defaultFilters, type CatalogFilters } from '@/redesign/data/types';
+import { defaultFilters, type CatalogFilters, type ObjectType, type MarketType } from '@/redesign/data/types';
 
 type ViewMode = 'grid' | 'list' | 'map';
 
@@ -23,9 +23,15 @@ const RedesignCatalog = () => {
     const rooms = searchParams.get('rooms');
     if (rooms) f.rooms = rooms.split(',').map(Number);
     const type = searchParams.get('type');
-    if (type) f.search = type;
+    if (type && ['apartments', 'houses', 'land', 'commercial'].includes(type)) {
+      f.objectType = type as ObjectType;
+    }
+    const market = searchParams.get('market');
+    if (market && ['new', 'secondary'].includes(market)) {
+      f.marketType = market as MarketType;
+    }
     return f;
-  }, []); // only on mount
+  }, []);
 
   const [view, setView] = useState<ViewMode>('grid');
   const [filters, setFilters] = useState<CatalogFilters>(initialFilters);
@@ -38,6 +44,8 @@ const RedesignCatalog = () => {
     const params = new URLSearchParams();
     if (f.search) params.set('search', f.search);
     if (f.rooms.length) params.set('rooms', f.rooms.join(','));
+    if (f.objectType !== 'apartments') params.set('type', f.objectType);
+    if (f.marketType !== 'all') params.set('market', f.marketType);
     setSearchParams(params, { replace: true });
   }, [setSearchParams]);
 

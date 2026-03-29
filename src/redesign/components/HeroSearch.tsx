@@ -89,10 +89,14 @@ const HeroSearch = () => {
     }, 200);
   }, []);
 
+  const [marketType, setMarketType] = useState<'all' | 'new' | 'secondary'>('all');
+
   const doSearch = () => {
     const params = new URLSearchParams();
     if (q) params.set('search', q);
     if (activeTab !== 'apartments') params.set('type', activeTab);
+    else params.set('type', 'apartments');
+    if (activeTab === 'apartments' && marketType !== 'all') params.set('market', marketType);
     if (propertyType !== 'Тип квартиры') params.set('rooms', propertyType);
     if (deadline !== 'Срок сдачи') params.set('deadline', deadline);
     if (priceFrom) params.set('priceFrom', priceFrom);
@@ -190,6 +194,26 @@ const HeroSearch = () => {
             🏙 Белгород
           </Link>
         </div>
+
+        {/* Sub-filter: Новостройки / Вторичка — only for Квартиры tab */}
+        {activeTab === 'apartments' && (
+          <div className="flex items-center gap-1.5 mb-4 sm:mb-6 overflow-x-auto scrollbar-hide -mx-4 px-4 sm:mx-0 sm:px-0 sm:justify-center">
+            {([['all', 'Все квартиры'], ['new', 'Новостройки'], ['secondary', 'Вторичка']] as const).map(([val, label]) => (
+              <button
+                key={val}
+                onClick={() => setMarketType(val)}
+                className={cn(
+                  'px-3 py-1.5 rounded-full text-xs font-medium whitespace-nowrap transition-all duration-200 border shrink-0',
+                  marketType === val
+                    ? 'bg-accent text-accent-foreground border-primary/30'
+                    : 'bg-background border-border text-muted-foreground hover:text-foreground hover:border-primary/30'
+                )}
+              >
+                {label}
+              </button>
+            ))}
+          </div>
+        )}
 
         {/* Search block — compact on mobile */}
         <div className="bg-muted/50 rounded-xl sm:rounded-2xl border border-border p-2.5 sm:p-4 max-w-[1000px] mx-auto">
