@@ -1,42 +1,254 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { Phone, Mail, MapPin, Clock, ChevronDown, Send, MessageCircle } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { cn } from '@/lib/utils';
 
-const footerColumns = [
-  { title: 'Покупка', items: ['Новостройки', 'Вторичка', 'Коттеджи', 'Участки', 'Коммерция'] },
-  { title: 'Аренда', items: ['Квартиры', 'Дома', 'Офисы', 'Склады', 'Помещения'] },
-  { title: 'Ипотека', items: ['Калькулятор', 'Банки-партнеры', 'Программы', 'Рефинансирование'] },
-  { title: 'Компания', items: ['О нас', 'Контакты', 'Карьера', 'Блог', 'Партнерам'] },
+const navColumns = [
+  {
+    title: 'Недвижимость',
+    links: [
+      { label: 'Квартиры', to: '/catalog?type=apartments' },
+      { label: 'Дома', to: '/catalog?type=houses' },
+      { label: 'Участки', to: '/catalog?type=land' },
+      { label: 'Коммерция', to: '/catalog?type=commercial' },
+      { label: 'Новостройки', to: '/catalog?status=new' },
+      { label: 'Вторичка', to: '/catalog?status=secondary' },
+    ],
+  },
+  {
+    title: 'Сервисы',
+    links: [
+      { label: 'Ипотека', to: '/mortgage' },
+      { label: 'Калькулятор', to: '/mortgage' },
+      { label: 'Подбор объекта', to: '/selection' },
+      { label: 'Каталог', to: '/catalog' },
+      { label: 'На карте', to: '/map' },
+    ],
+  },
+  {
+    title: 'Компания',
+    links: [
+      { label: 'О компании', to: '/about' },
+      { label: 'Контакты', to: '/contacts' },
+      { label: 'Новости', to: '/news' },
+      { label: 'Партнерам', to: '/partners' },
+      { label: 'Карьера', to: '/career' },
+    ],
+  },
+  {
+    title: 'Аккаунт',
+    links: [
+      { label: 'Войти', to: '/login' },
+      { label: 'Регистрация', to: '/register' },
+      { label: 'Избранное', to: '/favorites' },
+      { label: 'Личный кабинет', to: '/account' },
+    ],
+  },
 ];
 
-const FooterSection = React.forwardRef<HTMLElement>((_, ref) => {
+const socials = [
+  { label: 'Telegram', icon: Send, href: '#' },
+  { label: 'VK', icon: MessageCircle, href: '#' },
+  { label: 'YouTube', icon: () => <span className="text-[10px] font-bold leading-none">YT</span>, href: '#' },
+  { label: 'MAX', icon: () => <span className="text-[10px] font-bold leading-none">MX</span>, href: '#' },
+];
+
+const legalLinks = [
+  'Пользовательское соглашение',
+  'Политика конфиденциальности',
+  'Обработка персональных данных (152-ФЗ)',
+  'Согласие на обработку ПД',
+  'Оферта',
+];
+
+/* Mobile accordion column */
+const MobileColumn = ({ title, links }: { title: string; links: { label: string; to: string }[] }) => {
+  const [open, setOpen] = useState(false);
   return (
-    <footer ref={ref} className="bg-foreground text-background py-12">
-      <div className="max-w-[1400px] mx-auto px-4">
-        <Link to="/" className="flex items-center gap-2 mb-8">
-        <div className="w-9 h-9 bg-primary rounded-lg flex items-center justify-center">
-          <span className="text-primary-foreground font-bold text-xs">LG</span>
+    <div className="border-b border-primary-foreground/10">
+      <button
+        onClick={() => setOpen(!open)}
+        className="flex items-center justify-between w-full py-3 text-sm font-medium"
+      >
+        {title}
+        <ChevronDown className={cn('w-4 h-4 opacity-50 transition-transform duration-200', open && 'rotate-180')} />
+      </button>
+      <div className={cn('overflow-hidden transition-all duration-250', open ? 'max-h-[300px] pb-3' : 'max-h-0')}>
+        <ul className="space-y-2">
+          {links.map((l) => (
+            <li key={l.label}>
+              <Link to={l.to} className="text-xs opacity-60 hover:opacity-100 transition-opacity">{l.label}</Link>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
+  );
+};
+
+const FooterSection = React.forwardRef<HTMLElement>((_, ref) => (
+  <footer ref={ref} className="bg-foreground text-primary-foreground">
+
+    {/* LEVEL 1 — CTA */}
+    <div className="border-b border-primary-foreground/10">
+      <div className="max-w-[1400px] mx-auto px-4 py-8 sm:py-10 flex flex-col sm:flex-row items-center justify-between gap-4 sm:gap-6">
+        <div className="text-center sm:text-left">
+          <h3 className="text-base sm:text-lg font-bold mb-1">Нужна помощь с выбором?</h3>
+          <p className="text-xs sm:text-sm opacity-70">Эксперты LiveGrid подберут объект бесплатно</p>
         </div>
-        <span className="font-bold">Live Grid</span>
-      </Link>
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-8">
-        {footerColumns.map((col, i) => (
-          <div key={i}>
-            <h3 className="font-bold text-sm mb-4">{col.title}</h3>
+        <div className="flex items-center gap-3">
+          <Button className="rounded-xl h-10 px-5 text-xs sm:text-sm">
+            Получить консультацию
+          </Button>
+          <a
+            href="tel:+74333441"
+            className="inline-flex items-center gap-2 h-10 px-5 rounded-xl border border-primary-foreground/20 text-xs sm:text-sm font-medium hover:bg-primary-foreground/10 transition-colors"
+          >
+            <Phone className="w-3.5 h-3.5" />
+            Позвонить
+          </a>
+        </div>
+      </div>
+    </div>
+
+    {/* LEVEL 2 — Main footer */}
+    <div className="max-w-[1400px] mx-auto px-4 py-8 sm:py-10">
+
+      {/* Desktop grid */}
+      <div className="hidden md:grid md:grid-cols-[1.3fr_1fr_1fr_1fr_1fr] gap-6 lg:gap-8">
+
+        {/* Brand + contacts */}
+        <div>
+          <Link to="/" className="flex items-center gap-2 mb-4">
+            <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
+              <span className="text-primary-foreground font-bold text-[10px]">LG</span>
+            </div>
+            <span className="font-bold text-sm">Live Grid</span>
+          </Link>
+
+          <div className="space-y-2.5 text-xs opacity-70">
+            <a href="tel:+74333441" className="flex items-center gap-2 hover:opacity-100 transition-opacity">
+              <Phone className="w-3.5 h-3.5 shrink-0" />
+              +7 (4) 333 44 11
+            </a>
+            <a href="mailto:info@livegrid.ru" className="flex items-center gap-2 hover:opacity-100 transition-opacity">
+              <Mail className="w-3.5 h-3.5 shrink-0" />
+              info@livegrid.ru
+            </a>
+            <div className="flex items-start gap-2">
+              <MapPin className="w-3.5 h-3.5 shrink-0 mt-0.5" />
+              <span>г. Белгород, ул. Примерная, д. 1</span>
+            </div>
+            <div className="flex items-start gap-2">
+              <Clock className="w-3.5 h-3.5 shrink-0 mt-0.5" />
+              <div>
+                <p>Пн–Пт: 9:00–20:00</p>
+                <p>Сб–Вс: 10:00–18:00</p>
+              </div>
+            </div>
+          </div>
+
+          {/* Socials */}
+          <div className="flex items-center gap-2 mt-4">
+            {socials.map((s) => (
+              <a
+                key={s.label}
+                href={s.href}
+                aria-label={s.label}
+                className="w-8 h-8 rounded-lg bg-primary-foreground/10 flex items-center justify-center hover:bg-primary hover:text-primary-foreground transition-colors"
+              >
+                {typeof s.icon === 'function' && s.icon.length === 0
+                  ? <s.icon />
+                  : <s.icon className="w-3.5 h-3.5" />
+                }
+              </a>
+            ))}
+          </div>
+        </div>
+
+        {/* Nav columns */}
+        {navColumns.map((col) => (
+          <div key={col.title}>
+            <h4 className="text-xs font-semibold uppercase tracking-wider opacity-50 mb-3">{col.title}</h4>
             <ul className="space-y-2">
-              {col.items.map((item, j) => (
-                <li key={j}><a href="#" className="text-sm opacity-70 hover:opacity-100 transition-opacity">{item}</a></li>
+              {col.links.map((l) => (
+                <li key={l.label}>
+                  <Link to={l.to} className="text-xs opacity-60 hover:opacity-100 transition-opacity">{l.label}</Link>
+                </li>
               ))}
             </ul>
           </div>
         ))}
       </div>
-      <div className="border-t border-background/20 pt-6 text-sm opacity-60">
-        <p>© 2025 Live Grid. Все права защищены.</p>
+
+      {/* Mobile: contacts + accordion */}
+      <div className="md:hidden">
+        {/* Brand */}
+        <Link to="/" className="flex items-center gap-2 mb-5">
+          <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
+            <span className="text-primary-foreground font-bold text-[10px]">LG</span>
+          </div>
+          <span className="font-bold text-sm">Live Grid</span>
+        </Link>
+
+        {/* Contacts inline */}
+        <div className="flex flex-wrap gap-x-5 gap-y-2 text-xs opacity-70 mb-5">
+          <a href="tel:+74333441" className="flex items-center gap-1.5">
+            <Phone className="w-3.5 h-3.5" /> +7 (4) 333 44 11
+          </a>
+          <a href="mailto:info@livegrid.ru" className="flex items-center gap-1.5">
+            <Mail className="w-3.5 h-3.5" /> info@livegrid.ru
+          </a>
+        </div>
+
+        {/* Accordion */}
+        {navColumns.map((col) => (
+          <MobileColumn key={col.title} title={col.title} links={col.links} />
+        ))}
+
+        {/* Socials */}
+        <div className="flex items-center gap-2 mt-5">
+          {socials.map((s) => (
+            <a
+              key={s.label}
+              href={s.href}
+              aria-label={s.label}
+              className="w-9 h-9 rounded-lg bg-primary-foreground/10 flex items-center justify-center hover:bg-primary transition-colors"
+            >
+              {typeof s.icon === 'function' && s.icon.length === 0
+                ? <s.icon />
+                : <s.icon className="w-4 h-4" />
+              }
+            </a>
+          ))}
+        </div>
+      </div>
+    </div>
+
+    {/* LEVEL 3 — Legal */}
+    <div className="border-t border-primary-foreground/10">
+      <div className="max-w-[1400px] mx-auto px-4 py-5 sm:py-6">
+        {/* Legal links */}
+        <div className="flex flex-wrap gap-x-4 gap-y-1.5 mb-3">
+          {legalLinks.map((l) => (
+            <a key={l} href="#" className="text-[10px] sm:text-[11px] opacity-40 hover:opacity-70 transition-opacity">{l}</a>
+          ))}
+        </div>
+
+        {/* Company details */}
+        <p className="text-[10px] sm:text-[11px] opacity-30 leading-relaxed mb-2">
+          ООО «ЛайвГрид» · ИНН 3123456789 · ОГРН 1023101234567 · г. Белгород, ул. Примерная, д. 1
+        </p>
+
+        {/* Copyright */}
+        <p className="text-[10px] sm:text-[11px] opacity-40">
+          © 2026 LiveGrid. Все права защищены.
+        </p>
       </div>
     </div>
   </footer>
-  );
-});
+));
 
 FooterSection.displayName = 'FooterSection';
 
