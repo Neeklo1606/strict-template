@@ -1,12 +1,12 @@
 import type { ResidentialComplex, Building, Apartment, LayoutGroup } from './types';
 
-import building1 from '@/assets/building1.jpg';
-import building2 from '@/assets/building2.jpg';
-import building3 from '@/assets/building3.jpg';
-import building4 from '@/assets/building4.jpg';
+import complex1 from '@/assets/complex-1.jpg';
+import complex2 from '@/assets/complex-2.jpg';
+import complex3 from '@/assets/complex-3.jpg';
+import complex4 from '@/assets/complex-4.jpg';
 
 const planPlaceholder = '/placeholder.svg';
-const buildingImages = [building1, building2, building3, building4];
+const buildingImages = [complex1, complex2, complex3, complex4];
 
 function makeApartments(complexId: string, buildingId: string, floors: number, sections: number): Apartment[] {
   const apts: Apartment[] = [];

@@ -7,10 +7,10 @@ import LatestNews from '@/components/LatestNews';
 import ContactsSection from '@/components/ContactsSection';
 import FooterSection from '@/components/FooterSection';
 import ZhkCard, { type ZhkData } from '@/components/ZhkCard';
-import building1 from '@/assets/building1.jpg';
-import building2 from '@/assets/building2.jpg';
-import building3 from '@/assets/building3.jpg';
-import building4 from '@/assets/building4.jpg';
+import complex1 from '@/assets/complex-1.jpg';
+import complex2 from '@/assets/complex-2.jpg';
+import complex3 from '@/assets/complex-3.jpg';
+import complex4 from '@/assets/complex-4.jpg';
 import { useState } from 'react';
 import { cn } from '@/lib/utils';
 
@@ -33,17 +33,17 @@ interface FlatData {
 
 const mockFlats: Record<string, FlatData[]> = {
   'Студии': [
-    { slug: 'studio-1', planImage: building1, building: '1', section: '1', floor: '3', number: '5', area: '29,5 м²', kitchenArea: '8,2 м²', finishing: 'Без отделки', basePrice: '4 420 000', fullPrice: '4 420 000', pricePerM2: '149 830', status: 'Свободна' },
-    { slug: 'studio-2', planImage: building1, building: '1', section: '2', floor: '5', number: '12', area: '31,2 м²', kitchenArea: '9,1 м²', finishing: 'Чистовая', basePrice: '4 680 000', fullPrice: '4 680 000', pricePerM2: '150 000', status: 'Свободна' },
-    { slug: 'studio-3', planImage: building1, building: '2', section: '1', floor: '8', number: '24', area: '34,8 м²', kitchenArea: '10,3 м²', finishing: 'Без отделки', basePrice: '5 220 000', fullPrice: '5 220 000', pricePerM2: '150 000', status: 'Бронь' },
+    { slug: 'studio-1', planImage: complex1, building: '1', section: '1', floor: '3', number: '5', area: '29,5 м²', kitchenArea: '8,2 м²', finishing: 'Без отделки', basePrice: '4 420 000', fullPrice: '4 420 000', pricePerM2: '149 830', status: 'Свободна' },
+    { slug: 'studio-2', planImage: complex1, building: '1', section: '2', floor: '5', number: '12', area: '31,2 м²', kitchenArea: '9,1 м²', finishing: 'Чистовая', basePrice: '4 680 000', fullPrice: '4 680 000', pricePerM2: '150 000', status: 'Свободна' },
+    { slug: 'studio-3', planImage: complex1, building: '2', section: '1', floor: '8', number: '24', area: '34,8 м²', kitchenArea: '10,3 м²', finishing: 'Без отделки', basePrice: '5 220 000', fullPrice: '5 220 000', pricePerM2: '150 000', status: 'Бронь' },
   ],
   '1-спальные': [
-    { slug: 'one-bed-1', planImage: building2, building: '1', section: '1', floor: '4', number: '8', area: '42,5 м²', kitchenArea: '12,4 м²', finishing: 'Чистовая', basePrice: '8 200 000', fullPrice: '8 200 000', pricePerM2: '192 941', status: 'Свободна' },
-    { slug: 'one-bed-2', planImage: building2, building: '1', section: '3', floor: '7', number: '19', area: '38,9 м²', kitchenArea: '11,0 м²', finishing: 'Без отделки', basePrice: '8 560 000', fullPrice: '8 560 000', pricePerM2: '220 051', status: 'Свободна' },
+    { slug: 'one-bed-1', planImage: complex2, building: '1', section: '1', floor: '4', number: '8', area: '42,5 м²', kitchenArea: '12,4 м²', finishing: 'Чистовая', basePrice: '8 200 000', fullPrice: '8 200 000', pricePerM2: '192 941', status: 'Свободна' },
+    { slug: 'one-bed-2', planImage: complex2, building: '1', section: '3', floor: '7', number: '19', area: '38,9 м²', kitchenArea: '11,0 м²', finishing: 'Без отделки', basePrice: '8 560 000', fullPrice: '8 560 000', pricePerM2: '220 051', status: 'Свободна' },
   ],
   '2-спальные': [
-    { slug: 'two-bed-1', planImage: building3, building: '1', section: '2', floor: '6', number: '15', area: '62,3 м²', kitchenArea: '14,5 м²', finishing: 'Без отделки', basePrice: '12 200 000', fullPrice: '12 200 000', pricePerM2: '195 826', status: 'Свободна' },
-    { slug: 'two-bed-2', planImage: building3, building: '2', section: '1', floor: '10', number: '31', area: '58,7 м²', kitchenArea: '13,2 м²', finishing: 'Чистовая', basePrice: '12 800 000', fullPrice: '12 800 000', pricePerM2: '218 057', status: 'Бронь' },
+    { slug: 'two-bed-1', planImage: complex3, building: '1', section: '2', floor: '6', number: '15', area: '62,3 м²', kitchenArea: '14,5 м²', finishing: 'Без отделки', basePrice: '12 200 000', fullPrice: '12 200 000', pricePerM2: '195 826', status: 'Свободна' },
+    { slug: 'two-bed-2', planImage: complex3, building: '2', section: '1', floor: '10', number: '31', area: '58,7 м²', kitchenArea: '13,2 м²', finishing: 'Чистовая', basePrice: '12 800 000', fullPrice: '12 800 000', pricePerM2: '218 057', status: 'Бронь' },
   ],
 };
 
@@ -58,7 +58,7 @@ const zhkDatabase: Record<string, {
 }> = {
   smorodina: {
     name: 'ЖК Смородина',
-    heroImage: building1,
+    heroImage: complex1,
     deliveryDate: 'Март 2027',
     priceFrom: 'от 3.4 млн руб',
     pricePerM2: 'от 150 000 за м2',
@@ -83,19 +83,19 @@ const zhkDatabase: Record<string, {
     ],
     infrastructure: [
       { title: 'Особенности', image: '', accent: true },
-      { title: 'Современный фитнес-зал', image: building2 },
-      { title: 'Зона отдыха и парка', image: building3 },
-      { title: 'Сад и зеленая зона', image: building4 },
-      { title: 'Бассейн на 16 этаже\nс панорамным видом на море', image: building1 },
+      { title: 'Современный фитнес-зал', image: complex2 },
+      { title: 'Зона отдыха и парка', image: complex3 },
+      { title: 'Сад и зеленая зона', image: complex4 },
+      { title: 'Бассейн на 16 этаже\nс панорамным видом на море', image: complex1 },
     ]
   }
 };
 
 const similarZhk: ZhkData[] = [
-  { images: [building2, building1, building3], name: 'ЖК Высота', price: 'от 12.3 млн', unitsCount: 'В продаже 180 квартир', badges: ['Ипотека 6%'], apartments: [{ type: '2-комнатная', area: 'от 68 м.кв.', price: 'от 12.3 млн' }] },
-  { images: [building3, building4, building1], name: 'ЖК Парк Сити', price: 'от 7.1 млн', unitsCount: 'В продаже 340 квартир', badges: [], apartments: [{ type: '1-комнатная', area: 'от 38 м.кв.', price: 'от 7.1 млн' }] },
-  { images: [building1, building2, building4], name: 'ЖК Снегири', price: 'от 5.6 млн', unitsCount: 'В продаже 226 квартир', badges: ['Рассрочка 1 год'], apartments: [{ type: 'Студия', area: 'от 24 м.кв.', price: 'от 5.6 млн' }] },
-  { images: [building4, building3, building2], name: 'ЖК Лесной', price: 'от 9.5 млн', unitsCount: 'В продаже 95 квартир', badges: [], apartments: [{ type: '2-комнатная', area: 'от 54 м.кв.', price: 'от 9.5 млн' }] },
+  { images: [complex2, complex1, complex3], name: 'ЖК Высота', price: 'от 12.3 млн', unitsCount: 'В продаже 180 квартир', badges: ['Ипотека 6%'], apartments: [{ type: '2-комнатная', area: 'от 68 м.кв.', price: 'от 12.3 млн' }] },
+  { images: [complex3, complex4, complex1], name: 'ЖК Парк Сити', price: 'от 7.1 млн', unitsCount: 'В продаже 340 квартир', badges: [], apartments: [{ type: '1-комнатная', area: 'от 38 м.кв.', price: 'от 7.1 млн' }] },
+  { images: [complex1, complex2, complex4], name: 'ЖК Снегири', price: 'от 5.6 млн', unitsCount: 'В продаже 226 квартир', badges: ['Рассрочка 1 год'], apartments: [{ type: 'Студия', area: 'от 24 м.кв.', price: 'от 5.6 млн' }] },
+  { images: [complex4, complex3, complex2], name: 'ЖК Лесной', price: 'от 9.5 млн', unitsCount: 'В продаже 95 квартир', badges: [], apartments: [{ type: '2-комнатная', area: 'от 54 м.кв.', price: 'от 9.5 млн' }] },
 ];
 
 const ZhkDetail = () => {
@@ -132,7 +132,7 @@ const ZhkDetail = () => {
 
           {/* Video mini-block */}
           <div className="absolute bottom-6 right-6 hidden md:flex w-28 h-20 rounded-xl overflow-hidden border-2 border-background/50 cursor-pointer group">
-            <img src={building2} alt="video" className="w-full h-full object-cover" />
+            <img src={complex2} alt="video" className="w-full h-full object-cover" />
             <div className="absolute inset-0 bg-foreground/30 flex items-center justify-center group-hover:bg-foreground/50 transition-colors">
               <Play className="w-6 h-6 text-background fill-background" />
             </div>
@@ -305,7 +305,7 @@ const ZhkDetail = () => {
         <div className="max-w-[1400px] mx-auto px-4">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
             <div className="rounded-2xl overflow-hidden">
-              <img src={building3} alt={data.name} className="w-full h-full object-cover min-h-[300px]" />
+              <img src={complex3} alt={data.name} className="w-full h-full object-cover min-h-[300px]" />
             </div>
             <div>
               <h2 className="text-xl md:text-2xl font-bold mb-4">О проекте</h2>

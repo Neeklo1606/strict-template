@@ -1,15 +1,15 @@
 import { ArrowRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import building1 from '@/assets/building1.jpg';
-import building2 from '@/assets/building2.jpg';
-import building3 from '@/assets/building3.jpg';
-import building4 from '@/assets/building4.jpg';
+import newsConstruction from '@/assets/news-construction.jpg';
+import newsOffice from '@/assets/news-office.jpg';
+import complex1 from '@/assets/complex-1.jpg';
+import newsInterior from '@/assets/news-interior.jpg';
 
 const news = [
-  { image: building1, title: 'Обзор новостроек Москвы 2025', date: '15 фев 2025', category: 'Обзор' },
-  { image: building2, title: 'Ипотечные ставки снижены до 6%', date: '12 фев 2025', category: 'Ипотека' },
-  { image: building3, title: 'Новый жилой комплекс на юге Москвы', date: '10 фев 2025', category: 'Новостройки' },
-  { image: building4, title: 'Как выбрать квартиру в 2025 году', date: '08 фев 2025', category: 'Советы' },
+  { image: newsConstruction, title: 'Обзор новостроек Москвы: что выбрать', date: '28 мар 2026', category: 'Обзор' },
+  { image: newsOffice, title: 'Ипотечные ставки снижены до 6%', date: '25 мар 2026', category: 'Ипотека' },
+  { image: complex1, title: 'Новый жилой комплекс на юге Москвы', date: '22 мар 2026', category: 'Новостройки' },
+  { image: newsInterior, title: 'Как выбрать квартиру: советы экспертов', date: '19 мар 2026', category: 'Советы' },
 ];
 
 const LatestNews = () => (

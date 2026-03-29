@@ -20,17 +20,17 @@ import {
   PaginationLink,
   PaginationNext,
 } from '@/components/ui/pagination';
-import building1 from '@/assets/building1.jpg';
-import building2 from '@/assets/building2.jpg';
-import building3 from '@/assets/building3.jpg';
-import building4 from '@/assets/building4.jpg';
+import complex1 from '@/assets/complex-1.jpg';
+import complex2 from '@/assets/complex-2.jpg';
+import complex3 from '@/assets/complex-3.jpg';
+import complex4 from '@/assets/complex-4.jpg';
 import { cn } from '@/lib/utils';
 import type { PropertyData } from '@/components/PropertyCard';
 
 const CatalogMapView = lazy(() => import('@/components/catalog/CatalogMapView'));
 
 /* ── mock properties ── */
-const images = [building1, building2, building3, building4];
+const images = [complex1, complex2, complex3, complex4];
 
 const moscowCoords: [number, number][] = [
   [55.76, 37.62], [55.74, 37.58], [55.78, 37.64], [55.72, 37.60],
@@ -47,7 +47,7 @@ const allProperties: PropertyData[] = Array.from({ length: 60 }, (_, i) => ({
   metro: ['Алексеевская · 5 мин', 'Бабушкинская · 10 мин', 'ВДНХ · 7 мин', 'Тверская · 3 мин'][i % 4],
   district: ['Алексеевский р-н', 'Лосиноостровский р-н', 'Останкинский р-н', 'ЦАО'][i % 4],
   buildingClass: ['Комфорт', 'Бизнес', 'Эконом', 'Премиум'][i % 4],
-  deadline: ['2 кв. 2026', '4 кв. 2025', '1 кв. 2027', 'Сдан'][i % 4],
+  deadline: ['2 кв. 2026', '4 кв. 2026', '1 кв. 2027', 'Сдан'][i % 4],
   mortgage: ['Ипотека от 4.5%', 'Рассрочка 0%', 'Ипотека от 6%', 'Субсидированная'][i % 4],
   coords: [
     moscowCoords[i % 4][0] + (Math.random() - 0.5) * 0.04,
