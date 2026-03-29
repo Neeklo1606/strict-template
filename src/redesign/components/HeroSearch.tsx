@@ -118,9 +118,9 @@ const HeroSearch = () => {
       {/* Mobile: compact padding, Desktop: generous */}
       <div className="max-w-[1400px] mx-auto px-4 pt-4 pb-5 sm:pt-10 sm:pb-12">
 
-        {/* Geo + Title — stacked on mobile, centered */}
-        <div className="flex flex-col items-center gap-2 sm:gap-3 mb-5 sm:mb-8">
-          <div className="relative" ref={regionRef}>
+        {/* Geo selector — left-aligned, separate from title */}
+        <div className="flex flex-col gap-2 sm:gap-3 mb-5 sm:mb-8">
+          <div className="relative w-fit" ref={regionRef}>
             <button
               onClick={() => setRegionOpen(!regionOpen)}
               className={cn(
@@ -135,7 +135,7 @@ const HeroSearch = () => {
               <ChevronDown className={cn('w-3 h-3 shrink-0 transition-transform duration-200', regionOpen && 'rotate-180')} />
             </button>
             {regionOpen && (
-              <ul className="absolute top-full left-1/2 -translate-x-1/2 mt-1.5 py-1.5 bg-card border border-border rounded-xl shadow-lg z-50 min-w-[220px] max-h-[300px] overflow-y-auto animate-in fade-in-0 zoom-in-95 duration-150">
+              <ul className="absolute top-full left-0 mt-1.5 py-1.5 bg-card border border-border rounded-xl shadow-lg z-50 min-w-[220px] max-h-[300px] overflow-y-auto animate-in fade-in-0 zoom-in-95 duration-150">
                 {regions.map(r => (
                   <li key={r}>
                     <button
@@ -154,8 +154,8 @@ const HeroSearch = () => {
             )}
           </div>
 
-          {/* Title — smaller on mobile */}
-          <h1 className="text-xl sm:text-2xl md:text-4xl font-bold text-center leading-tight">
+          {/* Title — left-aligned */}
+          <h1 className="text-xl sm:text-2xl md:text-4xl font-bold leading-tight">
             <span className="text-primary italic">Live Grid.</span>{' '}
             <span className="hidden sm:inline">62 000+ квартир по России</span>
             <span className="sm:hidden">62 000+ квартир</span>
@@ -182,12 +182,12 @@ const HeroSearch = () => {
               </button>
             );
           })}
+          <div className="w-px h-6 bg-border shrink-0 mx-0.5 hidden sm:block" />
           <Link
             to="/catalog?region=belgorod"
-            className="flex items-center gap-1.5 px-3 sm:px-4 py-2 sm:py-2.5 rounded-full text-xs sm:text-sm font-medium whitespace-nowrap transition-all duration-200 border border-primary/30 bg-accent text-primary hover:bg-primary hover:text-primary-foreground shrink-0"
+            className="flex items-center gap-1.5 px-3 sm:px-4 py-2 sm:py-2.5 rounded-full text-xs sm:text-sm font-semibold whitespace-nowrap transition-all duration-200 shrink-0 bg-[hsl(30,100%,50%)] text-primary-foreground hover:bg-[hsl(30,100%,45%)] shadow-sm"
           >
-            <MapPin className="w-3.5 sm:w-4 h-3.5 sm:h-4" />
-            Белгород
+            🏙 Белгород
           </Link>
         </div>
 
