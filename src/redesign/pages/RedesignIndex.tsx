@@ -4,17 +4,14 @@ import { Button } from '@/components/ui/button';
 import RedesignHeader from '@/redesign/components/RedesignHeader';
 import HeroSearch from '@/redesign/components/HeroSearch';
 import ComplexCard from '@/redesign/components/ComplexCard';
-import MapSearch from '@/redesign/components/MapSearch';
 import QuizSection from '@/components/QuizSection';
 import PropertyGridSection from '@/components/PropertyGridSection';
 import AboutPlatform from '@/components/AboutPlatform';
 import AdditionalFeatures from '@/components/AdditionalFeatures';
-
 import LatestNews from '@/components/LatestNews';
 import ContactsSection from '@/components/ContactsSection';
 import FooterSection from '@/components/FooterSection';
 import { complexes } from '@/redesign/data/mock-data';
-import { useState } from 'react';
 
 const RedesignIndex = () => {
   const featured = complexes.slice(0, 4);
