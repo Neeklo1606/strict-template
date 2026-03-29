@@ -1,8 +1,9 @@
 import { useState, useMemo, useCallback } from 'react';
+import { Link } from 'react-router-dom';
 import { Input } from '@/components/ui/input';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Button } from '@/components/ui/button';
-import { ChevronDown, Search, X } from 'lucide-react';
+import { ChevronDown, Search, X, MapPin } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import type { CatalogFilters } from '@/redesign/data/types';
 import { districts, subways, builders, deadlines } from '@/redesign/data/mock-data';
@@ -11,8 +12,23 @@ interface Props {
   filters: CatalogFilters;
   onChange: (f: CatalogFilters) => void;
   totalCount: number;
+  showMetro?: boolean;
   className?: string;
 }
+
+const objectTypes = [
+  { value: 'new', label: 'Новостройки' },
+  { value: 'secondary', label: 'Вторичка' },
+  { value: 'houses', label: 'Дома' },
+  { value: 'land', label: 'Участки' },
+  { value: 'commercial', label: 'Коммерция' },
+];
+
+const housingTypes = [
+  { value: 'apartment', label: 'Квартира' },
+  { value: 'studio-apt', label: 'Апартаменты' },
+  { value: 'penthouse', label: 'Пентхаус' },
+];
 
 const roomOptions = [0, 1, 2, 3, 4];
 const roomLabels: Record<number, string> = { 0: 'Ст', 1: '1', 2: '2', 3: '3', 4: '4+' };
@@ -23,20 +39,100 @@ const statusOptions = [
   { value: 'planned', label: 'Планируется' },
 ];
 
-const FilterSection = ({ title, children, defaultOpen = true }: { title: string; children: React.ReactNode; defaultOpen?: boolean }) => {
+/* --- Collapsible section --- */
+const FilterSection = ({
+  title,
+  children,
+  defaultOpen = true,
+  count,
+}: {
+  title: string;
+  children: React.ReactNode;
+  defaultOpen?: boolean;
+  count?: number;
+}) => {
   const [open, setOpen] = useState(defaultOpen);
   return (
-    <div className="border-b border-border pb-3">
+    <div className="border-b border-border last:border-0">
       <button className="flex items-center justify-between w-full py-2.5 group" onClick={() => setOpen(!open)}>
-        <span className="text-sm font-semibold">{title}</span>
-        <ChevronDown className={cn('w-4 h-4 text-muted-foreground transition-transform', open && 'rotate-180')} />
+        <span className="text-xs font-semibold uppercase tracking-wider text-muted-foreground group-hover:text-foreground transition-colors">
+          {title}
+          {count !== undefined && count > 0 && (
+            <span className="ml-1.5 inline-flex items-center justify-center w-4 h-4 rounded-full bg-primary text-primary-foreground text-[9px] font-bold align-middle">
+              {count}
+            </span>
+          )}
+        </span>
+        <ChevronDown className={cn('w-3.5 h-3.5 text-muted-foreground transition-transform duration-200', open && 'rotate-180')} />
       </button>
-      {open && <div className="pt-1 space-y-2 animate-in slide-in-from-top-1 duration-200">{children}</div>}
+      <div
+        className={cn(
+          'overflow-hidden transition-all duration-200',
+          open ? 'max-h-[500px] opacity-100 pb-3' : 'max-h-0 opacity-0',
+        )}
+      >
+        <div className="space-y-2">{children}</div>
+      </div>
     </div>
   );
 };
 
-const FilterSidebar = ({ filters, onChange, totalCount, className }: Props) => {
+/* --- Searchable checkbox list --- */
+const SearchableCheckboxList = ({
+  items,
+  selected,
+  onToggle,
+  placeholder,
+}: {
+  items: string[];
+  selected: string[];
+  onToggle: (val: string) => void;
+  placeholder: string;
+}) => {
+  const [search, setSearch] = useState('');
+  const filtered = useMemo(() => {
+    if (!search) return items;
+    const q = search.toLowerCase();
+    return items.filter(i => i.toLowerCase().includes(q));
+  }, [items, search]);
+
+  return (
+    <div className="space-y-2">
+      {items.length > 5 && (
+        <div className="relative">
+          <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-muted-foreground" />
+          <Input
+            placeholder={placeholder}
+            className="pl-8 h-8 text-xs"
+            value={search}
+            onChange={e => setSearch(e.target.value)}
+          />
+        </div>
+      )}
+      <div className="space-y-1.5 max-h-40 overflow-y-auto">
+        {/* Show selected first */}
+        {selected.filter(s => filtered.includes(s)).map(item => (
+          <label key={item} className="flex items-center gap-2 cursor-pointer text-xs font-medium text-primary hover:text-primary/80 transition-colors">
+            <Checkbox checked onCheckedChange={() => onToggle(item)} className="w-3.5 h-3.5" />
+            {item}
+          </label>
+        ))}
+        {filtered.filter(i => !selected.includes(i)).map(item => (
+          <label key={item} className="flex items-center gap-2 cursor-pointer text-xs text-muted-foreground hover:text-foreground transition-colors">
+            <Checkbox checked={false} onCheckedChange={() => onToggle(item)} className="w-3.5 h-3.5" />
+            {item}
+          </label>
+        ))}
+        {filtered.length === 0 && (
+          <p className="text-[11px] text-muted-foreground py-1">Ничего не найдено</p>
+        )}
+      </div>
+    </div>
+  );
+};
+
+/* --- Main component --- */
+const FilterSidebar = ({ filters, onChange, totalCount, showMetro = true, className }: Props) => {
   const update = useCallback(<K extends keyof CatalogFilters>(key: K, val: CatalogFilters[K]) => {
     onChange({ ...filters, [key]: val });
   }, [filters, onChange]);
@@ -52,61 +148,111 @@ const FilterSidebar = ({ filters, onChange, totalCount, className }: Props) => {
       filters.builder.length > 0 || filters.finishing.length > 0 || filters.deadline.length > 0 ||
       filters.status.length > 0 || filters.search !== '' ||
       filters.priceMin !== undefined || filters.priceMax !== undefined ||
-      filters.areaMin !== undefined || filters.areaMax !== undefined;
+      filters.areaMin !== undefined || filters.areaMax !== undefined ||
+      filters.floorMin !== undefined || filters.floorMax !== undefined;
   }, [filters]);
 
-  // Active filter tags
   const activeTags = useMemo(() => {
     const tags: { label: string; clear: () => void }[] = [];
     filters.rooms.forEach(r => tags.push({ label: roomLabels[r] || `${r}к`, clear: () => toggleArray('rooms', r) }));
     filters.district.forEach(d => tags.push({ label: d, clear: () => toggleArray('district', d) }));
     filters.subway.forEach(s => tags.push({ label: `м. ${s}`, clear: () => toggleArray('subway', s) }));
     filters.builder.forEach(b => tags.push({ label: b, clear: () => toggleArray('builder', b) }));
+    filters.finishing.forEach(f => tags.push({ label: f, clear: () => toggleArray('finishing', f) }));
     filters.status.forEach(s => {
       const opt = statusOptions.find(o => o.value === s);
       tags.push({ label: opt?.label || s, clear: () => toggleArray('status', s) });
     });
+    if (filters.priceMin) tags.push({ label: `от ${(filters.priceMin / 1e6).toFixed(1)} млн`, clear: () => update('priceMin', undefined) });
+    if (filters.priceMax) tags.push({ label: `до ${(filters.priceMax / 1e6).toFixed(1)} млн`, clear: () => update('priceMax', undefined) });
     return tags;
-  }, [filters, toggleArray]);
+  }, [filters, toggleArray, update]);
+
+  const resetAll = useCallback(() => {
+    onChange({
+      rooms: [], district: [], subway: [], builder: [],
+      finishing: [], deadline: [], status: [], search: '',
+    });
+  }, [onChange]);
 
   return (
-    <div className={cn('space-y-1', className)}>
-      {/* Search */}
-      <div className="relative mb-3">
-        <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
-        <Input
-          placeholder="Поиск по названию, району..."
-          className="pl-9 h-10 text-sm"
-          value={filters.search}
-          onChange={e => update('search', e.target.value)}
-        />
-      </div>
-
+    <div className={cn('space-y-0', className)}>
       {/* Active tags */}
       {activeTags.length > 0 && (
-        <div className="flex flex-wrap gap-1.5 pb-3 border-b border-border">
+        <div className="flex flex-wrap gap-1 pb-3 mb-1 border-b border-border">
           {activeTags.map((tag, i) => (
             <button
               key={i}
               onClick={tag.clear}
-              className="flex items-center gap-1 px-2.5 py-1 rounded-full bg-primary/10 text-primary text-xs font-medium hover:bg-primary/20 transition-colors"
+              className="flex items-center gap-1 px-2 py-0.5 rounded-full bg-primary/10 text-primary text-[11px] font-medium hover:bg-primary/20 transition-colors"
             >
               {tag.label}
-              <X className="w-3 h-3" />
+              <X className="w-2.5 h-2.5" />
             </button>
           ))}
+          <button onClick={resetAll} className="text-[11px] text-muted-foreground hover:text-destructive transition-colors ml-1">
+            Очистить все
+          </button>
         </div>
       )}
 
-      {/* Rooms */}
-      <FilterSection title="Комнатность">
+      {/* 1. Тип объекта */}
+      <FilterSection title="Тип объекта" count={0}>
+        <div className="flex flex-wrap gap-1">
+          {objectTypes.map(t => (
+            <button
+              key={t.value}
+              className="px-3 py-1.5 rounded-lg text-xs border border-border bg-background hover:border-primary/50 transition-colors"
+            >
+              {t.label}
+            </button>
+          ))}
+        </div>
+      </FilterSection>
+
+      {/* 2. Тип жилья */}
+      <FilterSection title="Тип жилья" defaultOpen={false}>
+        <div className="flex flex-wrap gap-1">
+          {housingTypes.map(t => (
+            <button
+              key={t.value}
+              className="px-3 py-1.5 rounded-lg text-xs border border-border bg-background hover:border-primary/50 transition-colors"
+            >
+              {t.label}
+            </button>
+          ))}
+        </div>
+      </FilterSection>
+
+      {/* 3. Цена */}
+      <FilterSection title="Цена, ₽" count={filters.priceMin || filters.priceMax ? 1 : 0}>
+        <div className="flex gap-2">
+          <Input
+            type="number"
+            placeholder="от"
+            className="h-8 text-xs"
+            value={filters.priceMin ?? ''}
+            onChange={e => update('priceMin', e.target.value ? Number(e.target.value) : undefined)}
+          />
+          <Input
+            type="number"
+            placeholder="до"
+            className="h-8 text-xs"
+            value={filters.priceMax ?? ''}
+            onChange={e => update('priceMax', e.target.value ? Number(e.target.value) : undefined)}
+          />
+        </div>
+      </FilterSection>
+
+      {/* 4. Комнаты */}
+      <FilterSection title="Комнатность" count={filters.rooms.length}>
         <div className="flex gap-1">
           {roomOptions.map(r => (
             <button
               key={r}
               onClick={() => toggleArray('rooms', r)}
               className={cn(
-                'h-9 flex-1 rounded-lg text-sm font-medium border transition-colors',
+                'h-8 flex-1 rounded-lg text-xs font-medium border transition-colors',
                 filters.rooms.includes(r)
                   ? 'bg-primary text-primary-foreground border-primary'
                   : 'bg-background border-border text-foreground hover:border-primary/50'
@@ -118,123 +264,114 @@ const FilterSidebar = ({ filters, onChange, totalCount, className }: Props) => {
         </div>
       </FilterSection>
 
-      {/* Price */}
-      <FilterSection title="Цена, ₽">
+      {/* 5. Площадь */}
+      <FilterSection title="Площадь, м²" defaultOpen={false} count={filters.areaMin || filters.areaMax ? 1 : 0}>
         <div className="flex gap-2">
-          <Input
-            type="number"
-            placeholder="от 3 000 000"
-            className="h-9 text-sm"
-            value={filters.priceMin ?? ''}
-            onChange={e => update('priceMin', e.target.value ? Number(e.target.value) : undefined)}
-          />
-          <Input
-            type="number"
-            placeholder="до 60 000 000"
-            className="h-9 text-sm"
-            value={filters.priceMax ?? ''}
-            onChange={e => update('priceMax', e.target.value ? Number(e.target.value) : undefined)}
-          />
+          <Input type="number" placeholder="от" className="h-8 text-xs" value={filters.areaMin ?? ''} onChange={e => update('areaMin', e.target.value ? Number(e.target.value) : undefined)} />
+          <Input type="number" placeholder="до" className="h-8 text-xs" value={filters.areaMax ?? ''} onChange={e => update('areaMax', e.target.value ? Number(e.target.value) : undefined)} />
         </div>
       </FilterSection>
 
-      {/* Area */}
-      <FilterSection title="Площадь, м²">
+      {/* 6. Этаж */}
+      <FilterSection title="Этаж" defaultOpen={false} count={filters.floorMin || filters.floorMax ? 1 : 0}>
         <div className="flex gap-2">
-          <Input type="number" placeholder="от" className="h-9 text-sm" value={filters.areaMin ?? ''} onChange={e => update('areaMin', e.target.value ? Number(e.target.value) : undefined)} />
-          <Input type="number" placeholder="до" className="h-9 text-sm" value={filters.areaMax ?? ''} onChange={e => update('areaMax', e.target.value ? Number(e.target.value) : undefined)} />
+          <Input type="number" placeholder="от" className="h-8 text-xs" value={filters.floorMin ?? ''} onChange={e => update('floorMin', e.target.value ? Number(e.target.value) : undefined)} />
+          <Input type="number" placeholder="до" className="h-8 text-xs" value={filters.floorMax ?? ''} onChange={e => update('floorMax', e.target.value ? Number(e.target.value) : undefined)} />
         </div>
       </FilterSection>
 
-      {/* District */}
-      <FilterSection title="Район" defaultOpen={false}>
-        <div className="space-y-2 max-h-44 overflow-y-auto">
-          {districts.map(d => (
-            <label key={d} className="flex items-center gap-2.5 cursor-pointer text-sm hover:text-foreground transition-colors">
-              <Checkbox checked={filters.district.includes(d)} onCheckedChange={() => toggleArray('district', d)} />
+      {/* 7. Срок сдачи */}
+      <FilterSection title="Срок сдачи" defaultOpen={false} count={filters.deadline.length}>
+        <div className="flex flex-wrap gap-1">
+          {deadlines.map(d => (
+            <button
+              key={d}
+              onClick={() => toggleArray('deadline', d)}
+              className={cn(
+                'px-3 py-1.5 rounded-lg text-xs border transition-colors',
+                filters.deadline.includes(d)
+                  ? 'bg-primary text-primary-foreground border-primary'
+                  : 'bg-background border-border hover:border-primary/50'
+              )}
+            >
               {d}
-            </label>
+            </button>
           ))}
         </div>
       </FilterSection>
 
-      {/* Subway */}
-      <FilterSection title="Метро" defaultOpen={false}>
-        <div className="space-y-2 max-h-44 overflow-y-auto">
-          {subways.map(s => (
-            <label key={s} className="flex items-center gap-2.5 cursor-pointer text-sm hover:text-foreground transition-colors">
-              <Checkbox checked={filters.subway.includes(s)} onCheckedChange={() => toggleArray('subway', s)} />
-              {s}
-            </label>
-          ))}
-        </div>
-      </FilterSection>
-
-      {/* Builder */}
-      <FilterSection title="Застройщик" defaultOpen={false}>
-        <div className="space-y-2 max-h-44 overflow-y-auto">
-          {builders.map(b => (
-            <label key={b} className="flex items-center gap-2.5 cursor-pointer text-sm hover:text-foreground transition-colors">
-              <Checkbox checked={filters.builder.includes(b)} onCheckedChange={() => toggleArray('builder', b)} />
-              {b}
-            </label>
-          ))}
-        </div>
-      </FilterSection>
-
-      {/* Finishing */}
-      <FilterSection title="Отделка" defaultOpen={false}>
-        <div className="space-y-2">
+      {/* 8. Отделка */}
+      <FilterSection title="Отделка" defaultOpen={false} count={filters.finishing.length}>
+        <div className="space-y-1.5">
           {finishingOptions.map(f => (
-            <label key={f} className="flex items-center gap-2.5 cursor-pointer text-sm capitalize hover:text-foreground transition-colors">
-              <Checkbox checked={filters.finishing.includes(f)} onCheckedChange={() => toggleArray('finishing', f)} />
+            <label key={f} className="flex items-center gap-2 cursor-pointer text-xs capitalize hover:text-foreground transition-colors">
+              <Checkbox checked={filters.finishing.includes(f)} onCheckedChange={() => toggleArray('finishing', f)} className="w-3.5 h-3.5" />
               {f}
             </label>
           ))}
         </div>
       </FilterSection>
 
-      {/* Deadline */}
-      <FilterSection title="Срок сдачи" defaultOpen={false}>
-        <div className="space-y-2">
-          {deadlines.map(d => (
-            <label key={d} className="flex items-center gap-2.5 cursor-pointer text-sm hover:text-foreground transition-colors">
-              <Checkbox checked={filters.deadline.includes(d)} onCheckedChange={() => toggleArray('deadline', d)} />
-              {d}
-            </label>
-          ))}
-        </div>
-      </FilterSection>
-
-      {/* Status */}
-      <FilterSection title="Статус" defaultOpen={false}>
-        <div className="space-y-2">
+      {/* 9. Статус */}
+      <FilterSection title="Статус" defaultOpen={false} count={filters.status.length}>
+        <div className="space-y-1.5">
           {statusOptions.map(s => (
-            <label key={s.value} className="flex items-center gap-2.5 cursor-pointer text-sm hover:text-foreground transition-colors">
-              <Checkbox checked={filters.status.includes(s.value)} onCheckedChange={() => toggleArray('status', s.value)} />
+            <label key={s.value} className="flex items-center gap-2 cursor-pointer text-xs hover:text-foreground transition-colors">
+              <Checkbox checked={filters.status.includes(s.value)} onCheckedChange={() => toggleArray('status', s.value)} className="w-3.5 h-3.5" />
               {s.label}
             </label>
           ))}
         </div>
       </FilterSection>
 
-      {/* Floor */}
-      <FilterSection title="Этаж" defaultOpen={false}>
-        <div className="flex gap-2">
-          <Input type="number" placeholder="от" className="h-9 text-sm" value={filters.floorMin ?? ''} onChange={e => update('floorMin', e.target.value ? Number(e.target.value) : undefined)} />
-          <Input type="number" placeholder="до" className="h-9 text-sm" value={filters.floorMax ?? ''} onChange={e => update('floorMax', e.target.value ? Number(e.target.value) : undefined)} />
-        </div>
+      {/* 10. Район */}
+      <FilterSection title="Район" defaultOpen={false} count={filters.district.length}>
+        <SearchableCheckboxList
+          items={districts}
+          selected={filters.district}
+          onToggle={val => toggleArray('district', val)}
+          placeholder="Найти район..."
+        />
+      </FilterSection>
+
+      {/* 11. Метро — hidden if no metro */}
+      {showMetro && (
+        <FilterSection title="Метро" defaultOpen={false} count={filters.subway.length}>
+          <SearchableCheckboxList
+            items={subways}
+            selected={filters.subway}
+            onToggle={val => toggleArray('subway', val)}
+            placeholder="Найти станцию..."
+          />
+        </FilterSection>
+      )}
+
+      {/* 12. Застройщик */}
+      <FilterSection title="Застройщик" defaultOpen={false} count={filters.builder.length}>
+        <SearchableCheckboxList
+          items={builders}
+          selected={filters.builder}
+          onToggle={val => toggleArray('builder', val)}
+          placeholder="Найти застройщика..."
+        />
       </FilterSection>
 
       {/* Actions */}
       <div className="pt-3 space-y-2">
-        <Button className="w-full h-11 text-sm font-medium">
-          Показать {totalCount} объектов
-        </Button>
+        <Link
+          to="/map"
+          className="flex items-center justify-center gap-2 w-full h-9 rounded-xl border border-border bg-background text-xs font-medium hover:bg-secondary transition-colors"
+        >
+          <MapPin className="w-3.5 h-3.5 text-primary" />
+          Показать на карте
+        </Link>
         {hasFilters && (
-          <Button variant="ghost" className="w-full h-9 text-sm text-muted-foreground" onClick={() => onChange({ rooms: [], district: [], subway: [], builder: [], finishing: [], deadline: [], status: [], search: '' })}>
-            <X className="w-3.5 h-3.5 mr-1.5" /> Сбросить фильтры
-          </Button>
+          <button
+            onClick={resetAll}
+            className="flex items-center justify-center gap-1.5 w-full h-8 rounded-xl text-xs text-muted-foreground hover:text-destructive transition-colors"
+          >
+            <X className="w-3 h-3" /> Сбросить все фильтры
+          </button>
         )}
       </div>
     </div>
