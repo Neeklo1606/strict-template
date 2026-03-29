@@ -126,10 +126,8 @@ const FooterSection = React.forwardRef<HTMLElement>((_, ref) => (
 
         {/* Brand + contacts */}
         <div>
-          <Link to="/" className="flex items-center gap-2 mb-4">
-            <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
-              <span className="text-primary-foreground font-bold text-[10px]">LG</span>
-            </div>
+          <Link to="/" className="flex items-center gap-2.5 mb-4">
+            <img src="/logo.svg" alt="Live Grid" className="w-8 h-8 object-contain" />
             <span className="font-bold text-sm">Live Grid</span>
           </Link>
 
@@ -191,10 +189,8 @@ const FooterSection = React.forwardRef<HTMLElement>((_, ref) => (
       {/* Mobile: contacts + accordion */}
       <div className="md:hidden">
         {/* Brand */}
-        <Link to="/" className="flex items-center gap-2 mb-5">
-          <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
-            <span className="text-primary-foreground font-bold text-[10px]">LG</span>
-          </div>
+        <Link to="/" className="flex items-center gap-2.5 mb-5">
+          <img src="/logo.svg" alt="Live Grid" className="w-8 h-8 object-contain" />
           <span className="font-bold text-sm">Live Grid</span>
         </Link>
 
