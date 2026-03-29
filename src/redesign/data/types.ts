@@ -59,7 +59,12 @@ export interface LayoutGroup {
 export type SortField = 'price' | 'area' | 'floor' | 'rooms';
 export type SortDir = 'asc' | 'desc';
 
+export type ObjectType = 'apartments' | 'houses' | 'land' | 'commercial';
+export type MarketType = 'all' | 'new' | 'secondary';
+
 export interface CatalogFilters {
+  objectType: ObjectType;
+  marketType: MarketType;
   priceMin?: number;
   priceMax?: number;
   rooms: number[];
@@ -77,6 +82,8 @@ export interface CatalogFilters {
 }
 
 export const defaultFilters: CatalogFilters = {
+  objectType: 'apartments',
+  marketType: 'all',
   rooms: [],
   district: [],
   subway: [],

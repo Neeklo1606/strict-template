@@ -7,8 +7,10 @@ import { searchComplexes } from '@/redesign/data/mock-data';
 import type { ResidentialComplex } from '@/redesign/data/types';
 
 const catalogCategories = [
-  { label: 'Новостройки', href: '/catalog?type=new' },
-  { label: 'Вторичная недвижимость', href: '/catalog?type=secondary' },
+  { label: 'Квартиры', href: '/catalog?type=apartments', sub: [
+    { label: 'Новостройки', href: '/catalog?type=apartments&market=new' },
+    { label: 'Вторичка', href: '/catalog?type=apartments&market=secondary' },
+  ]},
   { label: 'Дома', href: '/catalog?type=houses' },
   { label: 'Участки', href: '/catalog?type=land' },
   { label: 'Коммерческая недвижимость', href: '/catalog?type=commercial' },
@@ -70,16 +72,31 @@ const RedesignHeader = () => {
                 <ChevronDown className={cn('w-3.5 h-3.5 transition-transform', catalogOpen && 'rotate-180')} />
               </button>
               {catalogOpen && (
-                <div className="absolute top-full left-0 mt-1 py-2 bg-card border border-border rounded-xl shadow-lg z-50 min-w-[240px]">
+                <div className="absolute top-full left-0 mt-1 py-2 bg-card border border-border rounded-xl shadow-lg z-50 min-w-[260px]">
                   {catalogCategories.map(item => (
-                    <Link
-                      key={item.href}
-                      to={item.href}
-                      onClick={() => setCatalogOpen(false)}
-                      className="block px-4 py-2.5 text-sm hover:bg-muted/50 transition-colors"
-                    >
-                      {item.label}
-                    </Link>
+                    <div key={item.href}>
+                      <Link
+                        to={item.href}
+                        onClick={() => setCatalogOpen(false)}
+                        className="block px-4 py-2.5 text-sm font-medium hover:bg-muted/50 transition-colors"
+                      >
+                        {item.label}
+                      </Link>
+                      {'sub' in item && item.sub && (
+                        <div className="pl-4">
+                          {item.sub.map(sub => (
+                            <Link
+                              key={sub.href}
+                              to={sub.href}
+                              onClick={() => setCatalogOpen(false)}
+                              className="block px-4 py-2 text-xs text-muted-foreground hover:text-foreground hover:bg-muted/50 transition-colors"
+                            >
+                              {sub.label}
+                            </Link>
+                          ))}
+                        </div>
+                      )}
+                    </div>
                   ))}
                 </div>
               )}
@@ -197,8 +214,14 @@ const RedesignHeader = () => {
           <nav className="flex flex-col p-4 gap-1">
             <p className="px-4 pt-2 pb-1 text-xs text-muted-foreground font-medium uppercase tracking-wider">Каталог</p>
             {catalogCategories.map(item => (
-              <Link key={item.href} to={item.href} onClick={() => setMenuOpen(false)}
-                className="py-3 px-4 rounded-xl text-sm hover:bg-accent transition-colors">{item.label}</Link>
+              <div key={item.href}>
+                <Link to={item.href} onClick={() => setMenuOpen(false)}
+                  className="py-3 px-4 rounded-xl text-sm font-medium hover:bg-accent transition-colors block">{item.label}</Link>
+                {'sub' in item && item.sub && item.sub.map(sub => (
+                  <Link key={sub.href} to={sub.href} onClick={() => setMenuOpen(false)}
+                    className="py-2 px-8 rounded-xl text-xs text-muted-foreground hover:bg-accent transition-colors block">{sub.label}</Link>
+                ))}
+              </div>
             ))}
             <div className="h-px bg-border my-2" />
             <Link to="/catalog?city=belgorod" onClick={() => setMenuOpen(false)} className="py-3 px-4 rounded-xl text-sm font-medium hover:bg-accent transition-colors">Белгород</Link>
