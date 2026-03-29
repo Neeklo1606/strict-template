@@ -32,12 +32,12 @@ const QuizSection = () => {
   const canNext = step === 0 ? selectedTypes.length > 0 : step === 1 ? selectedGoal !== null : selectedBudget !== null;
 
   return (
-    <section className="py-6 sm:py-8">
+    <section className="py-8 sm:py-12">
       <div className="max-w-[1400px] mx-auto px-4">
-        <div className="flex flex-col lg:flex-row gap-4 lg:gap-6">
+        <div className="flex flex-col lg:flex-row gap-3 sm:gap-4">
           {/* Quiz Card */}
-          <div className="flex-1 bg-secondary rounded-2xl p-4 sm:p-6 md:p-8">
-            <h2 className="text-xl sm:text-2xl font-bold mb-2">Подберем объект под Ваш запрос</h2>
+          <div className="flex-1 bg-secondary rounded-xl p-4 sm:p-6 md:p-8">
+            <h2 className="text-base sm:text-xl font-bold mb-2">Подберем объект под Ваш запрос</h2>
 
             {step === 0 && (
               <>
@@ -128,7 +128,7 @@ const QuizSection = () => {
           </div>
 
           {/* Right Banner */}
-          <div className="hidden lg:flex lg:w-[320px] bg-primary rounded-2xl p-6 lg:p-8 flex-col items-center justify-center text-primary-foreground text-center min-h-[300px]">
+          <div className="hidden lg:flex lg:w-[320px] bg-primary rounded-xl p-6 lg:p-8 flex-col items-center justify-center text-primary-foreground text-center min-h-[300px]">
             <h3 className="text-2xl lg:text-3xl font-bold mb-4">Подберем<br />за 5 минут</h3>
             <div className="w-14 h-14 lg:w-16 lg:h-16 rounded-full bg-primary-foreground/20 flex items-center justify-center mb-4">
               <svg className="w-7 h-7 lg:w-8 lg:h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>

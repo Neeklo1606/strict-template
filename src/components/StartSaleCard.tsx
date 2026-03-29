@@ -55,17 +55,17 @@ const StartSaleCard = ({ data }: { data: StartSaleData }) => {
           <img
             src={data.image}
             alt={data.title}
-            className="w-full h-full object-cover transition-transform duration-200 group-hover:scale-[1.03]"
+            className="w-full h-full object-cover transition-transform duration-200 group-hover:scale-[1.02]"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-foreground/20 via-transparent to-transparent" />
 
           {/* Start date badge */}
           {data.badges && data.badges.length > 0 && (
-            <div className="absolute top-2.5 left-2.5 flex flex-wrap gap-1.5 z-10">
+            <div className="absolute top-2 left-2 flex flex-wrap gap-1 z-10">
               {data.badges.map((b, i) => (
                 <span
                   key={i}
-                  className="px-2.5 py-1 rounded-lg text-[11px] font-semibold flex items-center gap-1 bg-primary text-primary-foreground shadow-sm"
+                  className="px-2 py-0.5 rounded-full text-[11px] font-semibold flex items-center gap-1 bg-primary text-primary-foreground"
                 >
                   <CalendarClock className="w-3 h-3" />
                   {b}
@@ -74,16 +74,16 @@ const StartSaleCard = ({ data }: { data: StartSaleData }) => {
             </div>
           )}
 
-          {/* Favorite */}
+          {/* Favorite — unified */}
           <button
-            className="absolute top-2.5 right-2.5 w-8 h-8 bg-background/80 backdrop-blur-sm rounded-full flex items-center justify-center z-10 transition-transform duration-200 active:scale-90"
+            className="absolute top-2 right-2 w-7 h-7 bg-background/70 backdrop-blur-sm rounded-full flex items-center justify-center z-10 hover:bg-background/90 transition-colors active:scale-90"
             onClick={(e) => { e.preventDefault(); e.stopPropagation(); setLiked(!liked); }}
           >
-            <Heart className={cn('w-4 h-4', liked ? 'fill-destructive text-destructive' : 'text-muted-foreground')} />
+            <Heart className={cn('w-3.5 h-3.5', liked ? 'fill-destructive text-destructive' : 'text-muted-foreground')} />
           </button>
         </div>
 
-        {/* Info block — always visible */}
+        {/* Info block */}
         <div className="p-3">
           <div className="flex justify-between items-start gap-2">
             <h3 className="font-semibold text-sm leading-tight truncate">{data.title}</h3>
@@ -130,7 +130,7 @@ const StartSaleCard = ({ data }: { data: StartSaleData }) => {
         'px-3 pb-3 transition-all duration-200',
         expanded ? 'hidden' : 'block',
       )}>
-        <span className="text-primary text-[11px] font-medium mt-1 hover:underline">Подробнее →</span>
+        <span className="text-primary text-[11px] font-medium mt-1 hover:underline">Подробнее</span>
       </div>
     </div>
   );
