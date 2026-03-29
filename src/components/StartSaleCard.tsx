@@ -1,4 +1,4 @@
-import { Heart, CalendarClock } from 'lucide-react';
+import { Heart, CalendarClock, Building2, MapPin, ChevronRight } from 'lucide-react';
 import { useState, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import { cn } from '@/lib/utils';
@@ -12,6 +12,7 @@ export interface StartSaleData {
   description?: string;
   slug?: string;
   developer?: string;
+  district?: string;
   apartments?: { type: string; price: string; count: number }[];
 }
 
@@ -28,9 +29,9 @@ const StartSaleCard = ({ data }: { data: StartSaleData }) => {
   const slug = data.slug || data.title.toLowerCase().replace(/\s+/g, '-').replace(/[^a-zа-яё0-9-]/gi, '');
   const linkPath = `/complex/${slug}`;
   const apartments = data.apartments || defaultApartments;
+  const totalUnits = apartments.reduce((s, a) => s + a.count, 0);
 
   const handleTap = useCallback((e: React.MouseEvent) => {
-    // On touch devices, first tap expands, second navigates
     if ('ontouchstart' in window && !expanded) {
       e.preventDefault();
       setExpanded(true);
@@ -39,33 +40,32 @@ const StartSaleCard = ({ data }: { data: StartSaleData }) => {
 
   return (
     <div
-      className="group rounded-2xl overflow-hidden bg-card border border-border transition-all duration-300 ease-in-out will-change-transform hover:shadow-lg hover:-translate-y-0.5"
+      className="group rounded-xl overflow-hidden bg-card border border-border transition-all duration-300 ease-in-out will-change-transform hover:shadow-lg hover:-translate-y-0.5"
+      onMouseEnter={() => setExpanded(true)}
       onMouseLeave={() => setExpanded(false)}
     >
       <Link to={linkPath} className="block" onClick={handleTap}>
-        {/* Image — shrinks on hover to reveal apartment list */}
+        {/* Image — shrinks on expand */}
         <div
           className={cn(
             'relative overflow-hidden transition-all duration-300 ease-in-out',
-            'h-[220px] group-hover:h-[120px]',
+            expanded ? 'h-[130px]' : 'h-[200px]',
           )}
-          style={expanded ? { height: '120px' } : undefined}
         >
           <img
             src={data.image}
             alt={data.title}
             className="w-full h-full object-cover transition-transform duration-300 ease-in-out group-hover:scale-[1.03]"
           />
-          {/* Subtle overlay */}
-          <div className="absolute inset-0 bg-gradient-to-t from-foreground/15 via-transparent to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-t from-foreground/20 via-transparent to-transparent" />
 
-          {/* Badge */}
+          {/* Start date badge */}
           {data.badges && data.badges.length > 0 && (
             <div className="absolute top-2.5 left-2.5 flex flex-wrap gap-1.5 z-10">
               {data.badges.map((b, i) => (
                 <span
                   key={i}
-                  className="px-2.5 py-1 rounded-full text-xs font-semibold flex items-center gap-1 bg-accent-foreground text-background backdrop-blur-sm"
+                  className="px-2.5 py-1 rounded-lg text-[11px] font-semibold flex items-center gap-1 bg-primary text-primary-foreground shadow-sm"
                 >
                   <CalendarClock className="w-3 h-3" />
                   {b}
@@ -83,55 +83,64 @@ const StartSaleCard = ({ data }: { data: StartSaleData }) => {
           </button>
         </div>
 
-        {/* Base info — always visible */}
-        <div className="px-3.5 pt-3 pb-1">
-          <div className="flex justify-between items-start gap-2">
-            <h3 className="font-semibold text-sm leading-tight truncate">{data.title}</h3>
-            <span className="text-sm font-bold whitespace-nowrap shrink-0">{data.price}</span>
-          </div>
-          <p className="text-[11px] text-muted-foreground mt-0.5 truncate">{data.address}{data.developer ? ` · ${data.developer}` : ''}</p>
-        </div>
+        {/* Info block — always visible */}
+        <div className="px-3.5 pt-3 pb-2">
+          <h3 className="font-semibold text-sm leading-tight truncate">{data.title}</h3>
 
-        {/* Expandable apartment list — revealed on hover / tap */}
-        <div
-          className={cn(
-            'overflow-hidden transition-all duration-300 ease-in-out',
-            'max-h-0 opacity-0 group-hover:max-h-[200px] group-hover:opacity-100',
-          )}
-          style={expanded ? { maxHeight: '200px', opacity: 1 } : undefined}
-        >
-          <div className="px-3.5 pt-1.5 pb-3">
-            <div className="border-t border-border pt-2 space-y-1">
-              {apartments.map((apt, i) => (
-                <Link
-                  key={i}
-                  to={`${linkPath}?rooms=${encodeURIComponent(apt.type)}`}
-                  className="flex items-center justify-between py-1 px-2 -mx-1 rounded-md hover:bg-secondary transition-colors text-xs"
-                  onClick={(e) => e.stopPropagation()}
-                >
-                  <span className="text-foreground font-medium">{apt.type}</span>
-                  <div className="flex items-center gap-3">
-                    <span className="text-muted-foreground">{apt.count} шт.</span>
-                    <span className="font-semibold text-primary">{apt.price}</span>
-                  </div>
-                </Link>
-              ))}
+          <div className="flex items-center gap-1.5 text-[11px] text-muted-foreground mt-1">
+            <MapPin className="w-3 h-3 shrink-0" />
+            <span className="truncate">{data.district || data.address}</span>
+          </div>
+
+          {data.developer && (
+            <div className="flex items-center gap-1.5 text-[11px] text-muted-foreground mt-0.5">
+              <Building2 className="w-3 h-3 shrink-0" />
+              <span className="truncate">{data.developer}</span>
             </div>
-            <span className="text-primary text-[11px] font-medium mt-1.5 inline-block hover:underline">Все квартиры →</span>
-          </div>
-        </div>
-
-        {/* "Подробнее" — visible only when NOT expanded */}
-        <div className={cn(
-          'px-3.5 pb-3 transition-all duration-300 ease-in-out',
-          'block group-hover:hidden',
-        )}>
-          {data.description && (
-            <p className="text-xs text-muted-foreground mt-1 line-clamp-2 leading-relaxed">{data.description}</p>
           )}
-          <span className="text-primary text-xs font-medium mt-1.5 inline-block hover:underline">Подробнее</span>
+
+          <div className="flex items-center justify-between mt-2">
+            <span className="text-sm font-bold">{data.price}</span>
+            <span className="text-[10px] text-muted-foreground">{totalUnits} квартир</span>
+          </div>
         </div>
       </Link>
+
+      {/* Expandable apartment list */}
+      <div
+        className={cn(
+          'overflow-hidden transition-all duration-300 ease-in-out',
+          expanded ? 'max-h-[220px] opacity-100' : 'max-h-0 opacity-0',
+        )}
+      >
+        <div className="px-3.5 pb-3">
+          <div className="border-t border-border pt-2 space-y-0.5">
+            {apartments.map((apt, i) => (
+              <Link
+                key={i}
+                to={`${linkPath}?rooms=${encodeURIComponent(apt.type)}`}
+                className="flex items-center justify-between py-1.5 px-2 -mx-1 rounded-lg hover:bg-secondary transition-colors text-xs group/row"
+                onClick={(e) => e.stopPropagation()}
+              >
+                <span className="text-foreground font-medium">{apt.type}</span>
+                <div className="flex items-center gap-2.5">
+                  <span className="text-muted-foreground">{apt.count} шт.</span>
+                  <span className="font-semibold text-primary">{apt.price}</span>
+                  <ChevronRight className="w-3 h-3 text-muted-foreground opacity-0 group-hover/row:opacity-100 transition-opacity" />
+                </div>
+              </Link>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* "Подробнее" — visible only when collapsed */}
+      <div className={cn(
+        'px-3.5 pb-3 transition-all duration-200',
+        expanded ? 'hidden' : 'block',
+      )}>
+        <span className="text-primary text-[11px] font-medium hover:underline">Подробнее →</span>
+      </div>
     </div>
   );
 };
