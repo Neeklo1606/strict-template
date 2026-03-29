@@ -35,6 +35,7 @@ const AdminMedia = lazy(() => import("./admin/pages/AdminMedia"));
 const AdminUsers = lazy(() => import("./admin/pages/AdminUsers"));
 const AdminSettings = lazy(() => import("./admin/pages/AdminSettings"));
 const AdminTokens = lazy(() => import("./admin/pages/AdminTokens"));
+const AdminDocs = lazy(() => import("./admin/pages/AdminDocs"));
 const EditorPage = lazy(() => import("./admin/components/editor/EditorPage"));
 
 const queryClient = new QueryClient();
@@ -86,6 +87,7 @@ const App = () => (
               <Route path="users" element={<AdminUsers />} />
               <Route path="settings" element={<AdminSettings />} />
               <Route path="tokens" element={<AdminTokens />} />
+              <Route path="docs" element={<AdminDocs />} />
             </Route>
             <Route path="/admin/editor/:pageId" element={<EditorPage />} />
 
