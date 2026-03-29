@@ -1,5 +1,6 @@
 import React from 'react';
 import { Phone, Mail, MapPin } from 'lucide-react';
+import contactMap from '@/assets/contact-map.jpg';
 
 const ContactsSection = React.forwardRef<HTMLElement>((_, ref) => (
   <section ref={ref} className="py-8 sm:py-12">
@@ -10,8 +11,8 @@ const ContactsSection = React.forwardRef<HTMLElement>((_, ref) => (
           <div className="flex items-center gap-3">
             <Phone className="w-4 h-4 sm:w-5 sm:h-5 text-primary shrink-0" />
             <div>
-              <p className="text-sm font-medium">+7 (4) 333 44 11</p>
-              <p className="text-xs sm:text-sm text-muted-foreground">+7 (4) 333 66 12</p>
+              <p className="text-sm font-medium">+7 (904) 539-34-34</p>
+              <p className="text-xs sm:text-sm text-muted-foreground">Ежедневно с 9:00 до 21:00</p>
             </div>
           </div>
           <div className="flex items-center gap-3">
@@ -20,7 +21,7 @@ const ContactsSection = React.forwardRef<HTMLElement>((_, ref) => (
           </div>
           <div className="flex items-center gap-3">
             <MapPin className="w-4 h-4 sm:w-5 sm:h-5 text-primary shrink-0" />
-            <p className="text-xs sm:text-sm">Москва, ул. Примерная, д. 1</p>
+            <p className="text-xs sm:text-sm">г. Белгород, пр-т Славы, д. 100</p>
           </div>
           <div className="flex gap-2 sm:gap-3 pt-3 sm:pt-4">
             {['VK', 'TG', 'YT', 'OK'].map((s, i) => (
@@ -30,8 +31,13 @@ const ContactsSection = React.forwardRef<HTMLElement>((_, ref) => (
             ))}
           </div>
         </div>
-        <div className="bg-accent rounded-xl flex items-center justify-center min-h-[240px] sm:min-h-[300px]">
-          <span className="text-2xl sm:text-3xl font-bold text-primary">VIDEO</span>
+        <div className="relative rounded-xl overflow-hidden min-h-[240px] sm:min-h-[300px]">
+          <img src={contactMap} alt="Расположение офиса LiveGrid" className="w-full h-full object-cover" loading="lazy" />
+          <div className="absolute inset-0 bg-gradient-to-t from-foreground/30 via-transparent to-transparent" />
+          <div className="absolute bottom-4 left-4 bg-background/90 backdrop-blur-sm rounded-lg px-3 py-2">
+            <p className="text-xs font-semibold">LiveGrid — Главный офис</p>
+            <p className="text-[11px] text-muted-foreground">г. Белгород, пр-т Славы, д. 100</p>
+          </div>
         </div>
       </div>
     </div>
