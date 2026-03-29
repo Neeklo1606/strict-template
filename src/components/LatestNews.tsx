@@ -51,7 +51,7 @@ const LatestNews = () => (
               <img src={n.image} alt={n.title} className="w-full h-full object-cover group-hover:scale-[1.02] transition-transform duration-200" />
             </div>
             <div className="p-3">
-              <span className="inline-block px-2 py-0.5 rounded-full text-[11px] font-medium bg-accent text-accent-foreground mb-1.5">{n.category}</span>
+              <span className="inline-flex items-center px-2 py-0.5 rounded-md text-[11px] font-semibold leading-tight bg-accent text-accent-foreground mb-1.5">{n.category}</span>
               <h3 className="font-semibold text-sm leading-tight truncate">{n.title}</h3>
               <span className="text-[11px] text-muted-foreground mt-0.5 block">{n.date}</span>
             </div>
