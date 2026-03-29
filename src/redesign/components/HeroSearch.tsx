@@ -27,7 +27,7 @@ const regions = [
 ];
 
 const propertyTypes = ['Тип квартиры', 'Студия', '1-комнатная', '2-комнатная', '3-комнатная', '4+ комнат'];
-const deadlines = ['Срок сдачи', 'Сдан', '2025', '2026', '2027', '2028+'];
+const deadlines = ['Срок сдачи', 'Сдан', '2026', '2027', '2028', '2029+'];
 
 /* ---------- categorised suggestions ---------- */
 type Suggestion = { label: string; type: 'metro' | 'district' | 'complex' | 'street' | 'builder' | 'bank'; icon: typeof Train };
