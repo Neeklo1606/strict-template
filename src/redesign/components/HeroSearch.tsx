@@ -318,10 +318,10 @@ const HeroSearch = () => {
                 )}
               </div>
 
-              <div className="w-px h-7 bg-[#e2e8f0] mx-1" />
+              <div className="w-px h-6 bg-[#e2e8f0] mx-2" />
               <button
                 onClick={() => setFiltersOpen(!filtersOpen)}
-                className="h-11 px-3 text-sm flex items-center gap-1.5 whitespace-nowrap transition-colors rounded-lg hover:bg-muted/50"
+                className="h-[52px] px-3.5 text-sm flex items-center gap-1.5 whitespace-nowrap transition-colors rounded-lg hover:bg-muted/50"
               >
                 <SlidersHorizontal className="w-4 h-4" />
                 Фильтры
