@@ -58,13 +58,13 @@ const RedesignIndex = () => {
           ))}
         </div>
 
-        <Link
-          to="/catalog"
-          className="flex sm:hidden items-center justify-center gap-1.5 mt-3 py-2 rounded-xl border border-border text-xs font-medium hover:bg-secondary transition-colors"
+        <button
+          onClick={() => navigate('/catalog')}
+          className="flex sm:hidden items-center justify-center gap-1.5 mt-3 w-full py-2 rounded-xl border border-border text-xs font-medium hover:bg-secondary transition-colors"
         >
           Все предложения
           <ArrowRight className="w-3.5 h-3.5" />
-        </Link>
+        </button>
       </section>
 
       <PropertyGridSection title="Горячие предложения" type="hot" />
