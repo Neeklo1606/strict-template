@@ -27,20 +27,20 @@ const RedesignIndex = () => {
         <div className="flex items-center justify-between mb-4 sm:mb-6">
           <h2 className="text-base sm:text-xl font-bold">Популярные ЖК</h2>
           <div className="flex items-center gap-2">
-            <Link
-              to="/map"
+            <button
+              onClick={() => navigate('/map')}
               className="hidden sm:flex items-center gap-1.5 px-3.5 py-2 rounded-full border border-border text-xs sm:text-sm font-medium hover:bg-secondary transition-colors"
             >
               <MapPin className="w-3.5 h-3.5 text-primary" />
               На карте
-            </Link>
-            <Link
-              to="/catalog"
+            </button>
+            <button
+              onClick={() => navigate('/catalog')}
               className="hidden sm:flex items-center gap-1.5 px-3.5 py-2 rounded-full border border-border text-xs sm:text-sm font-medium hover:bg-secondary transition-colors"
             >
               Все предложения
               <ArrowRight className="w-3.5 h-3.5" />
-            </Link>
+            </button>
           </div>
         </div>
 
