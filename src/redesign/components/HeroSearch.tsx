@@ -123,7 +123,7 @@ const HeroSearch = () => {
       <div className="max-w-[1400px] mx-auto px-4 pt-4 pb-5 sm:pt-6 sm:pb-5">
 
         {/* Geo selector — left-aligned, separate from title */}
-        <div className="flex flex-col items-center gap-2 sm:gap-3 mb-5 sm:mb-8">
+        <div className="flex flex-col items-center gap-1 mb-3">
           <div className="relative w-fit" ref={regionRef}>
             <button
               onClick={() => setRegionOpen(!regionOpen)}
