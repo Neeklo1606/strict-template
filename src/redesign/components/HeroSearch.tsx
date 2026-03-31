@@ -89,7 +89,7 @@ const HeroSearch = () => {
     }, 200);
   }, []);
 
-  const [marketType, setMarketType] = useState<'all' | 'new' | 'secondary'>('all');
+  
 
   const doSearch = () => {
     const params = new URLSearchParams();
