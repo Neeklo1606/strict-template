@@ -1,6 +1,6 @@
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useState, useRef, useEffect, useCallback } from 'react';
-import { Phone, Menu, X, Search, Home, LayoutGrid, Heart, LogIn, ChevronDown } from 'lucide-react';
+import { Phone, Menu, X, Search, Home, LayoutGrid, Heart, LogIn, ChevronDown, User, Star, LogOut } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Input } from '@/components/ui/input';
 import { searchComplexes } from '@/redesign/data/mock-data';
@@ -22,10 +22,19 @@ const RedesignHeader = () => {
   const [query, setQuery] = useState('');
   const [results, setResults] = useState<ResidentialComplex[]>([]);
   const [searchOpen, setSearchOpen] = useState(false);
+  const [loginModalOpen, setLoginModalOpen] = useState(false);
+  const [userDropdownOpen, setUserDropdownOpen] = useState(false);
+  const [phone, setPhone] = useState('');
+  const [password, setPassword] = useState('');
+
+  // TODO: replace with real auth state
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+
   const location = useLocation();
   const navigate = useNavigate();
   const searchRef = useRef<HTMLDivElement>(null);
   const catalogRef = useRef<HTMLDivElement>(null);
+  const userDropdownRef = useRef<HTMLDivElement>(null);
   const timerRef = useRef<ReturnType<typeof setTimeout>>();
 
   const handleSearch = useCallback((q: string) => {
@@ -34,10 +43,33 @@ const RedesignHeader = () => {
     timerRef.current = setTimeout(() => setResults(searchComplexes(q)), 200);
   }, []);
 
+  const handleHeartClick = () => {
+    if (!isAuthenticated) {
+      navigate('/login');
+    } else {
+      navigate('/favorites');
+    }
+  };
+
+  const handleLogin = (e: React.FormEvent) => {
+    e.preventDefault();
+    // TODO: real auth
+    setIsAuthenticated(true);
+    setLoginModalOpen(false);
+    setPhone('');
+    setPassword('');
+  };
+
+  const handleLogout = () => {
+    setIsAuthenticated(false);
+    setUserDropdownOpen(false);
+  };
+
   useEffect(() => {
     const handler = (e: MouseEvent) => {
       if (searchRef.current && !searchRef.current.contains(e.target as Node)) setSearchOpen(false);
       if (catalogRef.current && !catalogRef.current.contains(e.target as Node)) setCatalogOpen(false);
+      if (userDropdownRef.current && !userDropdownRef.current.contains(e.target as Node)) setUserDropdownOpen(false);
     };
     document.addEventListener('mousedown', handler);
     return () => document.removeEventListener('mousedown', handler);
@@ -57,7 +89,6 @@ const RedesignHeader = () => {
 
           {/* Desktop nav */}
           <nav className="hidden lg:flex items-center gap-1">
-            {/* Каталог with dropdown */}
             <div ref={catalogRef} className="relative">
               <button
                 onClick={() => setCatalogOpen(!catalogOpen)}
@@ -102,44 +133,26 @@ const RedesignHeader = () => {
               )}
             </div>
 
-            <Link
-              to="/catalog?city=belgorod"
-              className={cn(
-                'px-3.5 py-2 text-sm rounded-lg transition-colors',
-                'text-muted-foreground hover:text-foreground hover:bg-muted/50'
-              )}
-            >
+            <Link to="/catalog?city=belgorod" className="px-3.5 py-2 text-sm rounded-lg transition-colors text-muted-foreground hover:text-foreground hover:bg-muted/50">
               Белгород
             </Link>
-            <Link
-              to="/mortgage"
-              className={cn(
-                'px-3.5 py-2 text-sm rounded-lg transition-colors',
-                'text-muted-foreground hover:text-foreground hover:bg-muted/50'
-              )}
-            >
+            <Link to="/mortgage" className="px-3.5 py-2 text-sm rounded-lg transition-colors text-muted-foreground hover:text-foreground hover:bg-muted/50">
               Ипотека
             </Link>
-            <Link
-              to="#contacts"
-              className={cn(
-                'px-3.5 py-2 text-sm rounded-lg transition-colors',
-                'text-muted-foreground hover:text-foreground hover:bg-muted/50'
-              )}
-            >
+            <Link to="#contacts" className="px-3.5 py-2 text-sm rounded-lg transition-colors text-muted-foreground hover:text-foreground hover:bg-muted/50">
               Контакты
             </Link>
           </nav>
 
           {/* Desktop right */}
           <div className="hidden lg:flex items-center gap-2 shrink-0">
-            <Link
-              to="/favorites"
+            <button
+              onClick={handleHeartClick}
               className="flex items-center justify-center w-11 h-11 rounded-full hover:bg-secondary transition-colors"
               title="Избранное"
             >
               <Heart className="w-6 h-6 text-muted-foreground" />
-            </Link>
+            </button>
             <div className="w-px h-5 bg-border" />
             <a
               href="tel:+79045393434"
@@ -148,13 +161,51 @@ const RedesignHeader = () => {
               <Phone className="w-4 h-4 text-primary shrink-0" />
               <span>+7 (904) 539-34-34</span>
             </a>
-            <Link
-              to="/register"
-              className="bg-primary text-primary-foreground px-5 py-2 rounded-full text-sm font-medium hover:bg-primary/90 transition-colors flex items-center gap-1.5 shrink-0"
-            >
-              <LogIn className="w-4 h-4" />
-              Войти
-            </Link>
+
+            {!isAuthenticated ? (
+              <button
+                onClick={() => setLoginModalOpen(true)}
+                className="bg-primary text-primary-foreground px-5 py-2 rounded-full text-sm font-medium hover:bg-primary/90 transition-colors flex items-center gap-1.5 shrink-0"
+              >
+                <LogIn className="w-4 h-4" />
+                Войти
+              </button>
+            ) : (
+              <div ref={userDropdownRef} className="relative">
+                <button
+                  onClick={() => setUserDropdownOpen(!userDropdownOpen)}
+                  className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center hover:bg-primary/20 transition-colors"
+                >
+                  <User className="w-5 h-5 text-primary" />
+                </button>
+                {userDropdownOpen && (
+                  <div className="absolute top-full right-0 mt-2 py-1.5 bg-card border border-border rounded-xl shadow-lg z-50 min-w-[200px] animate-in fade-in-0 zoom-in-95 duration-150">
+                    <button
+                      onClick={() => { setUserDropdownOpen(false); navigate('/profile'); }}
+                      className="w-full flex items-center gap-2.5 px-4 py-2.5 text-sm hover:bg-muted/50 transition-colors text-left"
+                    >
+                      <User className="w-4 h-4 text-muted-foreground" />
+                      Личный кабинет
+                    </button>
+                    <button
+                      onClick={() => { setUserDropdownOpen(false); navigate('/favorites'); }}
+                      className="w-full flex items-center gap-2.5 px-4 py-2.5 text-sm hover:bg-muted/50 transition-colors text-left"
+                    >
+                      <Star className="w-4 h-4 text-muted-foreground" />
+                      Избранное
+                    </button>
+                    <div className="h-px bg-border my-1" />
+                    <button
+                      onClick={handleLogout}
+                      className="w-full flex items-center gap-2.5 px-4 py-2.5 text-sm hover:bg-muted/50 transition-colors text-left text-destructive"
+                    >
+                      <LogOut className="w-4 h-4" />
+                      Выйти
+                    </button>
+                  </div>
+                )}
+              </div>
+            )}
           </div>
 
           {/* Mobile buttons */}
@@ -232,9 +283,26 @@ const RedesignHeader = () => {
             <a href="tel:+79045393434" className="flex items-center gap-2 text-sm text-muted-foreground">
               <Phone className="w-4 h-4" /> +7 (904) 539-34-34
             </a>
-            <Link to="/register" onClick={() => setMenuOpen(false)} className="flex items-center justify-center gap-2 bg-primary text-primary-foreground rounded-full py-2.5 text-sm font-medium">
-              <LogIn className="w-4 h-4" /> Войти
-            </Link>
+            {!isAuthenticated ? (
+              <button
+                onClick={() => { setMenuOpen(false); setLoginModalOpen(true); }}
+                className="flex items-center justify-center gap-2 w-full bg-primary text-primary-foreground rounded-full py-2.5 text-sm font-medium"
+              >
+                <LogIn className="w-4 h-4" /> Войти
+              </button>
+            ) : (
+              <div className="space-y-1">
+                <button onClick={() => { setMenuOpen(false); navigate('/profile'); }} className="flex items-center gap-2 w-full py-2.5 px-4 rounded-xl text-sm hover:bg-accent transition-colors">
+                  <User className="w-4 h-4 text-muted-foreground" /> Личный кабинет
+                </button>
+                <button onClick={() => { setMenuOpen(false); navigate('/favorites'); }} className="flex items-center gap-2 w-full py-2.5 px-4 rounded-xl text-sm hover:bg-accent transition-colors">
+                  <Star className="w-4 h-4 text-muted-foreground" /> Избранное
+                </button>
+                <button onClick={() => { handleLogout(); setMenuOpen(false); }} className="flex items-center gap-2 w-full py-2.5 px-4 rounded-xl text-sm text-destructive hover:bg-accent transition-colors">
+                  <LogOut className="w-4 h-4" /> Выйти
+                </button>
+              </div>
+            )}
           </div>
         </div>
       )}
@@ -250,12 +318,73 @@ const RedesignHeader = () => {
             <LayoutGrid className="w-5 h-5" />
             <span>Каталог</span>
           </Link>
-          <Link to="/favorites" className={cn('flex flex-col items-center gap-0.5 text-[10px] py-1', 'text-muted-foreground')}>
+          <button onClick={handleHeartClick} className={cn('flex flex-col items-center gap-0.5 text-[10px] py-1', 'text-muted-foreground')}>
             <Heart className="w-5 h-5" />
             <span>Избранное</span>
-          </Link>
+          </button>
         </div>
       </div>
+
+      {/* Login Modal */}
+      {loginModalOpen && (
+        <div className="fixed inset-0 z-[70] flex items-center justify-center">
+          <div className="absolute inset-0 bg-black/40 backdrop-blur-sm" onClick={() => setLoginModalOpen(false)} />
+          <div className="relative bg-card rounded-2xl shadow-2xl w-full max-w-[400px] mx-4 p-6 sm:p-8 animate-in fade-in-0 zoom-in-95 duration-200">
+            <button
+              onClick={() => setLoginModalOpen(false)}
+              className="absolute top-4 right-4 w-8 h-8 flex items-center justify-center rounded-full hover:bg-muted transition-colors"
+            >
+              <X className="w-4 h-4" />
+            </button>
+
+            <h2 className="text-xl font-bold mb-1">Вход</h2>
+            <p className="text-sm text-muted-foreground mb-6">Войдите, чтобы сохранять избранное</p>
+
+            <form onSubmit={handleLogin} className="space-y-4">
+              <div>
+                <label className="text-sm font-medium mb-1.5 block">Телефон</label>
+                <Input
+                  type="tel"
+                  placeholder="+7 (___) ___-__-__"
+                  value={phone}
+                  onChange={e => setPhone(e.target.value)}
+                  className="h-11"
+                  autoFocus
+                />
+              </div>
+              <div>
+                <label className="text-sm font-medium mb-1.5 block">Пароль</label>
+                <Input
+                  type="password"
+                  placeholder="Введите пароль"
+                  value={password}
+                  onChange={e => setPassword(e.target.value)}
+                  className="h-11"
+                />
+              </div>
+              <button
+                type="submit"
+                className="w-full h-11 bg-[#2563EB] text-white rounded-xl text-sm font-medium hover:bg-[#1d4ed8] transition-colors"
+              >
+                Войти
+              </button>
+            </form>
+
+            <div className="relative my-5">
+              <div className="absolute inset-0 flex items-center"><div className="w-full border-t border-border" /></div>
+              <div className="relative flex justify-center"><span className="bg-card px-3 text-xs text-muted-foreground">или</span></div>
+            </div>
+
+            <button
+              onClick={() => { /* TODO: Telegram auth */ }}
+              className="w-full h-11 flex items-center justify-center gap-2 rounded-xl border border-border text-sm font-medium hover:bg-muted/50 transition-colors"
+            >
+              <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 00-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-1.49.95-4.22 2.79-.4.27-.76.41-1.08.4-.36-.01-1.04-.2-1.55-.37-.63-.2-1.12-.31-1.08-.66.02-.18.27-.36.74-.55 2.92-1.27 4.86-2.11 5.83-2.51 2.78-1.16 3.35-1.36 3.73-1.36.08 0 .27.02.39.12.1.08.13.19.14.27-.01.06.01.24 0 .38z" fill="#2AABEE"/></svg>
+              Войти через Telegram
+            </button>
+          </div>
+        </div>
+      )}
     </>
   );
 };
