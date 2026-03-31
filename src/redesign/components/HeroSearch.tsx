@@ -195,7 +195,7 @@ const HeroSearch = () => {
         </div>
 
         {/* Search block */}
-        <div className="w-full max-w-[960px] mx-auto bg-white rounded-xl shadow-[0_2px_16px_rgba(0,0,0,0.08)] px-4 sm:px-5 py-4">
+        <div className="w-full max-w-[900px] mx-auto bg-white rounded-2xl shadow-[0_4px_24px_rgba(0,0,0,0.10)] px-5 sm:px-6 py-5">
           {/* Row 1: search + inline filters */}
           <div className="flex flex-col lg:flex-row lg:items-center gap-2 lg:gap-0">
             {/* Search input */}
