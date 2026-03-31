@@ -194,15 +194,17 @@ const HeroSearch = () => {
           </button>
         </div>
 
-        {/* Search block — compact on mobile */}
-        <div className="bg-muted/50 rounded-xl sm:rounded-2xl border border-border p-2.5 sm:p-4 max-w-[1000px] mx-auto">
-          {/* Search input */}
-          <div className="flex flex-col lg:flex-row gap-2 sm:gap-3">
-            <div ref={searchRef} className="relative flex-1">
+        {/* Search block */}
+        <div className="w-full max-w-[960px] mx-auto bg-white rounded-xl shadow-[0_2px_16px_rgba(0,0,0,0.08)] px-4 sm:px-5 py-4">
+          {/* Row 1: search + inline filters */}
+          <div className="flex flex-col lg:flex-row lg:items-center gap-2 lg:gap-0">
+            {/* Search input */}
+            <div ref={searchRef} className="relative flex-1 lg:min-w-0">
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground pointer-events-none" />
-              <Input
+              <input
+                type="text"
                 placeholder="Метро, район, ЖК, улица, застройщик"
-                className="pl-9 h-10 sm:h-12 bg-background border-border text-sm"
+                className="w-full h-10 sm:h-11 pl-9 pr-3 bg-transparent border-none outline-none text-[15px] placeholder:text-muted-foreground"
                 value={q}
                 onFocus={() => setSearchFocused(true)}
                 onChange={e => handleSearch(e.target.value)}
@@ -255,16 +257,15 @@ const HeroSearch = () => {
               )}
             </div>
 
-            {/* Desktop inline filters */}
-            <div className="hidden lg:flex items-center gap-2">
+            {/* Desktop inline filters with dividers */}
+            <div className="hidden lg:flex items-center">
+              <div className="w-px h-7 bg-[#e2e8f0] mx-1" />
               <div ref={ptRef} className="relative">
                 <button
                   onClick={() => setPtOpen(!ptOpen)}
                   className={cn(
-                    'h-12 px-4 rounded-xl border text-sm flex items-center gap-1.5 whitespace-nowrap transition-colors',
-                    propertyType !== 'Тип квартиры'
-                      ? 'border-primary/50 bg-accent text-accent-foreground'
-                      : 'border-border bg-background hover:bg-secondary'
+                    'h-11 px-3 text-sm flex items-center gap-1.5 whitespace-nowrap transition-colors rounded-lg hover:bg-muted/50',
+                    propertyType !== 'Тип квартиры' ? 'text-primary font-medium' : 'text-foreground'
                   )}
                 >
                   {propertyType === 'Тип квартиры' ? 'Тип' : propertyType}
@@ -284,20 +285,20 @@ const HeroSearch = () => {
                 )}
               </div>
 
-              <div className="flex items-center h-12 rounded-xl border border-border bg-background overflow-hidden">
-                <input type="text" placeholder="Цена от" className="w-24 h-full px-3 text-sm bg-transparent outline-none" value={priceFrom} onChange={e => setPriceFrom(e.target.value.replace(/\D/g, ''))} />
-                <div className="w-px h-6 bg-border" />
-                <input type="text" placeholder="до, ₽" className="w-24 h-full px-3 text-sm bg-transparent outline-none" value={priceTo} onChange={e => setPriceTo(e.target.value.replace(/\D/g, ''))} />
+              <div className="w-px h-7 bg-[#e2e8f0] mx-1" />
+              <div className="flex items-center h-11">
+                <input type="text" placeholder="Цена от" className="w-[100px] h-full px-3 text-sm bg-transparent outline-none border-none" value={priceFrom} onChange={e => setPriceFrom(e.target.value.replace(/\D/g, ''))} />
+                <span className="text-muted-foreground text-sm">—</span>
+                <input type="text" placeholder="до, ₽" className="w-[100px] h-full px-3 text-sm bg-transparent outline-none border-none" value={priceTo} onChange={e => setPriceTo(e.target.value.replace(/\D/g, ''))} />
               </div>
 
+              <div className="w-px h-7 bg-[#e2e8f0] mx-1" />
               <div ref={dlRef} className="relative">
                 <button
                   onClick={() => setDlOpen(!dlOpen)}
                   className={cn(
-                    'h-12 px-4 rounded-xl border text-sm flex items-center gap-1.5 whitespace-nowrap transition-colors',
-                    deadline !== 'Срок сдачи'
-                      ? 'border-primary/50 bg-accent text-accent-foreground'
-                      : 'border-border bg-background hover:bg-secondary'
+                    'h-11 px-3 text-sm flex items-center gap-1.5 whitespace-nowrap transition-colors rounded-lg hover:bg-muted/50',
+                    deadline !== 'Срок сдачи' ? 'text-primary font-medium' : 'text-foreground'
                   )}
                 >
                   {deadline}
@@ -317,9 +318,10 @@ const HeroSearch = () => {
                 )}
               </div>
 
+              <div className="w-px h-7 bg-[#e2e8f0] mx-1" />
               <button
                 onClick={() => setFiltersOpen(!filtersOpen)}
-                className="h-12 px-4 rounded-xl border border-border bg-background hover:bg-secondary text-sm flex items-center gap-1.5 whitespace-nowrap transition-colors"
+                className="h-11 px-3 text-sm flex items-center gap-1.5 whitespace-nowrap transition-colors rounded-lg hover:bg-muted/50"
               >
                 <SlidersHorizontal className="w-4 h-4" />
                 Фильтры
@@ -328,45 +330,46 @@ const HeroSearch = () => {
           </div>
 
           {/* Mobile filters — scrollable pills */}
-          <div className="flex lg:hidden gap-1.5 mt-2 overflow-x-auto scrollbar-hide -mx-2.5 px-2.5">
+          <div className="flex lg:hidden gap-1.5 mt-2 overflow-x-auto scrollbar-hide">
             <button
               onClick={() => setPtOpen(!ptOpen)}
-              className="h-8 px-2.5 rounded-lg border border-border bg-background text-[11px] flex items-center gap-1 whitespace-nowrap shrink-0"
+              className="h-8 px-2.5 rounded-lg border border-[#e2e8f0] bg-white text-[11px] flex items-center gap-1 whitespace-nowrap shrink-0"
             >
               {propertyType === 'Тип квартиры' ? 'Тип' : propertyType}
               <ChevronDown className="w-2.5 h-2.5" />
             </button>
-            <button className="h-8 px-2.5 rounded-lg border border-border bg-background text-[11px] whitespace-nowrap shrink-0">Цена</button>
+            <button className="h-8 px-2.5 rounded-lg border border-[#e2e8f0] bg-white text-[11px] whitespace-nowrap shrink-0">Цена</button>
             <button
               onClick={() => setDlOpen(!dlOpen)}
-              className="h-8 px-2.5 rounded-lg border border-border bg-background text-[11px] flex items-center gap-1 whitespace-nowrap shrink-0"
+              className="h-8 px-2.5 rounded-lg border border-[#e2e8f0] bg-white text-[11px] flex items-center gap-1 whitespace-nowrap shrink-0"
             >
               {deadline}
               <ChevronDown className="w-2.5 h-2.5" />
             </button>
             <button
               onClick={() => setFiltersOpen(!filtersOpen)}
-              className="h-8 px-2.5 rounded-lg border border-border bg-background text-[11px] flex items-center gap-1 whitespace-nowrap shrink-0"
+              className="h-8 px-2.5 rounded-lg border border-[#e2e8f0] bg-white text-[11px] flex items-center gap-1 whitespace-nowrap shrink-0"
             >
               <SlidersHorizontal className="w-3 h-3" />
               Ещё
             </button>
           </div>
 
-          {/* Bottom: action row */}
-          <div className="flex items-center justify-end mt-2.5 sm:mt-4 gap-2">
-            <div className="flex items-center gap-2 w-full sm:w-auto">
-              <Link
-                to="/map"
-                className="hidden sm:flex items-center gap-2 h-10 sm:h-11 px-4 sm:px-5 rounded-xl border border-border bg-background text-sm font-medium hover:bg-secondary transition-colors"
-              >
-                <MapPin className="w-4 h-4 text-primary" />
-                На карте
-              </Link>
-              <Button onClick={doSearch} className="h-10 sm:h-11 flex-1 sm:flex-none sm:px-6 rounded-xl text-xs sm:text-sm font-medium shadow-sm">
-                58 728 квартир в 370 ЖК →
-              </Button>
-            </div>
+          {/* Row 2: map + CTA */}
+          <div className="flex items-center justify-between mt-3 gap-2">
+            <button
+              onClick={() => navigate('/map')}
+              className="hidden sm:flex items-center gap-2 h-10 px-4 rounded-lg border border-[#cbd5e1] bg-white text-sm font-medium hover:bg-muted/30 transition-colors"
+            >
+              <MapPin className="w-4 h-4 text-primary" />
+              На карте
+            </button>
+            <button
+              onClick={() => navigate('/catalog')}
+              className="h-10 flex-1 sm:flex-none sm:px-6 rounded-lg bg-[#2563EB] text-white text-xs sm:text-sm font-medium hover:bg-[#1d4ed8] transition-colors shadow-sm"
+            >
+              58 728 квартир в 370 ЖК →
+            </button>
           </div>
         </div>
       </div>
