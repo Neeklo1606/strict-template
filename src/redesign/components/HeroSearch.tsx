@@ -120,7 +120,7 @@ const HeroSearch = () => {
   return (
     <section className="relative bg-background">
       {/* Mobile: compact padding, Desktop: generous */}
-      <div className="max-w-[1400px] mx-auto px-4 pt-4 pb-5 sm:pt-10 sm:pb-12">
+      <div className="max-w-[1400px] mx-auto px-4 pt-4 pb-5 sm:pt-6 sm:pb-5">
 
         {/* Geo selector — left-aligned, separate from title */}
         <div className="flex flex-col items-center gap-2 sm:gap-3 mb-5 sm:mb-8">
