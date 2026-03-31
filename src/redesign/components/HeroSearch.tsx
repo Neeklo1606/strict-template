@@ -297,7 +297,7 @@ const HeroSearch = () => {
                 <button
                   onClick={() => setDlOpen(!dlOpen)}
                   className={cn(
-                    'h-11 px-3 text-sm flex items-center gap-1.5 whitespace-nowrap transition-colors rounded-lg hover:bg-muted/50',
+                    'h-[52px] px-3.5 text-sm flex items-center gap-1.5 whitespace-nowrap transition-colors rounded-lg hover:bg-muted/50',
                     deadline !== 'Срок сдачи' ? 'text-primary font-medium' : 'text-foreground'
                   )}
                 >
