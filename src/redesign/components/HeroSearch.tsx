@@ -292,7 +292,7 @@ const HeroSearch = () => {
                 <input type="text" placeholder="до, ₽" className="w-[100px] h-full px-3 text-sm bg-transparent outline-none border-none" value={priceTo} onChange={e => setPriceTo(e.target.value.replace(/\D/g, ''))} />
               </div>
 
-              <div className="w-px h-7 bg-[#e2e8f0] mx-1" />
+              <div className="w-px h-6 bg-[#e2e8f0] mx-2" />
               <div ref={dlRef} className="relative">
                 <button
                   onClick={() => setDlOpen(!dlOpen)}
