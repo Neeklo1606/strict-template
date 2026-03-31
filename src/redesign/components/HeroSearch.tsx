@@ -166,7 +166,7 @@ const HeroSearch = () => {
         </div>
 
         {/* Tabs — horizontal scroll on mobile */}
-        <div className="flex items-center sm:justify-center gap-1.5 sm:gap-2 mb-3 overflow-x-auto pb-1 scrollbar-hide -mx-4 px-4 sm:mx-0 sm:px-0">
+        <div className="flex items-center sm:justify-center gap-1.5 sm:gap-2 mb-4 overflow-x-auto pb-1 scrollbar-hide -mx-4 px-4 sm:mx-0 sm:px-0">
           {objectTabs.map(tab => {
             const Icon = tab.icon;
             return (
