@@ -204,7 +204,7 @@ const HeroSearch = () => {
               <input
                 type="text"
                 placeholder="Метро, район, ЖК, улица, застройщик"
-                className="w-full h-10 sm:h-11 pl-9 pr-3 bg-transparent border-none outline-none text-[15px] placeholder:text-muted-foreground"
+                className="w-full h-[52px] pl-9 pr-3 bg-transparent border-none outline-none text-[15px] placeholder:text-[#94a3b8]"
                 value={q}
                 onFocus={() => setSearchFocused(true)}
                 onChange={e => handleSearch(e.target.value)}
