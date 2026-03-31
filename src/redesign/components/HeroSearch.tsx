@@ -166,7 +166,7 @@ const HeroSearch = () => {
         </div>
 
         {/* Tabs — horizontal scroll on mobile */}
-        <div className="flex items-center sm:justify-center gap-1.5 sm:gap-2 mb-3 overflow-x-auto pb-1 scrollbar-hide -mx-4 px-4 sm:mx-0 sm:px-0">
+        <div className="flex items-center sm:justify-center gap-1.5 sm:gap-2 mb-4 overflow-x-auto pb-1 scrollbar-hide -mx-4 px-4 sm:mx-0 sm:px-0">
           {objectTabs.map(tab => {
             const Icon = tab.icon;
             return (
@@ -195,16 +195,16 @@ const HeroSearch = () => {
         </div>
 
         {/* Search block */}
-        <div className="w-full max-w-[960px] mx-auto bg-white rounded-xl shadow-[0_2px_16px_rgba(0,0,0,0.08)] px-4 sm:px-5 py-4">
+        <div className="w-full max-w-[900px] mx-auto bg-white rounded-2xl shadow-[0_4px_24px_rgba(0,0,0,0.10)] px-5 sm:px-6 py-5">
           {/* Row 1: search + inline filters */}
-          <div className="flex flex-col lg:flex-row lg:items-center gap-2 lg:gap-0">
+          <div className="flex flex-col lg:flex-row lg:items-center gap-2 lg:gap-0 lg:h-[52px]">
             {/* Search input */}
             <div ref={searchRef} className="relative flex-1 lg:min-w-0">
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground pointer-events-none" />
               <input
                 type="text"
                 placeholder="Метро, район, ЖК, улица, застройщик"
-                className="w-full h-10 sm:h-11 pl-9 pr-3 bg-transparent border-none outline-none text-[15px] placeholder:text-muted-foreground"
+                className="w-full h-[52px] pl-9 pr-3 bg-transparent border-none outline-none text-[15px] placeholder:text-[#94a3b8]"
                 value={q}
                 onFocus={() => setSearchFocused(true)}
                 onChange={e => handleSearch(e.target.value)}
@@ -259,12 +259,12 @@ const HeroSearch = () => {
 
             {/* Desktop inline filters with dividers */}
             <div className="hidden lg:flex items-center">
-              <div className="w-px h-7 bg-[#e2e8f0] mx-1" />
+              <div className="w-px h-6 bg-[#e2e8f0] mx-2" />
               <div ref={ptRef} className="relative">
                 <button
                   onClick={() => setPtOpen(!ptOpen)}
                   className={cn(
-                    'h-11 px-3 text-sm flex items-center gap-1.5 whitespace-nowrap transition-colors rounded-lg hover:bg-muted/50',
+                    'h-[52px] px-3.5 text-sm flex items-center gap-1.5 whitespace-nowrap transition-colors rounded-lg hover:bg-muted/50',
                     propertyType !== 'Тип квартиры' ? 'text-primary font-medium' : 'text-foreground'
                   )}
                 >
@@ -285,19 +285,19 @@ const HeroSearch = () => {
                 )}
               </div>
 
-              <div className="w-px h-7 bg-[#e2e8f0] mx-1" />
-              <div className="flex items-center h-11">
+              <div className="w-px h-6 bg-[#e2e8f0] mx-2" />
+              <div className="flex items-center h-[52px]">
                 <input type="text" placeholder="Цена от" className="w-[100px] h-full px-3 text-sm bg-transparent outline-none border-none" value={priceFrom} onChange={e => setPriceFrom(e.target.value.replace(/\D/g, ''))} />
                 <span className="text-muted-foreground text-sm">—</span>
                 <input type="text" placeholder="до, ₽" className="w-[100px] h-full px-3 text-sm bg-transparent outline-none border-none" value={priceTo} onChange={e => setPriceTo(e.target.value.replace(/\D/g, ''))} />
               </div>
 
-              <div className="w-px h-7 bg-[#e2e8f0] mx-1" />
+              <div className="w-px h-6 bg-[#e2e8f0] mx-2" />
               <div ref={dlRef} className="relative">
                 <button
                   onClick={() => setDlOpen(!dlOpen)}
                   className={cn(
-                    'h-11 px-3 text-sm flex items-center gap-1.5 whitespace-nowrap transition-colors rounded-lg hover:bg-muted/50',
+                    'h-[52px] px-3.5 text-sm flex items-center gap-1.5 whitespace-nowrap transition-colors rounded-lg hover:bg-muted/50',
                     deadline !== 'Срок сдачи' ? 'text-primary font-medium' : 'text-foreground'
                   )}
                 >
@@ -318,10 +318,10 @@ const HeroSearch = () => {
                 )}
               </div>
 
-              <div className="w-px h-7 bg-[#e2e8f0] mx-1" />
+              <div className="w-px h-6 bg-[#e2e8f0] mx-2" />
               <button
                 onClick={() => setFiltersOpen(!filtersOpen)}
-                className="h-11 px-3 text-sm flex items-center gap-1.5 whitespace-nowrap transition-colors rounded-lg hover:bg-muted/50"
+                className="h-[52px] px-3.5 text-sm flex items-center gap-1.5 whitespace-nowrap transition-colors rounded-lg hover:bg-muted/50"
               >
                 <SlidersHorizontal className="w-4 h-4" />
                 Фильтры
@@ -356,17 +356,17 @@ const HeroSearch = () => {
           </div>
 
           {/* Row 2: map + CTA */}
-          <div className="flex items-center justify-between mt-3 gap-2">
+          <div className="flex items-center justify-between mt-3.5 gap-2">
             <button
               onClick={() => navigate('/map')}
-              className="hidden sm:flex items-center gap-2 h-10 px-4 rounded-lg border border-[#cbd5e1] bg-white text-sm font-medium hover:bg-muted/30 transition-colors"
+              className="hidden sm:flex items-center gap-2 py-2.5 px-5 rounded-[10px] border border-[#cbd5e1] bg-white text-sm font-medium hover:bg-muted/30 transition-colors"
             >
               <MapPin className="w-4 h-4 text-primary" />
               На карте
             </button>
             <button
               onClick={() => navigate('/catalog')}
-              className="h-10 flex-1 sm:flex-none sm:px-6 rounded-lg bg-[#2563EB] text-white text-xs sm:text-sm font-medium hover:bg-[#1d4ed8] transition-colors shadow-sm"
+              className="py-2.5 px-6 flex-1 sm:flex-none rounded-[10px] bg-[#2563EB] text-white text-xs sm:text-sm font-semibold hover:bg-[#1d4ed8] transition-colors shadow-sm"
             >
               58 728 квартир в 370 ЖК →
             </button>
