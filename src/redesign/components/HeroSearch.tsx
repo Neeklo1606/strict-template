@@ -285,8 +285,8 @@ const HeroSearch = () => {
                 )}
               </div>
 
-              <div className="w-px h-7 bg-[#e2e8f0] mx-1" />
-              <div className="flex items-center h-11">
+              <div className="w-px h-6 bg-[#e2e8f0] mx-2" />
+              <div className="flex items-center h-[52px]">
                 <input type="text" placeholder="Цена от" className="w-[100px] h-full px-3 text-sm bg-transparent outline-none border-none" value={priceFrom} onChange={e => setPriceFrom(e.target.value.replace(/\D/g, ''))} />
                 <span className="text-muted-foreground text-sm">—</span>
                 <input type="text" placeholder="до, ₽" className="w-[100px] h-full px-3 text-sm bg-transparent outline-none border-none" value={priceTo} onChange={e => setPriceTo(e.target.value.replace(/\D/g, ''))} />
