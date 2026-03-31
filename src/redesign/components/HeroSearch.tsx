@@ -123,7 +123,7 @@ const HeroSearch = () => {
       <div className="max-w-[1400px] mx-auto px-4 pt-4 pb-5 sm:pt-10 sm:pb-12">
 
         {/* Geo selector — left-aligned, separate from title */}
-        <div className="flex flex-col gap-2 sm:gap-3 mb-5 sm:mb-8">
+        <div className="flex flex-col items-center gap-2 sm:gap-3 mb-5 sm:mb-8">
           <div className="relative w-fit" ref={regionRef}>
             <button
               onClick={() => setRegionOpen(!regionOpen)}
@@ -158,11 +158,10 @@ const HeroSearch = () => {
             )}
           </div>
 
-          {/* Title — left-aligned */}
-          <h1 className="text-xl sm:text-2xl md:text-4xl font-bold leading-tight">
-            <span className="text-primary italic">Live Grid.</span>{' '}
-            <span className="hidden sm:inline">62 000+ квартир по России</span>
-            <span className="sm:hidden">62 000+ квартир</span>
+          <h1 className="text-xl sm:text-2xl md:text-4xl font-extrabold leading-tight text-center">
+            <span className="text-[#2563EB]">Live Grid.</span>{' '}
+            <span className="hidden sm:inline text-foreground">62 000+ квартир по России</span>
+            <span className="sm:hidden text-foreground">62 000+ квартир</span>
           </h1>
         </div>
 
