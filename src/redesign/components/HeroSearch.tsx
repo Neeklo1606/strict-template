@@ -96,7 +96,7 @@ const HeroSearch = () => {
     if (q) params.set('search', q);
     if (activeTab !== 'apartments') params.set('type', activeTab);
     else params.set('type', 'apartments');
-    if (activeTab === 'apartments' && marketType !== 'all') params.set('market', marketType);
+    
     if (propertyType !== 'Тип квартиры') params.set('rooms', propertyType);
     if (deadline !== 'Срок сдачи') params.set('deadline', deadline);
     if (priceFrom) params.set('priceFrom', priceFrom);
