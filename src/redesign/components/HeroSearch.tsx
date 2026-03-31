@@ -259,7 +259,7 @@ const HeroSearch = () => {
 
             {/* Desktop inline filters with dividers */}
             <div className="hidden lg:flex items-center">
-              <div className="w-px h-7 bg-[#e2e8f0] mx-1" />
+              <div className="w-px h-6 bg-[#e2e8f0] mx-2" />
               <div ref={ptRef} className="relative">
                 <button
                   onClick={() => setPtOpen(!ptOpen)}
