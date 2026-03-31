@@ -14,6 +14,7 @@ import FooterSection from '@/components/FooterSection';
 import { complexes } from '@/redesign/data/mock-data';
 
 const RedesignIndex = () => {
+  const navigate = useNavigate();
   const featured = complexes.slice(0, 4);
 
   return (
