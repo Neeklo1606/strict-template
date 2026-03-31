@@ -172,7 +172,7 @@ const HeroSearch = () => {
             return (
               <button
                 key={tab.value}
-                onClick={() => setActiveTab(tab.value)}
+                onClick={() => { setActiveTab(tab.value); navigate(`/catalog?type=${tab.value}`); }}
                 className={cn(
                   'flex items-center gap-1.5 px-3 sm:px-4 py-2 sm:py-2.5 rounded-full text-xs sm:text-sm font-medium whitespace-nowrap transition-all duration-200 border shrink-0',
                   activeTab === tab.value
@@ -186,33 +186,13 @@ const HeroSearch = () => {
             );
           })}
           <div className="w-px h-6 bg-border shrink-0 mx-0.5 hidden sm:block" />
-          <Link
-            to="/catalog?region=belgorod"
-            className="flex items-center gap-1.5 px-3 sm:px-4 py-2 sm:py-2.5 rounded-full text-xs sm:text-sm font-semibold whitespace-nowrap transition-all duration-200 shrink-0 bg-[hsl(30,100%,50%)] text-primary-foreground hover:bg-[hsl(30,100%,45%)] shadow-sm"
+          <button
+            onClick={() => navigate('/belgorod')}
+            className="flex items-center gap-1.5 px-3 sm:px-4 py-2 sm:py-2.5 rounded-full text-xs sm:text-sm font-semibold whitespace-nowrap transition-all duration-200 shrink-0 bg-[#F97316] text-white hover:bg-[#EA580C] shadow-sm"
           >
             🏙 Белгород
-          </Link>
+          </button>
         </div>
-
-        {/* Sub-filter: Новостройки / Вторичка — only for Квартиры tab */}
-        {activeTab === 'apartments' && (
-          <div className="flex items-center gap-1.5 mb-4 sm:mb-6 overflow-x-auto scrollbar-hide -mx-4 px-4 sm:mx-0 sm:px-0 sm:justify-center">
-            {([['all', 'Все квартиры'], ['new', 'Новостройки'], ['secondary', 'Вторичка']] as const).map(([val, label]) => (
-              <button
-                key={val}
-                onClick={() => setMarketType(val)}
-                className={cn(
-                  'px-3 py-1.5 rounded-full text-xs font-medium whitespace-nowrap transition-all duration-200 border shrink-0',
-                  marketType === val
-                    ? 'bg-accent text-accent-foreground border-primary/30'
-                    : 'bg-background border-border text-muted-foreground hover:text-foreground hover:border-primary/30'
-                )}
-              >
-                {label}
-              </button>
-            ))}
-          </div>
-        )}
 
         {/* Search block — compact on mobile */}
         <div className="bg-muted/50 rounded-xl sm:rounded-2xl border border-border p-2.5 sm:p-4 max-w-[1000px] mx-auto">
