@@ -22,7 +22,7 @@ const RedesignIndex = () => {
       <HeroSearch />
 
       {/* Популярные ЖК */}
-      <section className="max-w-[1400px] mx-auto px-4 py-6 sm:py-10">
+      <section className="max-w-[1400px] mx-auto px-4 pt-6 pb-6 sm:pb-10">
         <div className="flex items-center justify-between mb-4 sm:mb-6">
           <h2 className="text-base sm:text-xl font-bold">Популярные ЖК</h2>
           <div className="flex items-center gap-2">
