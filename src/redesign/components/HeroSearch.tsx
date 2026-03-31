@@ -356,17 +356,17 @@ const HeroSearch = () => {
           </div>
 
           {/* Row 2: map + CTA */}
-          <div className="flex items-center justify-between mt-3 gap-2">
+          <div className="flex items-center justify-between mt-3.5 gap-2">
             <button
               onClick={() => navigate('/map')}
-              className="hidden sm:flex items-center gap-2 h-10 px-4 rounded-lg border border-[#cbd5e1] bg-white text-sm font-medium hover:bg-muted/30 transition-colors"
+              className="hidden sm:flex items-center gap-2 py-2.5 px-5 rounded-[10px] border border-[#cbd5e1] bg-white text-sm font-medium hover:bg-muted/30 transition-colors"
             >
               <MapPin className="w-4 h-4 text-primary" />
               На карте
             </button>
             <button
               onClick={() => navigate('/catalog')}
-              className="h-10 flex-1 sm:flex-none sm:px-6 rounded-lg bg-[#2563EB] text-white text-xs sm:text-sm font-medium hover:bg-[#1d4ed8] transition-colors shadow-sm"
+              className="py-2.5 px-6 flex-1 sm:flex-none rounded-[10px] bg-[#2563EB] text-white text-xs sm:text-sm font-semibold hover:bg-[#1d4ed8] transition-colors shadow-sm"
             >
               58 728 квартир в 370 ЖК →
             </button>
