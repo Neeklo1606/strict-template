@@ -1,8 +1,7 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { MapPin, Heart } from 'lucide-react';
 import { useState } from 'react';
 import { cn } from '@/lib/utils';
-import PropertyBadge from '@/components/PropertyBadge';
 import type { ResidentialComplex } from '@/redesign/data/types';
 import { formatPrice } from '@/redesign/data/mock-data';
 
@@ -11,22 +10,39 @@ interface Props {
   variant?: 'grid' | 'list';
 }
 
-const statusBadgeType: Record<string, 'new' | 'promo' | 'info'> = {
-  completed: 'new',
-  building: 'promo',
-  planned: 'info',
+const statusStyles: Record<string, { bg: string; text: string; label: string }> = {
+  building: { bg: 'bg-[#EFF6FF]', text: 'text-[#2563EB]', label: 'Строится' },
+  completed: { bg: 'bg-[#F0FDF4]', text: 'text-[#16A34A]', label: 'Сдан' },
+  planned: { bg: 'bg-[#FFF7ED]', text: 'text-[#EA580C]', label: 'Проект' },
 };
-const statusLabel: Record<string, string> = {
-  completed: 'Сдан',
-  building: 'Строится',
-  planned: 'Проект',
+
+const StatusBadge = ({ status }: { status: string }) => {
+  const s = statusStyles[status];
+  if (!s) return null;
+  return (
+    <span className={cn('px-2 py-0.5 rounded-md text-[11px] font-semibold', s.bg, s.text)}>
+      {s.label}
+    </span>
+  );
 };
 
 const ComplexCard = ({ complex, variant = 'grid' }: Props) => {
   const [liked, setLiked] = useState(false);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const navigate = useNavigate();
   const totalApts = complex.buildings.reduce((s, b) => s + b.apartments.filter(a => a.status === 'available').length, 0);
-  const badgeType = statusBadgeType[complex.status] || 'info';
+
+  const handleLike = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    // TODO: check auth state; for now redirect to login
+    const isAuthenticated = false;
+    if (!isAuthenticated) {
+      navigate('/login');
+      return;
+    }
+    setLiked(!liked);
+  };
 
   if (variant === 'list') {
     return (
@@ -36,10 +52,10 @@ const ComplexCard = ({ complex, variant = 'grid' }: Props) => {
       >
         <div className="relative w-[220px] shrink-0 overflow-hidden bg-muted">
           <img src={complex.images[0]} alt={complex.name} className="w-full h-full object-cover transition-transform duration-200 group-hover:scale-[1.02]" />
-          <PropertyBadge label={statusLabel[complex.status]} type={badgeType} className="absolute top-2 left-2" />
+          <StatusBadge status={complex.status} />
           <button
             className="absolute top-2 right-2 w-7 h-7 bg-background/80 backdrop-blur-sm rounded-full flex items-center justify-center"
-            onClick={e => { e.preventDefault(); e.stopPropagation(); setLiked(!liked); }}
+            onClick={handleLike}
           >
             <Heart className={cn('w-3.5 h-3.5', liked ? 'fill-destructive text-destructive' : 'text-muted-foreground')} />
           </button>
@@ -72,11 +88,13 @@ const ComplexCard = ({ complex, variant = 'grid' }: Props) => {
           alt={complex.name}
           className="w-full h-full object-cover transition-transform duration-200 group-hover:scale-[1.02]"
         />
-        <PropertyBadge label={statusLabel[complex.status]} type={badgeType} className="absolute top-2 left-2" />
+        <div className="absolute top-2 left-2">
+          <StatusBadge status={complex.status} />
+        </div>
         <button
           type="button"
           className="absolute top-2 right-2 w-7 h-7 rounded-full flex items-center justify-center z-10 bg-background/70 backdrop-blur-sm hover:bg-background/90"
-          onClick={e => { e.preventDefault(); e.stopPropagation(); setLiked(!liked); }}
+          onClick={handleLike}
         >
           <Heart className={cn('w-3.5 h-3.5', liked ? 'fill-destructive text-destructive' : 'text-muted-foreground')} />
         </button>

@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { ArrowRight, MapPin } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import RedesignHeader from '@/redesign/components/RedesignHeader';
@@ -14,6 +14,7 @@ import FooterSection from '@/components/FooterSection';
 import { complexes } from '@/redesign/data/mock-data';
 
 const RedesignIndex = () => {
+  const navigate = useNavigate();
   const featured = complexes.slice(0, 4);
 
   return (
@@ -26,20 +27,20 @@ const RedesignIndex = () => {
         <div className="flex items-center justify-between mb-4 sm:mb-6">
           <h2 className="text-base sm:text-xl font-bold">Популярные ЖК</h2>
           <div className="flex items-center gap-2">
-            <Link
-              to="/map"
+            <button
+              onClick={() => navigate('/map')}
               className="hidden sm:flex items-center gap-1.5 px-3.5 py-2 rounded-full border border-border text-xs sm:text-sm font-medium hover:bg-secondary transition-colors"
             >
               <MapPin className="w-3.5 h-3.5 text-primary" />
               На карте
-            </Link>
-            <Link
-              to="/catalog"
+            </button>
+            <button
+              onClick={() => navigate('/catalog')}
               className="hidden sm:flex items-center gap-1.5 px-3.5 py-2 rounded-full border border-border text-xs sm:text-sm font-medium hover:bg-secondary transition-colors"
             >
               Все предложения
               <ArrowRight className="w-3.5 h-3.5" />
-            </Link>
+            </button>
           </div>
         </div>
 
@@ -57,13 +58,13 @@ const RedesignIndex = () => {
           ))}
         </div>
 
-        <Link
-          to="/catalog"
-          className="flex sm:hidden items-center justify-center gap-1.5 mt-3 py-2 rounded-xl border border-border text-xs font-medium hover:bg-secondary transition-colors"
+        <button
+          onClick={() => navigate('/catalog')}
+          className="flex sm:hidden items-center justify-center gap-1.5 mt-3 w-full py-2 rounded-xl border border-border text-xs font-medium hover:bg-secondary transition-colors"
         >
           Все предложения
           <ArrowRight className="w-3.5 h-3.5" />
-        </Link>
+        </button>
       </section>
 
       <PropertyGridSection title="Горячие предложения" type="hot" />
