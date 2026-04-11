@@ -65,7 +65,7 @@ const PropertyCard = ({ data, variant = 'default' }: { data: PropertyData; baseP
       <div className="p-3 flex flex-col gap-0.5">
         <div className="flex justify-between items-start gap-2">
           <h3 className="font-semibold text-sm leading-tight truncate">{data.title}</h3>
-          <span className={cn('font-bold text-sm shrink-0', isHot && 'text-primary')}>{data.price}</span>
+          <span className={cn('font-bold text-sm shrink-0', isHot ? 'text-[#EF4444]' : 'text-primary')}>{data.price}</span>
         </div>
         <p className="text-[11px] text-muted-foreground truncate">{data.address}</p>
         {(data.area || data.rooms) && (
