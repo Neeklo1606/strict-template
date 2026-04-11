@@ -17,7 +17,19 @@ const RedesignApartment = () => {
   const [mortgageRate, setMortgageRate] = useState(8);
   const [mortgageDown, setMortgageDown] = useState(20);
 
-  if (!result) {
+  const apt = result?.apartment;
+  const complex = result?.complex;
+  const building = result?.building;
+
+  const similarApts = useMemo(() => {
+    if (!complex || !apt) return [];
+    return complex.buildings
+      .flatMap(b => b.apartments)
+      .filter(a => a.id !== apt.id && a.status === 'available' && a.rooms === apt.rooms)
+      .slice(0, 4);
+  }, [complex, apt]);
+
+  if (!result || !apt || !complex || !building) {
     return (
       <div className="min-h-screen bg-background">
         <RedesignHeader />
@@ -29,23 +41,12 @@ const RedesignApartment = () => {
     );
   }
 
-  const { apartment: apt, complex, building } = result;
-
   const roomLabel = apt.rooms === 0 ? 'Студия' : `${apt.rooms}-комнатная`;
 
-  // Mortgage calc
   const loanAmount = apt.price * (1 - mortgageDown / 100);
   const monthlyRate = mortgageRate / 100 / 12;
   const months = mortgageYears * 12;
   const monthlyPayment = Math.round(loanAmount * monthlyRate / (1 - Math.pow(1 + monthlyRate, -months)));
-
-  // Similar apartments from same complex
-  const similarApts = useMemo(() => {
-    return complex.buildings
-      .flatMap(b => b.apartments)
-      .filter(a => a.id !== apt.id && a.status === 'available' && a.rooms === apt.rooms)
-      .slice(0, 4);
-  }, [complex, apt]);
 
   const details = [
     { icon: Layers, label: 'Комнат', value: apt.rooms === 0 ? 'Студия' : `${apt.rooms}` },
