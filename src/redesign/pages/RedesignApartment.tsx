@@ -1,14 +1,35 @@
 import { useParams, Link } from 'react-router-dom';
-import { ArrowLeft, Phone, MessageCircle, Calculator, MapPin, Building2, CalendarDays, Ruler, ChefHat, Layers, Paintbrush, Train } from 'lucide-react';
+import { useState, useMemo } from 'react';
+import { MapPin, Building2, CalendarDays, Ruler, ChefHat, Layers, Paintbrush, Train, Phone, MessageCircle, Calculator, Heart, Share2, ChevronLeft, ChevronRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { Slider } from '@/components/ui/slider';
 import RedesignHeader from '@/redesign/components/RedesignHeader';
-import { getApartmentById, formatPrice } from '@/redesign/data/mock-data';
+import FooterSection from '@/components/FooterSection';
+import LeadForm from '@/shared/components/LeadForm';
+import { getApartmentById, formatPrice, complexes } from '@/redesign/data/mock-data';
+import { cn } from '@/lib/utils';
 
 const RedesignApartment = () => {
   const { id } = useParams<{ id: string }>();
   const result = getApartmentById(id || '');
+  const [showMortgage, setShowMortgage] = useState(false);
+  const [mortgageYears, setMortgageYears] = useState(20);
+  const [mortgageRate, setMortgageRate] = useState(8);
+  const [mortgageDown, setMortgageDown] = useState(20);
 
-  if (!result) {
+  const apt = result?.apartment;
+  const complex = result?.complex;
+  const building = result?.building;
+
+  const similarApts = useMemo(() => {
+    if (!complex || !apt) return [];
+    return complex.buildings
+      .flatMap(b => b.apartments)
+      .filter(a => a.id !== apt.id && a.status === 'available' && a.rooms === apt.rooms)
+      .slice(0, 4);
+  }, [complex, apt]);
+
+  if (!result || !apt || !complex || !building) {
     return (
       <div className="min-h-screen bg-background">
         <RedesignHeader />
@@ -20,7 +41,12 @@ const RedesignApartment = () => {
     );
   }
 
-  const { apartment: apt, complex, building } = result;
+  const roomLabel = apt.rooms === 0 ? 'Студия' : `${apt.rooms}-комнатная`;
+
+  const loanAmount = apt.price * (1 - mortgageDown / 100);
+  const monthlyRate = mortgageRate / 100 / 12;
+  const months = mortgageYears * 12;
+  const monthlyPayment = Math.round(loanAmount * monthlyRate / (1 - Math.pow(1 + monthlyRate, -months)));
 
   const details = [
     { icon: Layers, label: 'Комнат', value: apt.rooms === 0 ? 'Студия' : `${apt.rooms}` },
@@ -38,16 +64,24 @@ const RedesignApartment = () => {
       <RedesignHeader />
       <div className="max-w-[1400px] mx-auto px-4 py-6">
         {/* Breadcrumb */}
-        <div className="flex items-center gap-2 text-sm text-muted-foreground mb-5 flex-wrap">
-          <Link to="/catalog" className="hover:text-foreground transition-colors">Каталог</Link>
-          <span>/</span>
-          <Link to={`/complex/${complex.slug}`} className="hover:text-foreground transition-colors">{complex.name}</Link>
-          <span>/</span>
-          <span className="text-foreground font-medium">{apt.rooms === 0 ? 'Студия' : `${apt.rooms}-комнатная`}, {apt.area} м²</span>
+        <div className="flex items-center justify-between mb-5">
+          <div className="flex items-center gap-2 text-sm text-muted-foreground flex-wrap">
+            <Link to="/" className="hover:text-foreground transition-colors">Главная</Link>
+            <span>/</span>
+            <Link to="/catalog" className="hover:text-foreground transition-colors">Каталог</Link>
+            <span>/</span>
+            <Link to={`/complex/${complex.slug}`} className="hover:text-foreground transition-colors">{complex.name}</Link>
+            <span>/</span>
+            <span className="text-foreground font-medium">{roomLabel}, {apt.area} м²</span>
+          </div>
+          <div className="flex items-center gap-2">
+            <Button variant="ghost" size="sm" className="h-8 w-8 p-0"><Heart className="w-4 h-4" /></Button>
+            <Button variant="ghost" size="sm" className="h-8 w-8 p-0"><Share2 className="w-4 h-4" /></Button>
+          </div>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-5 gap-6">
-          {/* Plan */}
+          {/* Plan & description */}
           <div className="lg:col-span-3 space-y-4">
             <div className="rounded-2xl border border-border bg-card overflow-hidden">
               <div className="aspect-[4/3] bg-muted/50 flex items-center justify-center p-12">
@@ -55,26 +89,64 @@ const RedesignApartment = () => {
               </div>
             </div>
 
-            {/* Description card */}
+            {/* Description */}
             <div className="rounded-2xl border border-border bg-card p-6">
               <h3 className="font-semibold mb-3">О квартире</h3>
               <p className="text-sm text-muted-foreground leading-relaxed">
-                {apt.rooms === 0 ? 'Студия' : `${apt.rooms}-комнатная квартира`} площадью {apt.area} м² 
-                на {apt.floor} этаже {apt.totalFloors}-этажного дома в ЖК «{complex.name}». 
-                {apt.finishing !== 'без отделки' ? ` Отделка: ${apt.finishing}.` : ' Без отделки.'} 
+                {roomLabel} площадью {apt.area} м² на {apt.floor} этаже {apt.totalFloors}-этажного дома в ЖК «{complex.name}».
+                {apt.finishing !== 'без отделки' ? ` Отделка: ${apt.finishing}.` : ' Без отделки.'}
                 {' '}Район: {complex.district}, метро {complex.subway} ({complex.subwayDistance}).
+                {' '}Кухня {apt.kitchenArea} м². Цена за метр: {apt.pricePerMeter.toLocaleString('ru-RU')} ₽/м².
               </p>
+            </div>
+
+            {/* Mortgage calculator */}
+            <div className="rounded-2xl border border-border bg-card p-6">
+              <button className="flex items-center justify-between w-full" onClick={() => setShowMortgage(!showMortgage)}>
+                <h3 className="font-semibold flex items-center gap-2"><Calculator className="w-4 h-4 text-primary" />Ипотечный калькулятор</h3>
+                <span className="text-xs text-muted-foreground">{showMortgage ? 'Скрыть' : 'Развернуть'}</span>
+              </button>
+              {showMortgage && (
+                <div className="mt-5 space-y-5">
+                  <div>
+                    <div className="flex justify-between text-sm mb-2">
+                      <span className="text-muted-foreground">Первый взнос</span>
+                      <span className="font-medium">{mortgageDown}% · {formatPrice(Math.round(apt.price * mortgageDown / 100))}</span>
+                    </div>
+                    <Slider value={[mortgageDown]} onValueChange={v => setMortgageDown(v[0])} min={10} max={80} step={5} />
+                  </div>
+                  <div>
+                    <div className="flex justify-between text-sm mb-2">
+                      <span className="text-muted-foreground">Срок</span>
+                      <span className="font-medium">{mortgageYears} лет</span>
+                    </div>
+                    <Slider value={[mortgageYears]} onValueChange={v => setMortgageYears(v[0])} min={1} max={30} step={1} />
+                  </div>
+                  <div>
+                    <div className="flex justify-between text-sm mb-2">
+                      <span className="text-muted-foreground">Ставка</span>
+                      <span className="font-medium">{mortgageRate}%</span>
+                    </div>
+                    <Slider value={[mortgageRate]} onValueChange={v => setMortgageRate(v[0])} min={1} max={25} step={0.5} />
+                  </div>
+                  <div className="border-t border-border pt-4">
+                    <p className="text-xs text-muted-foreground mb-1">Ежемесячный платёж</p>
+                    <p className="text-2xl font-bold">{monthlyPayment.toLocaleString('ru-RU')} ₽/мес</p>
+                    <p className="text-xs text-muted-foreground mt-1">Сумма кредита: {formatPrice(Math.round(loanAmount))}</p>
+                  </div>
+                </div>
+              )}
             </div>
           </div>
 
-          {/* Info sidebar */}
+          {/* Sidebar */}
           <div className="lg:col-span-2 space-y-4">
             {/* Price card */}
             <div className="rounded-2xl border border-border bg-card p-6">
-              <p className="text-xs text-muted-foreground mb-1">{complex.name} · {building.name}</p>
-              <h1 className="text-2xl font-bold mb-1">
-                {apt.rooms === 0 ? 'Студия' : `${apt.rooms}-комнатная`}, {apt.area} м²
-              </h1>
+              <p className="text-xs text-muted-foreground mb-1">
+                <Link to={`/complex/${complex.slug}`} className="hover:text-primary transition-colors">{complex.name}</Link> · {building.name}
+              </p>
+              <h1 className="text-2xl font-bold mb-1">{roomLabel}, {apt.area} м²</h1>
               <div className="flex items-center gap-1.5 text-sm text-muted-foreground mb-5">
                 <MapPin className="w-3.5 h-3.5" />
                 {complex.address} · м. {complex.subway}
@@ -83,6 +155,7 @@ const RedesignApartment = () => {
               <div className="border-t border-border pt-5 mb-5">
                 <p className="text-3xl font-bold">{formatPrice(apt.price)}</p>
                 <p className="text-sm text-muted-foreground mt-1">{apt.pricePerMeter.toLocaleString('ru-RU')} ₽/м²</p>
+                <p className="text-xs text-muted-foreground mt-0.5">~{monthlyPayment.toLocaleString('ru-RU')} ₽/мес в ипотеку</p>
               </div>
 
               <div className="space-y-3">
@@ -101,8 +174,13 @@ const RedesignApartment = () => {
             <div className="rounded-2xl border border-border bg-card p-6 space-y-3">
               <Button className="w-full h-12"><Phone className="w-4 h-4 mr-2" /> Позвонить</Button>
               <Button variant="outline" className="w-full h-12"><MessageCircle className="w-4 h-4 mr-2" /> Записаться на просмотр</Button>
-              <Button variant="secondary" className="w-full h-12"><Calculator className="w-4 h-4 mr-2" /> Рассчитать ипотеку</Button>
+              <Button variant="secondary" className="w-full h-12" onClick={() => setShowMortgage(true)}>
+                <Calculator className="w-4 h-4 mr-2" /> Рассчитать ипотеку
+              </Button>
             </div>
+
+            {/* LeadForm */}
+            <LeadForm title="Узнать подробнее" source={`apartment_${apt.id}`} />
 
             {/* Builder */}
             <div className="rounded-2xl border border-border bg-card p-5">
@@ -118,7 +196,34 @@ const RedesignApartment = () => {
             </div>
           </div>
         </div>
+
+        {/* Similar apartments */}
+        {similarApts.length > 0 && (
+          <section className="mt-12">
+            <h2 className="text-lg font-bold mb-4">Похожие квартиры в {complex.name}</h2>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+              {similarApts.map(a => (
+                <Link
+                  key={a.id}
+                  to={`/apartment/${a.id}`}
+                  className="group rounded-xl border border-border bg-card overflow-hidden hover:shadow-md hover:-translate-y-px transition-all"
+                >
+                  <div className="aspect-square bg-muted/50 flex items-center justify-center p-8">
+                    <img src={a.planImage} alt="План" className="max-w-full max-h-full object-contain opacity-60 group-hover:opacity-100 transition-opacity" />
+                  </div>
+                  <div className="p-3 space-y-1">
+                    <h4 className="font-semibold text-sm">{a.rooms === 0 ? 'Студия' : `${a.rooms}-комн`}, {a.area} м²</h4>
+                    <p className="text-xs text-muted-foreground">Этаж {a.floor}/{a.totalFloors} · {a.finishing}</p>
+                    <p className="font-bold text-sm text-primary">{formatPrice(a.price)}</p>
+                  </div>
+                </Link>
+              ))}
+            </div>
+          </section>
+        )}
       </div>
+
+      <FooterSection />
     </div>
   );
 };
